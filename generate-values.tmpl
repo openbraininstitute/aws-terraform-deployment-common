@@ -1,0 +1,8 @@
+vpc_arn="${sbo_vpc.arn}"
+vpc_id="${sbo_vpc.id}"
+vpc_cidr_block="${sbo_vpc.cidr_block}"
+%{for index, subnet in subnets ~}
+subnet_${subnet.tags.Name}_arn="${subnet.arn}"
+subnet_${subnet.tags.Name}_cidr_block="${subnet.cidr_block}"
+subnet_${subnet.tags.Name}_id="${subnet.id}"
+%{ endfor ~}

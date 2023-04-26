@@ -1,0 +1,40 @@
+variable "vpc_arn" {
+  default     = "${sbo_vpc.arn}"
+  type        = string
+  description = "The ARN of the VPC used by the SBO POC"
+  sensitive   = false
+}
+variable "vpc_id" {
+  default     = "${sbo_vpc.id}"
+  type        = string
+  description = "The ID of the VPC used by the SBO POC"
+  sensitive   = false
+}
+variable "vpc_cidr_block" {
+  default     = "${sbo_vpc.cidr_block}"
+  type        = string
+  description = "The CIDR or IP block of the VPC used by the SBO POC"
+  sensitive   = false
+}
+
+%{for index, subnet in subnets ~}
+variable "subnet_${subnet.tags.Name}_arn" {
+  default     = "${subnet.arn}"
+  type        = string
+  description = "The ARN of the ${subnet.tags.Name} subnet"
+  sensitive   = false
+}
+variable "subnet_${subnet.tags.Name}_cidr_block" {
+  default     = "${subnet.cidr_block}"
+  type        = string
+  description = "The CIDR block of the ${subnet.tags.Name} subnet"
+  sensitive   = false
+}
+variable "subnet_${subnet.tags.Name}_id" {
+  default     = "${subnet.id}"
+  type        = string
+  description = "The ID of the ${subnet.tags.Name} subnet"
+  sensitive   = false
+}
+%{ endfor ~}
+
