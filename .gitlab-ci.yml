@@ -50,3 +50,17 @@ terrascan:
   stage: validate
   script:
     - terrascan scan -i terraform --iac-version v14 --iac-dir ${TF_ROOT} --non-recursive --skip-rules=AC_AWS_0369
+
+check_compliance:
+  image: eerkunt/terraform-compliance
+  stage: validate
+  script:
+    - mkdir tempdir
+    - cd tempdir
+    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@bbpgitlab.epfl.ch/cs/cloud/aws/terraform-compliance
+    - ls -la terraform-compliance
+    - cp ../*.tf ../*.tmpl .
+    - rm -f gitlab-config.tf
+    - terraform init
+    - terraform plan -out=plan.tfplan > /dev/null && terraform show -json plan.tfplan > plan.json
+    - terraform-compliance -f ./terraform-compliance -p ./plan.json
