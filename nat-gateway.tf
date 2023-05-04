@@ -1,8 +1,7 @@
 resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat_eip[0].id
+  allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.public_a.id
   depends_on    = [aws_internet_gateway.igw]
-  count         = var.create_nat_gateway ? 1 : 0
 
   tags = {
     Name        = "nat"
@@ -11,8 +10,7 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_eip" "nat_eip" {
-  vpc   = true
-  count = var.create_nat_gateway ? 1 : 0
+  vpc = true
 
   tags = {
     Name        = "nat_eip"
