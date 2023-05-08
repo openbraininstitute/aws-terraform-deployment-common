@@ -55,3 +55,13 @@ output "public_b_subnet_arn" {
   description = "ARN of the public_b subnet"
   value       = aws_subnet.public_b.arn
 }
+
+output "domain_zone_id" {
+  description = "zone_id of the domain shapes-registry.org"
+  value       = aws_route53_zone.domain.zone_id
+}
+
+output "domain_arn" {
+  description = "ARN of the domain shapes-registry.org"
+  value       = aws_route53_zone.domain.arn
+}
