@@ -65,3 +65,18 @@ output "domain_arn" {
   description = "ARN of the domain shapes-registry.org"
   value       = aws_route53_zone.domain.arn
 }
+
+output "vpc_arn" {
+  description = "ARN of the VPC"
+  value       = aws_vpc.sbo_poc.arn
+}
+
+output "vpc_id" {
+  description = "ID of the VPC"
+  value       = aws_vpc.sbo_poc.id
+}
+
+output "vpc_cidr_block" {
+  description = "CIDR block or network range of the VPC"
+  value       = aws_vpc.sbo_poc.cidr_block
+}
