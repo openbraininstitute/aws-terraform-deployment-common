@@ -4,7 +4,7 @@
 # Public subnet in availability zone A
 resource "aws_subnet" "public_a" {
   vpc_id                  = aws_vpc.sbo_poc.id
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = "10.0.1.0/25"
   availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true #tfsec:ignore:aws-ec2-no-public-ip-subnet
   tags = {
@@ -16,7 +16,7 @@ resource "aws_subnet" "public_a" {
 # Public subnet in availability zone B
 resource "aws_subnet" "public_b" {
   vpc_id                  = aws_vpc.sbo_poc.id
-  cidr_block              = "10.0.2.0/24"
+  cidr_block              = "10.0.1.128/25"
   availability_zone       = "${var.aws_region}b"
   map_public_ip_on_launch = true #tfsec:ignore:aws-ec2-no-public-ip-subnet
   tags = {
