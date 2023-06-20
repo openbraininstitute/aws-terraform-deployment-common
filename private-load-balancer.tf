@@ -27,7 +27,7 @@ resource "aws_security_group" "private_alb" {
 
 resource "aws_vpc_security_group_ingress_rule" "alb_allow_3000_internal" {
   security_group_id = aws_security_group.private_alb.id
-  description       = "Allow HTTPS from EPFL"
+  description       = "Allow 3000 from internal"
   from_port         = 3000
   to_port           = 3000
   ip_protocol       = "tcp"
@@ -40,7 +40,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_3000_internal" {
 
 resource "aws_vpc_security_group_ingress_rule" "alb_allow_9999_internal" {
   security_group_id = aws_security_group.private_alb.id
-  description       = "Allow HTTPS from EPFL"
+  description       = "Allow 9999 from internal"
   from_port         = 9999
   to_port           = 9999
   ip_protocol       = "tcp"
@@ -53,7 +53,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_9999_internal" {
 
 resource "aws_vpc_security_group_ingress_rule" "alb_allow_8200_internal" {
   security_group_id = aws_security_group.private_alb.id
-  description       = "Allow HTTPS from EPFL"
+  description       = "Allow 8200 from internal"
   from_port         = 8200
   to_port           = 8200
   ip_protocol       = "tcp"
@@ -61,6 +61,19 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_8200_internal" {
 
   tags = {
     Name = "private_alb_allow_8200_internal"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "alb_allow_8200_epfl" {
+  security_group_id = aws_security_group.private_alb.id
+  description       = "Allow 8200 from EPFL"
+  from_port         = 8200
+  to_port           = 8200
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.epfl_cidr
+
+  tags = {
+    Name = "private_alb_allow_8200_epfl"
   }
 }
 
