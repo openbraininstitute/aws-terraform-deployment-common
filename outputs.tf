@@ -80,3 +80,14 @@ output "vpc_cidr_block" {
   description = "CIDR block or network range of the VPC"
   value       = aws_vpc.sbo_poc.cidr_block
 }
+
+output "dockerhub_credentials_arn" {
+  description = "ARN of the secret containing the dockerhub credentials"
+  value       = var.dockerhub_credentials_arn
+  sensitive   = true
+}
+
+output "dockerhub_access_iam_policy_arn" {
+  description = "ARN of the IAM policy that gives access to the dockerhub credential"
+  value       = aws_iam_policy.dockerhub_access.arn
+}
