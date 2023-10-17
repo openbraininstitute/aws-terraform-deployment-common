@@ -149,14 +149,14 @@ resource "aws_vpc_security_group_ingress_rule" "public_allow_ssh_internal" {
 
 resource "aws_vpc_security_group_ingress_rule" "public_allow_brayns_epfl" {
   security_group_id = aws_security_group.public.id
-  description       = "Allow Brayns on port 8200 from EPFL"
-  from_port         = 8200
-  to_port           = 8200
+  description       = "Allow Brayns on port 5000 from EPFL"
+  from_port         = 5000
+  to_port           = 5000
   ip_protocol       = "tcp"
   cidr_ipv4         = var.epfl_cidr
 
   tags = {
-    Name = "public_allow_8200_epfl"
+    Name = "public_allow_5000_epfl"
   }
 }
 
