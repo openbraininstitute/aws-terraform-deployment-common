@@ -17,3 +17,10 @@ variable "private_alb_test_hostname" {
   description = "Hostname to test the default responses of the listeners of the private ALB"
   sensitive   = false
 }
+
+variable "bbpproxy_cidr" {
+  type        = string
+  default     = "192.33.211.34/32"
+  description = "CIDR of bbpproxy.epfl.ch"
+  sensitive   = false
+}

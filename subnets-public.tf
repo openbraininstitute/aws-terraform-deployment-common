@@ -147,6 +147,19 @@ resource "aws_vpc_security_group_ingress_rule" "public_allow_ssh_internal" {
   }
 }
 
+resource "aws_vpc_security_group_ingress_rule" "public_allow_ssh_bbpproxy" {
+  security_group_id = aws_security_group.public.id
+  description       = "Allow SSH from bbpproxy"
+  from_port         = 22
+  to_port           = 22
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.bbpproxy_cidr
+
+  tags = {
+    Name = "public_allow_ssh_bbpproxy"
+  }
+}
+
 resource "aws_vpc_security_group_ingress_rule" "public_allow_brayns_epfl" {
   security_group_id = aws_security_group.public.id
   description       = "Allow Brayns on port 5000 from EPFL"

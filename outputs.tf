@@ -81,6 +81,11 @@ output "vpc_cidr_block" {
   value       = aws_vpc.sbo_poc.cidr_block
 }
 
+output "bbpproxy_cidr" {
+  description = "CIDR of bbpproxy.epfl.ch"
+  value       = var.bbpproxy_cidr
+}
+
 output "dockerhub_credentials_arn" {
   description = "ARN of the secret containing the dockerhub credentials"
   value       = var.dockerhub_credentials_arn
