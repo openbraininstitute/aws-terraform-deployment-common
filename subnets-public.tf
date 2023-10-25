@@ -186,6 +186,19 @@ resource "aws_vpc_security_group_ingress_rule" "public_allow_bcsb_epfl" {
   }
 }
 
+resource "aws_vpc_security_group_ingress_rule" "public_allow_vsm_epfl" {
+  security_group_id = aws_security_group.public.id
+  description       = "Allow VSM on port 4444 from EPFL"
+  from_port         = 4444
+  to_port           = 4444
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.epfl_cidr
+
+  tags = {
+    Name = "public_allow_4444_epfl"
+  }
+}
+
 /* Was used during debugging network issues
 resource "aws_vpc_security_group_ingress_rule" "public_allow_everything" {
   security_group_id = aws_security_group.public.id
