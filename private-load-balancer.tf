@@ -129,6 +129,32 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_4444_epfl" {
   }
 }
 
+resource "aws_vpc_security_group_ingress_rule" "alb_allow_8888_internal" {
+  security_group_id = aws_security_group.private_alb.id
+  description       = "Allow 8888 from internal"
+  from_port         = 8888
+  to_port           = 8888
+  ip_protocol       = "tcp"
+  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
+
+  tags = {
+    Name = "private_alb_allow_8888_internal"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "alb_allow_8888_epfl" {
+  security_group_id = aws_security_group.private_alb.id
+  description       = "Allow 8888 from EPFL"
+  from_port         = 8888
+  to_port           = 8888
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.epfl_cidr
+
+  tags = {
+    Name = "private_alb_allow_8888_epfl"
+  }
+}
+
 # TODO limit to only the listener ports and health check ports of the instance groups
 resource "aws_vpc_security_group_egress_rule" "alb_allow_everything_outgoing" {
   security_group_id = aws_security_group.private_alb.id
@@ -317,4 +343,37 @@ output "private_alb_listener_4444_id" {
 output "private_alb_listener_4444_arn" {
   description = "ARN of the listener on port 4444 for the private application load balancer"
   value       = aws_lb_listener.priv_alb_4444.arn
+}
+
+resource "aws_lb_listener" "priv_alb_8888" {
+  load_balancer_arn = aws_lb.private_alb.arn
+  port              = "8888"
+  #ts:skip=AC_AWS_0491
+  protocol = "HTTP" #tfsec:ignore:aws-elb-http-not-used
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Fixed response content: port 8888 listener"
+      status_code  = "200"
+    }
+  }
+  tags = {
+    SBO_Billing = "common"
+  }
+  depends_on = [
+    aws_lb.private_alb
+  ]
+}
+
+output "private_alb_listener_8888_id" {
+  description = "ID of the listener on port 8888 for the private application load balancer"
+  value       = aws_lb_listener.priv_alb_8888.id
+}
+
+output "private_alb_listener_8888_arn" {
+  description = "ARN of the listener on port 8888 for the private application load balancer"
+  value       = aws_lb_listener.priv_alb_8888.arn
 }

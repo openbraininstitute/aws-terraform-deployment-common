@@ -199,6 +199,19 @@ resource "aws_vpc_security_group_ingress_rule" "public_allow_vsm_epfl" {
   }
 }
 
+resource "aws_vpc_security_group_ingress_rule" "public_allow_vsm_proxy_epfl" {
+  security_group_id = aws_security_group.public.id
+  description       = "Allow VSM-Proxy on port 8888 from EPFL"
+  from_port         = 8888
+  to_port           = 8888
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.epfl_cidr
+
+  tags = {
+    Name = "public_allow_8888_epfl"
+  }
+}
+
 /* Was used during debugging network issues
 resource "aws_vpc_security_group_ingress_rule" "public_allow_everything" {
   security_group_id = aws_security_group.public.id
