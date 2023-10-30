@@ -29,6 +29,10 @@ resource "aws_subnet" "public_b" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.sbo_poc.id
   route {
+    cidr_block                = var.us_east_2_cidr_block
+    vpc_peering_connection_id = aws_vpc_peering_connection.us_east_2.id
+  }
+  route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
