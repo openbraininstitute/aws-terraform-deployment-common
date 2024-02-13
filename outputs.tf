@@ -66,6 +66,11 @@ output "domain_arn" {
   value       = aws_route53_zone.domain.arn
 }
 
+output "primary_domain" {
+  description = "Primary platform domain"
+  value       = aws_route53_zone.primary_domain.name
+}
+
 output "primary_domain_zone_id" {
   description = "zone_id of the domain openbrainplatform.org"
   value       = aws_route53_zone.primary_domain.zone_id
@@ -74,6 +79,11 @@ output "primary_domain_zone_id" {
 output "primary_domain_arn" {
   description = "ARN of the domain openbrainplatform.org"
   value       = aws_route53_zone.primary_domain.arn
+}
+
+output "secondary_domain" {
+  description = "Secondary platform domain"
+  value       = aws_route53_zone.secondary_domain.name
 }
 
 output "secondary_domain_zone_id" {
