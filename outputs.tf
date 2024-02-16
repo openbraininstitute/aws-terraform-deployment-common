@@ -134,5 +134,5 @@ output "route_table_private_subnets_arn" {
 
 output "route_table_private_subnets_id" {
   description = "ID of the route table for all private subnets in the main region"
-  value       = aws_route_table.private.arn
+  value       = aws_route_table.private.id
 }
