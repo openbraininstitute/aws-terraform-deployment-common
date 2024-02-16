@@ -25,32 +25,16 @@ resource "aws_subnet" "private_alb_b" {
   }
 }
 
-# Route table for the private subnets
-resource "aws_route_table" "private_alb" {
-  vpc_id = aws_vpc.sbo_poc.id
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat.id
-  }
-  depends_on = [
-    aws_nat_gateway.nat
-  ]
-  tags = {
-    Name        = "private_alb"
-    SBO_Billing = "common"
-  }
-}
-
 # Link route table to private_alb_a
 resource "aws_route_table_association" "private_alb_a" {
   subnet_id      = aws_subnet.private_alb_a.id
-  route_table_id = aws_route_table.private_alb.id
+  route_table_id = aws_route_table.private.id
 }
 
 # Link route table to private_alb_b
 resource "aws_route_table_association" "private_alb_b" {
   subnet_id      = aws_subnet.private_alb_b.id
-  route_table_id = aws_route_table.private_alb.id
+  route_table_id = aws_route_table.private.id
 }
 
 resource "aws_network_acl" "private_alb" {
