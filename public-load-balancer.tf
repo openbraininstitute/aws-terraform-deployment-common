@@ -133,29 +133,3 @@ resource "aws_vpc_security_group_egress_rule" "alb_allow_everything_outgoing" {
 output "alb_dns_name" {
   value = aws_lb.alb.dns_name
 }
-
-resource "aws_lb_listener" "alb_6000" {
-  load_balancer_arn = aws_lb.alb.arn
-  port              = "6000"
-  protocol          = "HTTPS"
-
-  default_action {
-    type = "fixed-response"
-
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Fixed response content: port 6000 listener"
-      status_code  = "200"
-    }
-  }
-  tags = {
-    SBO_Billing = "common"
-  }
-  depends_on = [
-    aws_lb.alb
-  ]
-}
-
-output "alb_listener_6000_arn" {
-  value = aws_lb_listener.alb_6000.arn
-}
