@@ -1,7 +1,8 @@
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.alb.arn
   port              = 80
-  protocol          = "HTTP"
+  #ts:skip=AC_AWS_0491
+  protocol = "HTTP" #tfsec:ignore:aws-elb-http-not-used
 
   default_action {
     type = "redirect"
