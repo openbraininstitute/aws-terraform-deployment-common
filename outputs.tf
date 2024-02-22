@@ -136,3 +136,13 @@ output "route_table_private_subnets_id" {
   description = "ID of the route table for all private subnets in the main region"
   value       = aws_route_table.private.id
 }
+
+output "public_alb_arn" {
+  description = "ARN of the public ALB"
+  value       = aws_lb.alb.arn
+}
+
+output "public_alb_https_listener_arn" {
+  description = "ARN of the HTTPS listener of the public ALB"
+  value       = aws_lb_listener.https.arn
+}

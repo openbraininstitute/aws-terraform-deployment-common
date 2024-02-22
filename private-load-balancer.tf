@@ -20,12 +20,12 @@ resource "aws_security_group" "private_alb" {
   description = "Sec group for the private application load balancer"
 
   tags = {
-    Name        = "alb_priv_secgroup"
+    Name        = "alb_private_secgroup"
     SBO_Billing = "common"
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_3000_internal" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_3000_internal" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 3000 from internal"
   from_port         = 3000
@@ -38,7 +38,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_3000_internal" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_9999_internal" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_9999_internal" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 9999 from internal"
   from_port         = 9999
@@ -51,7 +51,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_9999_internal" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_5000_internal" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_5000_internal" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 5000 from internal"
   from_port         = 5000
@@ -64,7 +64,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_5000_internal" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_5000_epfl" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_5000_epfl" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 5000 from EPFL"
   from_port         = 5000
@@ -77,7 +77,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_5000_epfl" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_8000_internal" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_8000_internal" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 8000 from internal"
   from_port         = 8000
@@ -90,7 +90,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_8000_internal" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_8000_epfl" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_8000_epfl" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 8000 from EPFL"
   from_port         = 8000
@@ -103,7 +103,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_8000_epfl" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_4444_internal" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_4444_internal" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 4444 from internal"
   from_port         = 4444
@@ -116,7 +116,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_4444_internal" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_4444_epfl" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_4444_epfl" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 4444 from EPFL"
   from_port         = 4444
@@ -129,7 +129,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_4444_epfl" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_8888_internal" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_8888_internal" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 8888 from internal"
   from_port         = 8888
@@ -142,7 +142,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_8888_internal" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_8888_epfl" {
+resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_8888_epfl" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 8888 from EPFL"
   from_port         = 8888
@@ -156,7 +156,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_8888_epfl" {
 }
 
 # TODO limit to only the listener ports and health check ports of the instance groups
-resource "aws_vpc_security_group_egress_rule" "alb_allow_everything_outgoing" {
+resource "aws_vpc_security_group_egress_rule" "private_alb_allow_everything_outgoing" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow everything outgoing"
   ip_protocol       = -1
@@ -167,7 +167,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_allow_everything_outgoing" {
   }
 }
 
-resource "aws_lb_listener" "priv_alb_3000" {
+resource "aws_lb_listener" "private_alb_3000" {
   load_balancer_arn = aws_lb.private_alb.arn
   port              = "3000"
   #ts:skip=AC_AWS_0491
@@ -200,12 +200,12 @@ resource "aws_route53_record" "private_alb_test" {
 
 output "private_alb_listener_3000_id" {
   description = "ID of the listener on port 3000 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_3000.id
+  value       = aws_lb_listener.private_alb_3000.id
 }
 
 output "private_alb_listener_3000_arn" {
   description = "ARN of the listener on port 3000 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_3000.arn
+  value       = aws_lb_listener.private_alb_3000.arn
 }
 
 output "private_alb_dns_name" {
@@ -213,7 +213,7 @@ output "private_alb_dns_name" {
   value       = aws_lb.private_alb.dns_name
 }
 
-resource "aws_lb_listener" "priv_alb_9999" {
+resource "aws_lb_listener" "private_alb_9999" {
   load_balancer_arn = aws_lb.private_alb.arn
   port              = "9999"
   #ts:skip=AC_AWS_0491
@@ -238,15 +238,15 @@ resource "aws_lb_listener" "priv_alb_9999" {
 
 output "private_alb_listener_9999_id" {
   description = "ID of the listener on port 9999 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_9999.id
+  value       = aws_lb_listener.private_alb_9999.id
 }
 
 output "private_alb_listener_9999_arn" {
   description = "ARN of the listener on port 9999 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_9999.arn
+  value       = aws_lb_listener.private_alb_9999.arn
 }
 
-resource "aws_lb_listener" "priv_alb_5000" {
+resource "aws_lb_listener" "private_alb_5000" {
   load_balancer_arn = aws_lb.private_alb.arn
   port              = "5000"
   #ts:skip=AC_AWS_0491
@@ -271,15 +271,15 @@ resource "aws_lb_listener" "priv_alb_5000" {
 
 output "private_alb_listener_5000_id" {
   description = "ID of the listener on port 5000 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_5000.id
+  value       = aws_lb_listener.private_alb_5000.id
 }
 
 output "private_alb_listener_5000_arn" {
   description = "ARN of the listener on port 5000 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_5000.arn
+  value       = aws_lb_listener.private_alb_5000.arn
 }
 
-resource "aws_lb_listener" "priv_alb_8000" {
+resource "aws_lb_listener" "private_alb_8000" {
   load_balancer_arn = aws_lb.private_alb.arn
   port              = "8000"
   #ts:skip=AC_AWS_0491
@@ -304,15 +304,15 @@ resource "aws_lb_listener" "priv_alb_8000" {
 
 output "private_alb_listener_8000_id" {
   description = "ID of the listener on port 8000 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_8000.id
+  value       = aws_lb_listener.private_alb_8000.id
 }
 
 output "private_alb_listener_8000_arn" {
   description = "ARN of the listener on port 8000 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_8000.arn
+  value       = aws_lb_listener.private_alb_8000.arn
 }
 
-resource "aws_lb_listener" "priv_alb_4444" {
+resource "aws_lb_listener" "private_alb_4444" {
   load_balancer_arn = aws_lb.private_alb.arn
   port              = "4444"
   #ts:skip=AC_AWS_0491
@@ -337,15 +337,15 @@ resource "aws_lb_listener" "priv_alb_4444" {
 
 output "private_alb_listener_4444_id" {
   description = "ID of the listener on port 4444 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_4444.id
+  value       = aws_lb_listener.private_alb_4444.id
 }
 
 output "private_alb_listener_4444_arn" {
   description = "ARN of the listener on port 4444 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_4444.arn
+  value       = aws_lb_listener.private_alb_4444.arn
 }
 
-resource "aws_lb_listener" "priv_alb_8888" {
+resource "aws_lb_listener" "private_alb_8888" {
   load_balancer_arn = aws_lb.private_alb.arn
   port              = "8888"
   #ts:skip=AC_AWS_0491
@@ -370,10 +370,10 @@ resource "aws_lb_listener" "priv_alb_8888" {
 
 output "private_alb_listener_8888_id" {
   description = "ID of the listener on port 8888 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_8888.id
+  value       = aws_lb_listener.private_alb_8888.id
 }
 
 output "private_alb_listener_8888_arn" {
   description = "ARN of the listener on port 8888 for the private application load balancer"
-  value       = aws_lb_listener.priv_alb_8888.arn
+  value       = aws_lb_listener.private_alb_8888.arn
 }
