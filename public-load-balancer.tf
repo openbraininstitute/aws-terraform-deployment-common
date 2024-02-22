@@ -15,9 +15,9 @@ resource "aws_lb" "alb" {
 
 # See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-update-security-groups.html
 resource "aws_security_group" "alb" {
-  name        = "Load balancer"
+  name        = "Public load balancer"
   vpc_id      = aws_vpc.sbo_poc.id
-  description = "Sec group for the application load balancer"
+  description = "Sec group for the public ALB"
 
   tags = {
     Name        = "alb_secgroup"
