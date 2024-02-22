@@ -58,3 +58,22 @@ resource "aws_lb_listener" "https" {
     aws_lb.alb
   ]
 }
+
+resource "aws_lb_listener_rule" "secondary_domain_redirect" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 10000
+
+  action {
+    type = "redirect"
+    redirect {
+      host        = aws_route53_zone.secondary_domain.name
+      status_code = "HTTP_302"
+    }
+  }
+
+  condition {
+    host_header {
+      values = [aws_route53_zone.secondary_domain.name]
+    }
+  }
+}
