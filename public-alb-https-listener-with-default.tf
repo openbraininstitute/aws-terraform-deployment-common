@@ -60,4 +60,8 @@ resource "aws_lb_listener_rule" "domain_redirect" {
       ]
     }
   }
+
+  tags = {
+    SBO_Billing = "common"
+  }
 }
