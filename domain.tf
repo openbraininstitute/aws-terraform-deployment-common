@@ -32,9 +32,13 @@ resource "aws_route53_zone" "secondary_domain" {
 resource "aws_route53_record" "openbrainplatform_com" {
   zone_id = aws_route53_zone.secondary_domain.id
   name    = "openbrainplatform.com"
-  type    = "CNAME"
-  ttl     = 60
-  records = [aws_lb.alb.dns_name]
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.alb.dns_name
+    zone_id                = aws_lb.alb.zone_id
+    evaluate_target_health = true
+  }
 }
 # www.openbrainplatform.com is an alias for openbrainplatform.com
 resource "aws_route53_record" "www_openbrainplatform_com" {
@@ -47,9 +51,13 @@ resource "aws_route53_record" "www_openbrainplatform_com" {
 resource "aws_route53_record" "openbrainplatform_org" {
   zone_id = aws_route53_zone.primary_domain.id
   name    = "openbrainplatform.org"
-  type    = "CNAME"
-  ttl     = 60
-  records = [aws_lb.alb.dns_name]
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.alb.dns_name
+    zone_id                = aws_lb.alb.zone_id
+    evaluate_target_health = true
+  }
 }
 # www.openbrainplatform.org is an alias for openbrainplatform.org
 resource "aws_route53_record" "www_openbrainplatform_org" {
