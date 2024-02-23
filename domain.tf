@@ -32,7 +32,7 @@ resource "aws_route53_zone" "secondary_domain" {
 resource "aws_route53_record" "openbrainplatform_com" {
   zone_id = aws_route53_zone.secondary_domain.id
   name    = "openbrainplatform.com"
-  type    = "A"
+  type    = "CNAME"
   ttl     = 60
   records = [aws_lb.alb.dns_name]
 }
@@ -47,7 +47,7 @@ resource "aws_route53_record" "www_openbrainplatform_com" {
 resource "aws_route53_record" "openbrainplatform_org" {
   zone_id = aws_route53_zone.primary_domain.id
   name    = "openbrainplatform.org"
-  type    = "A"
+  type    = "CNAME"
   ttl     = 60
   records = [aws_lb.alb.dns_name]
 }
