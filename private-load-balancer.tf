@@ -38,19 +38,6 @@ resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_3000_internal"
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_9999_internal" {
-  security_group_id = aws_security_group.private_alb.id
-  description       = "Allow 9999 from internal"
-  from_port         = 9999
-  to_port           = 9999
-  ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
-
-  tags = {
-    Name = "private_alb_allow_9999_internal"
-  }
-}
-
 resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_5000_internal" {
   security_group_id = aws_security_group.private_alb.id
   description       = "Allow 5000 from internal"
@@ -211,39 +198,6 @@ output "private_alb_listener_3000_arn" {
 output "private_alb_dns_name" {
   description = "DNS name of the private application load balancer"
   value       = aws_lb.private_alb.dns_name
-}
-
-resource "aws_lb_listener" "private_alb_9999" {
-  load_balancer_arn = aws_lb.private_alb.arn
-  port              = "9999"
-  #ts:skip=AC_AWS_0491
-  protocol = "HTTP" #tfsec:ignore:aws-elb-http-not-used
-
-  default_action {
-    type = "fixed-response"
-
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Fixed response content: port 9999 listener"
-      status_code  = "200"
-    }
-  }
-  tags = {
-    SBO_Billing = "common"
-  }
-  depends_on = [
-    aws_lb.private_alb
-  ]
-}
-
-output "private_alb_listener_9999_id" {
-  description = "ID of the listener on port 9999 for the private application load balancer"
-  value       = aws_lb_listener.private_alb_9999.id
-}
-
-output "private_alb_listener_9999_arn" {
-  description = "ARN of the listener on port 9999 for the private application load balancer"
-  value       = aws_lb_listener.private_alb_9999.arn
 }
 
 resource "aws_lb_listener" "private_alb_5000" {
