@@ -73,55 +73,29 @@ resource "aws_security_group" "public" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "public_allow_http_epfl" {
+resource "aws_vpc_security_group_ingress_rule" "public_allow_http_all" {
   security_group_id = aws_security_group.public.id
-  description       = "Allow HTTP from EPFL"
+  description       = "Allow HTTP"
   from_port         = 80
   to_port           = 80
   ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
+  cidr_ipv4         = "0.0.0.0/0"
 
   tags = {
-    Name = "public_allow_http_epfl"
+    Name = "public_allow_http_all"
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "public_allow_http_internal" {
+resource "aws_vpc_security_group_ingress_rule" "public_allow_https_all" {
   security_group_id = aws_security_group.public.id
-  description       = "Allow HTTP from internal"
-  from_port         = 80
-  to_port           = 80
-  ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
-
-  tags = {
-    Name = "public_allow_http_internal"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "public_allow_https_epfl" {
-  security_group_id = aws_security_group.public.id
-  description       = "Allow HTTPS from EPFL"
+  description       = "Allow HTTPS"
   from_port         = 443
   to_port           = 443
   ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
+  cidr_ipv4         = "0.0.0.0/0"
 
   tags = {
-    Name = "public_allow_https_epfl"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "public_allow_https_internal" {
-  security_group_id = aws_security_group.public.id
-  description       = "Allow HTTPS from internal"
-  from_port         = 443
-  to_port           = 443
-  ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
-
-  tags = {
-    Name = "public_allow_https_internal"
+    Name = "public_allow_https_all"
   }
 }
 
