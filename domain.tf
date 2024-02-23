@@ -29,14 +29,12 @@ resource "aws_route53_zone" "secondary_domain" {
   }
 }
 
-
-# TODO: point to AWS load balancer once it's fully configured
 resource "aws_route53_record" "openbrainplatform_com" {
   zone_id = aws_route53_zone.secondary_domain.id
   name    = "openbrainplatform.com"
   type    = "A"
   ttl     = 60
-  records = ["192.33.211.9"]
+  records = [aws_lb.alb.dns_name]
 }
 # www.openbrainplatform.com is an alias for openbrainplatform.com
 resource "aws_route53_record" "www_openbrainplatform_com" {
@@ -46,13 +44,12 @@ resource "aws_route53_record" "www_openbrainplatform_com" {
   ttl     = 60
   records = ["openbrainplatform.com"]
 }
-# TODO: point to AWS load balancer once it's fully configured
 resource "aws_route53_record" "openbrainplatform_org" {
   zone_id = aws_route53_zone.primary_domain.id
   name    = "openbrainplatform.org"
   type    = "A"
   ttl     = 60
-  records = ["192.33.211.9"]
+  records = [aws_lb.alb.dns_name]
 }
 # www.openbrainplatform.org is an alias for openbrainplatform.org
 resource "aws_route53_record" "www_openbrainplatform_org" {
