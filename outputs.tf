@@ -142,6 +142,11 @@ output "public_alb_arn" {
   value       = aws_lb.alb.arn
 }
 
+output "public_alb_dns_name" {
+  description = "DNS name of the public ALB"
+  value       = aws_lb.alb.dns_name
+}
+
 output "public_alb_https_listener_arn" {
   description = "ARN of the HTTPS listener of the public ALB"
   value       = aws_lb_listener.https.arn
