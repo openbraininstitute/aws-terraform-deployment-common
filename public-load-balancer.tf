@@ -51,59 +51,6 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_https_all" {
   }
 }
 
-# TODO: expose aws_security_group.alb.id in the outputs
-# and move Viz related ingress rules to the "deployment" repo.
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_brayns_epfl" {
-  security_group_id = aws_security_group.alb.id
-  description       = "Allow Brayns on 5000 from EPFL"
-  from_port         = 5000
-  to_port           = 5000
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "alb_allow_brayns_epfl"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_bcsb_epfl" {
-  security_group_id = aws_security_group.alb.id
-  description       = "Allow BCSB on 8000 from EPFL"
-  from_port         = 8000
-  to_port           = 8000
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "alb_allow_bcsb_epfl"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_vsm_epfl" {
-  security_group_id = aws_security_group.alb.id
-  description       = "Allow VSM on 4444 from EPFL"
-  from_port         = 4444
-  to_port           = 4444
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "alb_allow_vsm_epfl"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "alb_allow_vsm_proxy_epfl" {
-  security_group_id = aws_security_group.alb.id
-  description       = "Allow VSM-Proxy on 8888 from EPFL"
-  from_port         = 8888
-  to_port           = 8888
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "alb_allow_vsm_proxy_epfl"
-  }
-}
 
 resource "aws_vpc_security_group_ingress_rule" "alb_allow_lb_internal" {
   security_group_id = aws_security_group.alb.id
