@@ -3,12 +3,12 @@ resource "aws_lb" "alb" {
   internal           = false #tfsec:ignore:aws-elb-alb-not-public
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
-  subnets            = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+  subnets            = [var.public_subnet_1_id, var.public_subnet_2_id]
 
   drop_invalid_header_fields = true
 
   tags = {
-    Name        = "sbo-poc-alb",
+    Name        = var.alb_name,
     SBO_Billing = "common"
   }
 }
@@ -16,7 +16,7 @@ resource "aws_lb" "alb" {
 # See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-update-security-groups.html
 resource "aws_security_group" "alb" {
   name        = "Public load balancer"
-  vpc_id      = aws_vpc.sbo_poc.id
+  vpc_id      = var.vpc_id
   description = "Sec group for the public ALB"
 
   tags = {
@@ -58,8 +58,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_lb_internal" {
   from_port         = 6000
   to_port           = 6000
   ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
-
+  cidr_ipv4         = var.vpc_cidr_block
   tags = {
     Name = "alb_allow_https_epfl"
   }
@@ -77,6 +76,3 @@ resource "aws_vpc_security_group_egress_rule" "alb_allow_everything_outgoing" {
   }
 }
 
-output "alb_dns_name" {
-  value = aws_lb.alb.dns_name
-}

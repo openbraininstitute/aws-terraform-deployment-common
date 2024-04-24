@@ -48,11 +48,12 @@ tfsec:
     - /usr/bin/tfsec
   allow_failure: false
 
-terrascan:
-  image: tenable/terrascan
-  stage: validate
-  script:
-    - terrascan scan -i terraform --iac-version v14 --iac-dir ${TF_ROOT} --non-recursive --skip-rules=AC_AWS_0369
+# Doesn't work with modules & moving resources to modules.
+#terrascan:
+#  image: tenable/terrascan
+#  stage: validate
+#  script:
+#    - terrascan scan -i terraform --iac-version v14 --iac-dir ${TF_ROOT} --non-recursive --skip-rules=AC_AWS_0369
 
 check_compliance:
   image: eerkunt/terraform-compliance

@@ -3,7 +3,7 @@
 
 # Private subnet in availability zone A for the internal application load balancer
 resource "aws_subnet" "private_alb_a" {
-  vpc_id                  = aws_vpc.sbo_poc.id
+  vpc_id                  = module.network.vpc_id
   cidr_block              = "10.0.2.144/28"
   availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = false
@@ -15,7 +15,7 @@ resource "aws_subnet" "private_alb_a" {
 
 # Private subnet in availability zone B for the internal application load balancer
 resource "aws_subnet" "private_alb_b" {
-  vpc_id                  = aws_vpc.sbo_poc.id
+  vpc_id                  = module.network.vpc_id
   cidr_block              = "10.0.2.160/28"
   availability_zone       = "${var.aws_region}b"
   map_public_ip_on_launch = false
@@ -28,17 +28,17 @@ resource "aws_subnet" "private_alb_b" {
 # Link route table to private_alb_a
 resource "aws_route_table_association" "private_alb_a" {
   subnet_id      = aws_subnet.private_alb_a.id
-  route_table_id = aws_route_table.private.id
+  route_table_id = module.network.private_route_table_id
 }
 
 # Link route table to private_alb_b
 resource "aws_route_table_association" "private_alb_b" {
   subnet_id      = aws_subnet.private_alb_b.id
-  route_table_id = aws_route_table.private.id
+  route_table_id = module.network.private_route_table_id
 }
 
 resource "aws_network_acl" "private_alb" {
-  vpc_id     = aws_vpc.sbo_poc.id
+  vpc_id     = module.network.vpc_id
   subnet_ids = [aws_subnet.private_alb_a.id, aws_subnet.private_alb_b.id]
   # Allow local traffic
   # TODO limit to correct ports and subnets
@@ -46,7 +46,7 @@ resource "aws_network_acl" "private_alb" {
     protocol   = -1
     rule_no    = 100
     action     = "allow"
-    cidr_block = aws_vpc.sbo_poc.cidr_block
+    cidr_block = module.network.vpc_cidr_block
     from_port  = 0
     to_port    = 0
   }

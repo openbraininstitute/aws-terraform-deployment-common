@@ -16,7 +16,7 @@ resource "aws_lb" "private_alb" {
 # See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-update-security-groups.html
 resource "aws_security_group" "private_alb" {
   name        = "Private Load balancer"
-  vpc_id      = aws_vpc.sbo_poc.id
+  vpc_id      = module.network.vpc_id
   description = "Sec group for the private application load balancer"
 
   tags = {
@@ -31,7 +31,7 @@ resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_3000_internal"
   from_port         = 3000
   to_port           = 3000
   ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
+  cidr_ipv4         = module.network.vpc_cidr_block
 
   tags = {
     Name = "private_alb_allow_3000_internal"
@@ -44,7 +44,7 @@ resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_5000_internal"
   from_port         = 5000
   to_port           = 5000
   ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
+  cidr_ipv4         = module.network.vpc_cidr_block
 
   tags = {
     Name = "private_alb_allow_5000_internal"
@@ -70,7 +70,7 @@ resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_8000_internal"
   from_port         = 8000
   to_port           = 8000
   ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
+  cidr_ipv4         = module.network.vpc_cidr_block
 
   tags = {
     Name = "private_alb_allow_8000_internal"
@@ -96,7 +96,7 @@ resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_4444_internal"
   from_port         = 4444
   to_port           = 4444
   ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
+  cidr_ipv4         = module.network.vpc_cidr_block
 
   tags = {
     Name = "private_alb_allow_4444_internal"
@@ -122,7 +122,7 @@ resource "aws_vpc_security_group_ingress_rule" "private_alb_allow_8888_internal"
   from_port         = 8888
   to_port           = 8888
   ip_protocol       = "tcp"
-  cidr_ipv4         = aws_vpc.sbo_poc.cidr_block
+  cidr_ipv4         = module.network.vpc_cidr_block
 
   tags = {
     Name = "private_alb_allow_8888_internal"

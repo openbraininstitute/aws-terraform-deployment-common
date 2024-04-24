@@ -4,7 +4,7 @@ resource "aws_nat_gateway" "nat" {
   depends_on    = [aws_internet_gateway.igw]
 
   tags = {
-    Name        = "nat"
+    Name        = var.nat_name
     SBO_Billing = "common"
   }
 }
@@ -13,7 +13,7 @@ resource "aws_eip" "nat_eip" {
   vpc = true
 
   tags = {
-    Name        = "nat_eip"
+    Name        = var.nat_eip_name
     SBO_Billing = "common"
   }
 }
