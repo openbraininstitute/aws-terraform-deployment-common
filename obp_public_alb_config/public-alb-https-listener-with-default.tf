@@ -1,5 +1,5 @@
 resource "aws_lb_listener" "https" {
-  load_balancer_arn = aws_lb.alb.arn
+  load_balancer_arn = var.public_alb_arn
   port              = "443"
   protocol          = "HTTPS"
   certificate_arn   = var.main_domain_hostname_cert_arn # aws_acm_certificate_validation.primary_root.certificate_arn
@@ -20,7 +20,7 @@ resource "aws_lb_listener" "https" {
   }
 
   depends_on = [
-    aws_lb.alb
+    var.public_alb_arn
   ]
 }
 

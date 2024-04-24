@@ -1,8 +1,3 @@
-output "alb_https_listener_arn" {
-  description = "ARN of the listener on port 443 on this ALB"
-  value       = aws_lb_listener.https.arn
-  sensitive   = false
-}
 output "alb_securitygroup_id" {
   description = "ID of the securitygroup of this ALB"
   value       = aws_security_group.alb.id

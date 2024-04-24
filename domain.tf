@@ -35,8 +35,8 @@ resource "aws_route53_record" "openbrainplatform_com" {
   type    = "A"
 
   alias {
-    name                   = module.public_alb.public_alb_dns_name
-    zone_id                = module.public_alb.alb_zone_id
+    name                   = module.public_alb_basic.public_alb_dns_name
+    zone_id                = module.public_alb_basic.alb_zone_id
     evaluate_target_health = true
   }
 }
@@ -54,8 +54,8 @@ resource "aws_route53_record" "openbrainplatform_org" {
   type    = "A"
 
   alias {
-    name                   = module.public_alb.public_alb_dns_name
-    zone_id                = module.public_alb.alb_zone_id
+    name                   = module.public_alb_basic.public_alb_dns_name
+    zone_id                = module.public_alb_basic.alb_zone_id
     evaluate_target_health = true
   }
 }

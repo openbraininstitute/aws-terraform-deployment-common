@@ -38,29 +38,8 @@ variable "redirected_hostname_3_cert_arn" {
   type        = string
   description = "ARN of the certificate of alternative hostname 3 of the ALB"
 }
-variable "public_subnet_1_id" {
-  sensitive   = false
+variable "public_alb_arn" {
+  description = "ARN of the public ALB"
   type        = string
-  description = "ID of the public subnet 1 for the ALB"
-}
-variable "public_subnet_2_id" {
   sensitive   = false
-  type        = string
-  description = "ID of the public subnet 2 for the ALB"
-}
-variable "alb_name" {
-  sensitive   = false
-  type        = string
-  description = "Name of the ALB"
-  default     = "sbo-poc-alb"
-}
-variable "vpc_id" {
-  sensitive   = false
-  type        = string
-  description = "ID of the VPC"
-}
-variable "vpc_cidr_block" {
-  sensitive   = false
-  type        = string
-  description = "Internal CIDR block of the VPC"
 }

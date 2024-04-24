@@ -1,5 +1,5 @@
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.alb.arn
+  load_balancer_arn = var.public_alb_arn
   port              = 80
   #ts:skip=AC_AWS_0491
   protocol = "HTTP" #tfsec:ignore:aws-elb-http-not-used
@@ -19,6 +19,6 @@ resource "aws_lb_listener" "http" {
   }
 
   depends_on = [
-    aws_lb.alb
+    var.public_alb_arn
   ]
 }
