@@ -170,3 +170,13 @@ output "us_east_2_peering_connection_id" {
   value       = aws_vpc_peering_connection.us_east_2_peering_connection.id
   sensitive   = false
 }
+output "primary_auth_hostname" {
+  description = "hostname for the keycloak authentication url on the primary domain"
+  value       = module.public_alb_auth_config.primary_auth_hostname
+  sensitive   = false
+}
+output "secondary_auth_hostname" {
+  description = "hostname for the keycloak authentication url on the secondary domain"
+  value       = module.public_alb_auth_config.secondary_auth_hostname
+  sensitive   = false
+}

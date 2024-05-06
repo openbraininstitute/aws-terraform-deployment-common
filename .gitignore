@@ -1,1 +1,6 @@
 *~
+.terraform.lock.hcl
+terraform-init.sh
+terraform.tfstate
+.terraform
+
