@@ -48,6 +48,15 @@ resource "aws_route53_record" "www_openbrainplatform_com" {
   ttl     = 60
   records = ["openbrainplatform.com"]
 }
+# auth.openbrainplatform.com is an alias for openbrainplatform.com, as it's handled by the same ALB
+resource "aws_route53_record" "auth_openbrainplatform_com" {
+  zone_id = aws_route53_zone.secondary_domain.id
+  name    = "auth.openbrainplatform.com"
+  type    = "CNAME"
+  ttl     = 60
+  records = ["openbrainplatform.org"]
+}
+
 resource "aws_route53_record" "openbrainplatform_org" {
   zone_id = aws_route53_zone.primary_domain.id
   name    = "openbrainplatform.org"
@@ -67,6 +76,15 @@ resource "aws_route53_record" "www_openbrainplatform_org" {
   ttl     = 60
   records = ["openbrainplatform.org"]
 }
+# auth.openbrainplatform.org is an alias for openbrainplatform.org, as it's handled by the same ALB
+resource "aws_route53_record" "auth_openbrainplatform_org" {
+  zone_id = aws_route53_zone.primary_domain.id
+  name    = "auth.openbrainplatform.org"
+  type    = "CNAME"
+  ttl     = 60
+  records = ["openbrainplatform.org"]
+}
+
 # related to @openbrainplatform.org email addresses
 resource "aws_route53_record" "autodiscover_openbrainplatform_org" {
   zone_id = aws_route53_zone.primary_domain.id
