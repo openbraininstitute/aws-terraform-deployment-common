@@ -33,14 +33,32 @@ module "vpc_peering_us_east_2" {
   peering_connection_id      = aws_vpc_peering_connection.us_east_2_peering_connection.id
 }
 
-module "domains" {
-  source = "./domains"
+module "primary_domain" {
+  source = "./domain"
 
-  primary_domain_name   = "openbluebrain.ch"
-  secondary_domain_name = "openbluebrain.com"
-  public_abl_dns_name   = module.public_alb_basic.public_alb_dns_name
-  public_abl_zone_id    = module.public_alb_basic.alb_zone_id
+  domain_name         = "openbluebrain.com"
+  public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
+  public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  comment             = "Secondary domain for OBP in 2024" # To be updated in subsequent commit
 }
+
+module "alt_domain_openbluebrain_ch" {
+  source = "./domain"
+
+  domain_name         = "openbluebrain.ch"
+  public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
+  public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  comment             = "Primary domain for OBP in 2024" # To be updated in subsequent commit
+}
+
+#module "alt_domain_openbrainplatform_com" {
+#  source = "./domain"
+#
+#  domain_name         = "openbrainplatform.com"
+#  public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
+#  public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+#}
+
 module "primary_root_cert" {
   source = "./tls_certificate"
 

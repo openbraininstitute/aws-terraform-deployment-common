@@ -1,3 +1,5 @@
+# DEPRECATED
+
 # Primary OBP domain in 2024
 resource "aws_route53_zone" "primary_domain_2024" {
   name    = var.primary_domain_name

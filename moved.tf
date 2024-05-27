@@ -1,7 +1,28 @@
-# moved {
-#   from = aws_eip.nat_eip
-#   to   = module.network.aws_eip.nat_eip
-# }
+moved {
+  from = module.domains.aws_route53_record.primary_domain_2024_A
+  to   = module.alt_domain_openbluebrain_ch.aws_route53_record.domain_A
+}
+moved {
+  from = module.domains.aws_route53_record.secondary_domain_2024_A
+  to   = module.primary_domain.aws_route53_record.domain_A
+}
+moved {
+  from = module.domains.aws_route53_record.www_primary_domain_2024
+  to   = module.alt_domain_openbluebrain_ch.aws_route53_record.www_domain
+}
+moved {
+  from = module.domains.aws_route53_record.www_secondary_domain_2024
+  to   = module.primary_domain.aws_route53_record.www_domain
+}
+moved {
+  from = module.domains.aws_route53_zone.primary_domain_2024
+  to   = module.alt_domain_openbluebrain_ch.aws_route53_zone.domain
+}
+moved {
+  from = module.domains.aws_route53_zone.secondary_domain_2024
+  to   = module.primary_domain.aws_route53_zone.domain
+}
+
 # moved {
 #   from = aws_internet_gateway.igw
 #   to   = module.network.aws_internet_gateway.igw
