@@ -39,7 +39,7 @@ module "primary_domain" {
   domain_name         = "openbluebrain.com"
   public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
   public_abl_zone_id  = module.public_alb_basic.alb_zone_id
-  comment             = "Secondary domain for OBP in 2024" # To be updated in subsequent commit
+  comment             = "Primary domain"
 }
 
 module "alt_domain_openbluebrain_ch" {
@@ -48,16 +48,18 @@ module "alt_domain_openbluebrain_ch" {
   domain_name         = "openbluebrain.ch"
   public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
   public_abl_zone_id  = module.public_alb_basic.alb_zone_id
-  comment             = "Primary domain for OBP in 2024" # To be updated in subsequent commit
+  comment             = "Alternative domain openbluebrain.ch"
 }
 
-#module "alt_domain_openbrainplatform_com" {
-#  source = "./domain"
-#
-#  domain_name         = "openbrainplatform.com"
-#  public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
-#  public_abl_zone_id  = module.public_alb_basic.alb_zone_id
-#}
+module "alt_domain_openbrainplatform_com" {
+  source = "./domain"
+
+  domain_name         = "openbrainplatform.com"
+  public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
+  public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  comment             = "Alternative domain openbrainplatform.com"
+}
+
 
 module "primary_root_cert" {
   source = "./tls_certificate"
@@ -74,14 +76,14 @@ module "primary_www_cert" {
 module "secondary_root_cert" {
   source = "./tls_certificate"
 
-  hostname = aws_route53_zone.secondary_domain.name
-  zone_id  = aws_route53_zone.secondary_domain.zone_id
+  hostname = module.alt_domain_openbrainplatform_com.domain_name
+  zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
 }
 module "secondary_www_cert" {
   source = "./tls_certificate"
 
-  hostname = "www.${aws_route53_zone.secondary_domain.name}"
-  zone_id  = aws_route53_zone.secondary_domain.zone_id
+  hostname = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
+  zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
 }
 module "primary_auth_cert" {
   source = "./tls_certificate"
@@ -92,8 +94,8 @@ module "primary_auth_cert" {
 module "secondary_auth_cert" {
   source = "./tls_certificate"
 
-  hostname = "auth.${aws_route53_zone.secondary_domain.name}"
-  zone_id  = aws_route53_zone.secondary_domain.zone_id
+  hostname = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
+  zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
 }
 module "public_alb_config" {
   source = "./obp_public_alb_config"
@@ -102,8 +104,8 @@ module "public_alb_config" {
   main_domain_hostname_cert_arn  = module.primary_root_cert.certificate_arn
   main_domain_hostname           = aws_route53_zone.primary_domain.name
   redirected_hostname_1          = "www.${aws_route53_zone.primary_domain.name}"
-  redirected_hostname_2          = aws_route53_zone.secondary_domain.name
-  redirected_hostname_3          = "www.${aws_route53_zone.secondary_domain.name}"
+  redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
+  redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
   redirected_hostname_1_cert_arn = module.primary_www_cert.certificate_arn
   redirected_hostname_2_cert_arn = module.secondary_root_cert.certificate_arn
   redirected_hostname_3_cert_arn = module.secondary_www_cert.certificate_arn
@@ -113,7 +115,7 @@ module "public_alb_auth_config" {
 
   public_alb_arn                   = module.public_alb_basic.public_alb_arn
   primary_auth_hostname            = "auth.${aws_route53_zone.primary_domain.name}"
-  secondary_auth_hostname          = "auth.${aws_route53_zone.secondary_domain.name}"
+  secondary_auth_hostname          = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
   primary_auth_hostname_cert_arn   = module.primary_auth_cert.certificate_arn
   secondary_auth_hostname_cert_arn = module.secondary_auth_cert.certificate_arn
   public_alb_https_listener_arn    = module.public_alb_config.alb_https_listener_arn

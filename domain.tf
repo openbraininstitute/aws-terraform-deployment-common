@@ -19,38 +19,40 @@ resource "aws_route53_zone" "primary_domain" {
   }
 }
 
-# Secondary OBP domain openbrainplatform.com.
-resource "aws_route53_zone" "secondary_domain" {
-  name    = "openbrainplatform.com"
-  comment = "Secondary domain for OBP"
+## Secondary OBP domain openbrainplatform.com.
+#resource "aws_route53_zone" "secondary_domain" {
+#  name    = "openbrainplatform.com"
+#  comment = "Secondary domain for OBP"
+#
+#  tags = {
+#    SBO_Billing = "common"
+#  }
+#}
 
-  tags = {
-    SBO_Billing = "common"
-  }
-}
-
-resource "aws_route53_record" "openbrainplatform_com" {
-  zone_id = aws_route53_zone.secondary_domain.id
-  name    = "openbrainplatform.com"
-  type    = "A"
-
-  alias {
-    name                   = module.public_alb_basic.public_alb_dns_name
-    zone_id                = module.public_alb_basic.alb_zone_id
-    evaluate_target_health = true
-  }
-}
+#resource "aws_route53_record" "openbrainplatform_com" {
+#  zone_id = aws_route53_zone.secondary_domain.id
+#  name    = "openbrainplatform.com"
+#  type    = "A"
+#
+#  alias {
+#    name                   = module.public_alb_basic.public_alb_dns_name
+#    zone_id                = module.public_alb_basic.alb_zone_id
+#    evaluate_target_health = true
+#  }
+#}
 # www.openbrainplatform.com is an alias for openbrainplatform.com
-resource "aws_route53_record" "www_openbrainplatform_com" {
-  zone_id = aws_route53_zone.secondary_domain.id
-  name    = "www.openbrainplatform.com"
-  type    = "CNAME"
-  ttl     = 60
-  records = ["openbrainplatform.com"]
-}
+#resource "aws_route53_record" "www_openbrainplatform_com" {
+#  zone_id = aws_route53_zone.secondary_domain.id
+#  name    = "www.openbrainplatform.com"
+#  type    = "CNAME"
+#  ttl     = 60
+#  records = ["openbrainplatform.com"]
+#}
+
+
 # auth.openbrainplatform.com is an alias for openbrainplatform.com, as it's handled by the same ALB
 resource "aws_route53_record" "auth_openbrainplatform_com" {
-  zone_id = aws_route53_zone.secondary_domain.id
+  zone_id = module.alt_domain_openbrainplatform_com.domain_zone_id
   name    = "auth.openbrainplatform.com"
   type    = "CNAME"
   ttl     = 60
