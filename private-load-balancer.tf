@@ -178,7 +178,7 @@ resource "aws_lb_listener" "private_alb_3000" {
 }
 
 resource "aws_route53_record" "private_alb_test" {
-  zone_id = aws_route53_zone.domain.id
+  zone_id = module.alt_domain_shapes-registry_org.domain_zone_id
   name    = var.private_alb_test_hostname
   type    = "CNAME"
   ttl     = 60

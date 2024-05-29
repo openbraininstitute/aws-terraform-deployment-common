@@ -57,29 +57,69 @@ output "public_b_subnet_arn" {
   value       = module.network.public_2_subnet_arn
 }
 
+# deprecated, use alt_domain_shapes-registry_org_zone_id
 output "domain_zone_id" {
   description = "zone_id of the domain shapes-registry.org"
-  value       = aws_route53_zone.domain.zone_id
+  value       = module.alt_domain_shapes-registry_org.domain_zone_id
+  sensitive   = false
 }
 
+output "alt_domain_shapes-registry_org_zone_id" {
+  description = "zone_id of the domain shapes-registry.org"
+  value       = module.alt_domain_shapes-registry_org.domain_zone_id
+  sensitive   = false
+}
+
+# deprecated, use alt_domain_shapes-registry_org_arn
 output "domain_arn" {
   description = "ARN of the domain shapes-registry.org"
-  value       = aws_route53_zone.domain.arn
+  value       = module.alt_domain_shapes-registry_org.domain_arn
+  sensitive   = false
 }
 
+output "alt_domain_shapes-registry_org_arn" {
+  description = "ARN of the domain shapes-registry.org"
+  value       = module.alt_domain_shapes-registry_org.domain_arn
+  sensitive   = false
+}
+
+# deprecated, use alt_domain_openbrainplatform_org_domain_name
 output "primary_domain" {
   description = "Primary platform domain"
-  value       = aws_route53_zone.primary_domain.name
+  value       = module.alt_domain_openbrainplatform_org.domain_name
+  sensitive   = false
 }
 
+output "alt_domain_openbrainplatform_org_domain_name" {
+  description = "Primary platform domain"
+  value       = module.alt_domain_openbrainplatform_org.domain_name
+  sensitive   = false
+}
+
+# deprecated, use alt_domain_openbrainplatform_org_zone_id
 output "primary_domain_zone_id" {
   description = "zone_id of the domain openbrainplatform.org"
-  value       = aws_route53_zone.primary_domain.zone_id
+  value       = module.alt_domain_openbrainplatform_org.domain_zone_id
+  sensitive   = false
 }
 
+output "alt_domain_openbrainplatform_org_zone_id" {
+  description = "zone_id of the domain openbrainplatform.org"
+  value       = module.alt_domain_openbrainplatform_org.domain_zone_id
+  sensitive   = false
+}
+
+# deprecated, use alt_domain_openbrainplatform_org_arn
 output "primary_domain_arn" {
   description = "ARN of the domain openbrainplatform.org"
-  value       = aws_route53_zone.primary_domain.arn
+  value       = module.alt_domain_openbrainplatform_org.domain_arn
+  sensitive   = false
+}
+
+output "alt_domain_openbrainplatform_org_arn" {
+  description = "ARN of the domain openbrainplatform.org"
+  value       = module.alt_domain_openbrainplatform_org.domain_arn
+  sensitive   = false
 }
 
 # deprecated, use alt_domain_openbrainplatform_com_domain_name

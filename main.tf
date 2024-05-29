@@ -60,18 +60,36 @@ module "alt_domain_openbrainplatform_com" {
   comment             = "Alternative domain openbrainplatform.com"
 }
 
+module "alt_domain_shapes-registry_org" {
+  source = "./domain"
+
+  domain_name         = "shapes-registry.org"
+  public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
+  public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  comment             = "Alternative domain shapes-registry.org"
+}
+
+module "alt_domain_openbrainplatform_org" {
+  source = "./domain"
+
+  domain_name         = "openbrainplatform.org"
+  public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
+  public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  comment             = "Alternative domain openbrainplatform.org"
+}
+
 
 module "primary_root_cert" {
   source = "./tls_certificate"
 
-  hostname = aws_route53_zone.primary_domain.name
-  zone_id  = aws_route53_zone.primary_domain.zone_id
+  hostname = module.alt_domain_openbrainplatform_org.domain_name
+  zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
 module "primary_www_cert" {
   source = "./tls_certificate"
 
-  hostname = "www.${aws_route53_zone.primary_domain.name}"
-  zone_id  = aws_route53_zone.primary_domain.zone_id
+  hostname = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
+  zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
 module "secondary_root_cert" {
   source = "./tls_certificate"
@@ -88,8 +106,8 @@ module "secondary_www_cert" {
 module "primary_auth_cert" {
   source = "./tls_certificate"
 
-  hostname = "auth.${aws_route53_zone.primary_domain.name}"
-  zone_id  = aws_route53_zone.primary_domain.zone_id
+  hostname = "auth.${module.alt_domain_openbrainplatform_org.domain_name}"
+  zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
 module "secondary_auth_cert" {
   source = "./tls_certificate"
@@ -102,8 +120,8 @@ module "public_alb_config" {
 
   public_alb_arn                 = module.public_alb_basic.public_alb_arn
   main_domain_hostname_cert_arn  = module.primary_root_cert.certificate_arn
-  main_domain_hostname           = aws_route53_zone.primary_domain.name
-  redirected_hostname_1          = "www.${aws_route53_zone.primary_domain.name}"
+  main_domain_hostname           = module.alt_domain_openbrainplatform_org.domain_name
+  redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
   redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
   redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
   redirected_hostname_1_cert_arn = module.primary_www_cert.certificate_arn
@@ -114,7 +132,7 @@ module "public_alb_auth_config" {
   source = "./obp_public_alb_auth_config"
 
   public_alb_arn                   = module.public_alb_basic.public_alb_arn
-  primary_auth_hostname            = "auth.${aws_route53_zone.primary_domain.name}"
+  primary_auth_hostname            = "auth.${module.alt_domain_openbrainplatform_org.domain_name}"
   secondary_auth_hostname          = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
   primary_auth_hostname_cert_arn   = module.primary_auth_cert.certificate_arn
   secondary_auth_hostname_cert_arn = module.secondary_auth_cert.certificate_arn
