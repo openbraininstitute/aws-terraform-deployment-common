@@ -43,3 +43,8 @@ variable "public_alb_arn" {
   type        = string
   sensitive   = false
 }
+variable "cert_arns" {
+  type        = list(string)
+  description = "ARNs of the certificates that need to be added to the load balancer"
+  sensitive   = false
+}

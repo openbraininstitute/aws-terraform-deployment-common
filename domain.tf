@@ -1,25 +1,3 @@
-# The domain that we use for the OBP POC: shapes-registry.org.
-# Not attached to a VPC because it has to be a public network.
-#resource "aws_route53_zone" "domain" {
-#  name    = "shapes-registry.org"
-#  comment = "Test domain for OBP POC"
-#
-#  tags = {
-#    SBO_Billing = "common"
-#  }
-#}
-
-# Primary OBP domain openbrainplatform.org.
-#resource "aws_route53_zone" "primary_domain" {
-#  name    = "openbrainplatform.org"
-#  comment = "Primary domain for OBP"
-#
-#  tags = {
-#    SBO_Billing = "common"
-#  }
-#}
-
-
 # auth.openbrainplatform.com is an alias for openbrainplatform.com, as it's handled by the same ALB
 resource "aws_route53_record" "auth_openbrainplatform_com" {
   zone_id = module.alt_domain_openbrainplatform_com.domain_zone_id
@@ -29,25 +7,6 @@ resource "aws_route53_record" "auth_openbrainplatform_com" {
   records = ["openbrainplatform.org"]
 }
 
-#resource "aws_route53_record" "openbrainplatform_org" {
-#  zone_id = aws_route53_zone.primary_domain.id
-#  name    = "openbrainplatform.org"
-#  type    = "A"
-#
-#  alias {
-#    name                   = module.public_alb_basic.public_alb_dns_name
-#    zone_id                = module.public_alb_basic.alb_zone_id
-#    evaluate_target_health = true
-#  }
-#}
-## www.openbrainplatform.org is an alias for openbrainplatform.org
-#resource "aws_route53_record" "www_openbrainplatform_org" {
-#  zone_id = aws_route53_zone.primary_domain.id
-#  name    = "www.openbrainplatform.org"
-#  type    = "CNAME"
-#  ttl     = 60
-#  records = ["openbrainplatform.org"]
-#}
 
 # auth.openbrainplatform.org is an alias for openbrainplatform.org, as it's handled by the same ALB
 resource "aws_route53_record" "auth_openbrainplatform_org" {

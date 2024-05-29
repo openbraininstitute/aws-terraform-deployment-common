@@ -79,37 +79,65 @@ module "alt_domain_openbrainplatform_org" {
 }
 
 
-module "primary_root_cert" {
+module "openbrainplatform_org_cert" {
   source = "./tls_certificate"
 
   hostname = module.alt_domain_openbrainplatform_org.domain_name
   zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
-module "primary_www_cert" {
+module "www_openbrainplatform_org_cert" {
   source = "./tls_certificate"
 
   hostname = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
   zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
-module "secondary_root_cert" {
+module "openbrainplatform_com_cert" {
   source = "./tls_certificate"
 
   hostname = module.alt_domain_openbrainplatform_com.domain_name
   zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
 }
-module "secondary_www_cert" {
+module "www_openbrainplatform_com_cert" {
   source = "./tls_certificate"
 
   hostname = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
   zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
 }
-module "primary_auth_cert" {
+module "openbluebrain_com_cert" {
+  source = "./tls_certificate"
+
+  hostname = module.primary_domain.domain_name
+  zone_id  = module.primary_domain.domain_zone_id
+}
+module "www_openbluebrain_com_cert" {
+  source = "./tls_certificate"
+
+  hostname = "www.${module.primary_domain.domain_name}"
+  zone_id  = module.primary_domain.domain_zone_id
+}
+module "openbluebrain_ch_cert" {
+  source = "./tls_certificate"
+
+  hostname = module.alt_domain_openbluebrain_ch.domain_name
+  zone_id  = module.alt_domain_openbluebrain_ch.domain_zone_id
+}
+module "www_openbluebrain_ch_cert" {
+  source = "./tls_certificate"
+
+  hostname = "www.${module.alt_domain_openbluebrain_ch.domain_name}"
+  zone_id  = module.alt_domain_openbluebrain_ch.domain_zone_id
+}
+
+# To be removed: let's just use somedomain/auth
+module "auth_openbrainplatform_org_cert" {
   source = "./tls_certificate"
 
   hostname = "auth.${module.alt_domain_openbrainplatform_org.domain_name}"
   zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
-module "secondary_auth_cert" {
+
+# To be removed: let's just use somedomain/auth
+module "auth_openbrainplatform_com_cert" {
   source = "./tls_certificate"
 
   hostname = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
@@ -119,14 +147,15 @@ module "public_alb_config" {
   source = "./obp_public_alb_config"
 
   public_alb_arn                 = module.public_alb_basic.public_alb_arn
-  main_domain_hostname_cert_arn  = module.primary_root_cert.certificate_arn
+  main_domain_hostname_cert_arn  = module.openbrainplatform_org_cert.certificate_arn
   main_domain_hostname           = module.alt_domain_openbrainplatform_org.domain_name
   redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
   redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
   redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
-  redirected_hostname_1_cert_arn = module.primary_www_cert.certificate_arn
-  redirected_hostname_2_cert_arn = module.secondary_root_cert.certificate_arn
-  redirected_hostname_3_cert_arn = module.secondary_www_cert.certificate_arn
+  redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
+  redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
+  redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
+  cert_arns                      = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
 }
 module "public_alb_auth_config" {
   source = "./obp_public_alb_auth_config"
@@ -134,7 +163,7 @@ module "public_alb_auth_config" {
   public_alb_arn                   = module.public_alb_basic.public_alb_arn
   primary_auth_hostname            = "auth.${module.alt_domain_openbrainplatform_org.domain_name}"
   secondary_auth_hostname          = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
-  primary_auth_hostname_cert_arn   = module.primary_auth_cert.certificate_arn
-  secondary_auth_hostname_cert_arn = module.secondary_auth_cert.certificate_arn
+  primary_auth_hostname_cert_arn   = module.auth_openbrainplatform_org_cert.certificate_arn
+  secondary_auth_hostname_cert_arn = module.auth_openbrainplatform_com_cert.certificate_arn
   public_alb_https_listener_arn    = module.public_alb_config.alb_https_listener_arn
 }
