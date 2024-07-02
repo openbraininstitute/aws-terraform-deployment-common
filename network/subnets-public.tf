@@ -47,6 +47,12 @@ resource "aws_route" "public_route_default_ipv6" {
   gateway_id                  = aws_internet_gateway.igw.id
 }
 
+resource "aws_route" "public_route_to_pclusters_vpc" {
+  route_table_id            = aws_route_table.public.id
+  destination_cidr_block    = var.pclusters_peer_cidr_block
+  vpc_peering_connection_id = var.pclusters_peer_connection_id
+}
+
 # Link route table to public network A
 resource "aws_route_table_association" "public_a" {
   subnet_id      = aws_subnet.public_a.id

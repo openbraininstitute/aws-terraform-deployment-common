@@ -1,11 +1,13 @@
 module "network" {
   source = "./network"
 
-  vpc_name                   = "sbo_poc"
-  vpc_cidr_block             = "10.0.0.0/16"
-  aws_region                 = var.aws_region
-  public_subnet_1_cidr_block = "10.0.1.0/25"
-  public_subnet_2_cidr_block = "10.0.1.128/25"
+  vpc_name                     = "sbo_poc"
+  vpc_cidr_block               = "10.0.0.0/16"
+  aws_region                   = var.aws_region
+  public_subnet_1_cidr_block   = "10.0.1.0/25"
+  public_subnet_2_cidr_block   = "10.0.1.128/25"
+  pclusters_peer_cidr_block    = "172.32.0.0/16"
+  pclusters_peer_connection_id = "pcx-03a13ada356c8fc23"
   # Default values:
   # igw_name                   = "igw"
   # public_subnet_1_name       = "public_a"
