@@ -86,7 +86,7 @@ output "alt_domain_shapes-registry_org_arn" {
 # deprecated, use alt_domain_openbrainplatform_org_domain_name
 output "primary_domain" {
   description = "Primary platform domain"
-  value       = module.alt_domain_openbrainplatform_org.domain_name
+  value       = module.primary_domain.domain_name
   sensitive   = false
 }
 
@@ -98,8 +98,8 @@ output "alt_domain_openbrainplatform_org_domain_name" {
 
 # deprecated, use alt_domain_openbrainplatform_org_zone_id
 output "primary_domain_zone_id" {
-  description = "zone_id of the domain openbrainplatform.org"
-  value       = module.alt_domain_openbrainplatform_org.domain_zone_id
+  description = "zone_id of the primary domain"
+  value       = module.primary_domain.domain_zone_id
   sensitive   = false
 }
 
@@ -111,8 +111,8 @@ output "alt_domain_openbrainplatform_org_zone_id" {
 
 # deprecated, use alt_domain_openbrainplatform_org_arn
 output "primary_domain_arn" {
-  description = "ARN of the domain openbrainplatform.org"
-  value       = module.alt_domain_openbrainplatform_org.domain_arn
+  description = "ARN of the primary domain"
+  value       = module.primary_domain.domain_arn
   sensitive   = false
 }
 
