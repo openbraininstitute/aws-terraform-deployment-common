@@ -145,20 +145,25 @@ module "auth_openbrainplatform_com_cert" {
   hostname = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
   zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
 }
+
 module "public_alb_config" {
   source = "./obp_public_alb_config"
 
-  public_alb_arn                 = module.public_alb_basic.public_alb_arn
-  main_domain_hostname_cert_arn  = module.openbrainplatform_org_cert.certificate_arn
-  main_domain_hostname           = module.alt_domain_openbrainplatform_org.domain_name
+  public_alb_arn = module.public_alb_basic.public_alb_arn
+
+  main_domain_hostname          = module.primary_domain.domain_name
+  main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn
+
   redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
   redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
   redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
   redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
   redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
   redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
-  cert_arns                      = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
+
+  cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
 }
+
 module "public_alb_auth_config" {
   source = "./obp_public_alb_auth_config"
 
