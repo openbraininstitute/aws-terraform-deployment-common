@@ -112,6 +112,11 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     metric_name                = "basic-waf-acl"
     sampled_requests_enabled   = false
   }
+
+  tags = {
+    Name        = "aws_wafv2_web_acl"
+    SBO_Billing = "common"
+  }
 }
 
 resource "aws_wafv2_web_acl_association" "waf_association" {
