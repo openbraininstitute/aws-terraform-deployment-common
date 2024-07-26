@@ -13,7 +13,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     # This must be specified, but we don't really want to override anything
     # If a request matches this ruleset, we want to block it
     override_action {
-      none {}
+      count {}
     }
 
     statement {
@@ -37,7 +37,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     # This must be specified, but we don't really want to override anything
     # If a request matches this ruleset, we want to block it
     override_action {
-      none {}
+      count {}
     }
 
     statement {
@@ -88,7 +88,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     priority = 4
 
     action {
-      block {}
+      count {}
     }
 
     statement {
