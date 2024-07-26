@@ -124,9 +124,14 @@ resource "aws_wafv2_web_acl_association" "waf_association" {
   resource_arn = var.public_alb_arn
 }
 
+#tfsec:ignore:aws-cloudwatch-log-group-customer-key
 resource "aws_cloudwatch_log_group" "waf_logs" {
   name              = "aws-waf-logs"
   retention_in_days = 3
+  tags_all = {
+    Name        = "waf_log_group"
+    SBO_Billing = "common"
+  }
 }
 
 resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
