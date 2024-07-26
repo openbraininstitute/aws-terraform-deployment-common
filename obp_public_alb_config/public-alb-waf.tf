@@ -88,12 +88,12 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     priority = 4
 
     action {
-      count {}
+      block {}
     }
 
     statement {
       rate_based_statement {
-        limit                 = 600
+        limit                 = 1200
         aggregate_key_type    = "IP"
         evaluation_window_sec = 60
       }
