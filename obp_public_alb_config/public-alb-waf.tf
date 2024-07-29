@@ -137,6 +137,23 @@ resource "aws_cloudwatch_log_group" "waf_logs" {
 resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
   log_destination_configs = [aws_cloudwatch_log_group.waf_logs.arn]
   resource_arn            = aws_wafv2_web_acl.basic_protection.arn
+  logging_filter {
+    default_behavior = "DROP"
+    filter {
+      behavior = "KEEP"
+      condition {
+        action_condition {
+          action = "BLOCK"
+        }
+      }
+      condition {
+        action_condition {
+          action = "COUNT"
+        }
+      }
+      requirement = "MEETS_ANY"
+    }
+  }
 }
 
 resource "aws_cloudwatch_log_resource_policy" "waf_log_resource_policy" {
