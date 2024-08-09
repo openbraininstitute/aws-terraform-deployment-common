@@ -6,6 +6,7 @@ resource "aws_lb" "private_alb" {
   subnets            = [aws_subnet.private_alb_a.id, aws_subnet.private_alb_b.id]
 
   drop_invalid_header_fields = true
+  idle_timeout               = 300
 
   tags = {
     Name        = "sbo-poc-private-alb",
