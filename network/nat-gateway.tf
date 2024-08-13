@@ -10,8 +10,7 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_eip" "nat_eip" {
-  vpc = true
-
+  domain = "vpc"
   tags = {
     Name        = var.nat_eip_name
     SBO_Billing = "common"
