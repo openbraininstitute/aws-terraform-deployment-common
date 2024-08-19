@@ -9,8 +9,7 @@ resource "aws_lb" "private_alb" {
   idle_timeout               = 300
 
   tags = {
-    Name        = "sbo-poc-private-alb",
-    SBO_Billing = "common"
+    Name = "sbo-poc-private-alb"
   }
 }
 
@@ -21,8 +20,7 @@ resource "aws_security_group" "private_alb" {
   description = "Sec group for the private application load balancer"
 
   tags = {
-    Name        = "alb_private_secgroup"
-    SBO_Billing = "common"
+    Name = "alb_private_secgroup"
   }
 }
 
@@ -170,9 +168,6 @@ resource "aws_lb_listener" "private_alb_3000" {
       status_code  = "200"
     }
   }
-  tags = {
-    SBO_Billing = "common"
-  }
   depends_on = [
     aws_lb.private_alb
   ]
@@ -216,9 +211,6 @@ resource "aws_lb_listener" "private_alb_5000" {
       status_code  = "200"
     }
   }
-  tags = {
-    SBO_Billing = "common"
-  }
   depends_on = [
     aws_lb.private_alb
   ]
@@ -248,9 +240,6 @@ resource "aws_lb_listener" "private_alb_8000" {
       message_body = "Fixed response content: port 8000 listener"
       status_code  = "200"
     }
-  }
-  tags = {
-    SBO_Billing = "common"
   }
   depends_on = [
     aws_lb.private_alb
@@ -282,9 +271,6 @@ resource "aws_lb_listener" "private_alb_4444" {
       status_code  = "200"
     }
   }
-  tags = {
-    SBO_Billing = "common"
-  }
   depends_on = [
     aws_lb.private_alb
   ]
@@ -314,9 +300,6 @@ resource "aws_lb_listener" "private_alb_8888" {
       message_body = "Fixed response content: port 8888 listener"
       status_code  = "200"
     }
-  }
-  tags = {
-    SBO_Billing = "common"
   }
   depends_on = [
     aws_lb.private_alb

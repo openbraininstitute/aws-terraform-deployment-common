@@ -14,10 +14,6 @@ resource "aws_lb_listener" "http" {
     }
   }
 
-  tags = {
-    SBO_Billing = "common"
-  }
-
   depends_on = [
     var.public_alb_arn
   ]

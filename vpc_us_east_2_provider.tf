@@ -13,6 +13,11 @@
 provider "aws" {
   alias  = "us_east_2"
   region = "us-east-2"
+  default_tags {
+    tags = {
+      SBO_Billing = "common"
+    }
+  }
 }
 #tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
 resource "aws_vpc" "vpc_us_east_2" {
@@ -22,8 +27,7 @@ resource "aws_vpc" "vpc_us_east_2" {
   enable_dns_hostnames = true
   instance_tenancy     = "default"
   tags = {
-    Name        = "sbo_poc"
-    SBO_Billing = "common"
+    Name = "sbo_poc"
   }
 }
 
@@ -32,8 +36,7 @@ resource "aws_vpc_peering_connection" "us_east_2_peering_connection" {
   vpc_id      = module.network.vpc_id
   peer_region = "us-east-2"
   tags = {
-    Name        = "sbo_poc"
-    SBO_Billing = "common"
+    Name = "sbo_poc"
   }
 }
 

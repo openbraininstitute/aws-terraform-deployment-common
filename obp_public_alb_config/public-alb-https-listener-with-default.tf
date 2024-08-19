@@ -15,10 +15,6 @@ resource "aws_lb_listener" "https" {
     }
   }
 
-  tags = {
-    SBO_Billing = "common"
-  }
-
   depends_on = [
     var.public_alb_arn
   ]
@@ -67,9 +63,5 @@ resource "aws_lb_listener_rule" "domain_redirect" {
         var.redirected_hostname_3
       ]
     }
-  }
-
-  tags = {
-    SBO_Billing = "common"
   }
 }

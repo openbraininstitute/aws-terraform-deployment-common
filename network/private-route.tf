@@ -8,8 +8,7 @@ resource "aws_route_table" "private" {
     aws_nat_gateway.nat
   ]
   tags = {
-    Name        = "private_subnets"
-    SBO_Billing = "common"
+    Name = "private_subnets"
   }
 }
 

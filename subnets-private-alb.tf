@@ -8,8 +8,7 @@ resource "aws_subnet" "private_alb_a" {
   availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = false
   tags = {
-    Name        = "private_alb_a"
-    SBO_Billing = "common"
+    Name = "private_alb_a"
   }
 }
 
@@ -20,8 +19,7 @@ resource "aws_subnet" "private_alb_b" {
   availability_zone       = "${var.aws_region}b"
   map_public_ip_on_launch = false
   tags = {
-    Name        = "private_alb_b"
-    SBO_Billing = "common"
+    Name = "private_alb_b"
   }
 }
 
@@ -69,7 +67,6 @@ resource "aws_network_acl" "private_alb" {
     to_port    = 0
   }
   tags = {
-    Name        = "private_alb"
-    SBO_Billing = "common"
+    Name = "private_alb"
   }
 }

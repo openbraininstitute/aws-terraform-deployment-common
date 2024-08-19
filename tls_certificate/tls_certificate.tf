@@ -5,10 +5,6 @@ resource "aws_acm_certificate" "cert" {
   lifecycle {
     create_before_destroy = true
   }
-
-  tags = {
-    SBO_Billing = "common"
-  }
 }
 
 resource "aws_route53_record" "domain_validation" {

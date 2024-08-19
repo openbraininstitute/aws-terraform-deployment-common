@@ -8,8 +8,7 @@ resource "aws_lb" "alb" {
   drop_invalid_header_fields = true
 
   tags = {
-    Name        = var.alb_name,
-    SBO_Billing = "common"
+    Name = var.alb_name
   }
 }
 
@@ -20,8 +19,7 @@ resource "aws_security_group" "alb" {
   description = "Sec group for the public ALB"
 
   tags = {
-    Name        = "alb_secgroup"
-    SBO_Billing = "common"
+    Name = "alb_secgroup"
   }
 }
 

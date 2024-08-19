@@ -5,8 +5,7 @@ resource "aws_security_group" "public" {
   description = "Sec group for the public subnets"
 
   tags = {
-    Name        = "public_acl"
-    SBO_Billing = "common"
+    Name = "public_acl"
   }
 }
 

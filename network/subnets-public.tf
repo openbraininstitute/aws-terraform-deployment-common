@@ -8,8 +8,7 @@ resource "aws_subnet" "public_a" {
   availability_zone       = "${var.aws_region}${var.public_subnet_1_availability_zone}"
   map_public_ip_on_launch = true #tfsec:ignore:aws-ec2-no-public-ip-subnet
   tags = {
-    Name        = var.public_subnet_1_name
-    SBO_Billing = "common"
+    Name = var.public_subnet_1_name
   }
 }
 
@@ -20,8 +19,7 @@ resource "aws_subnet" "public_b" {
   availability_zone       = "${var.aws_region}${var.public_subnet_2_availability_zone}"
   map_public_ip_on_launch = true #tfsec:ignore:aws-ec2-no-public-ip-subnet
   tags = {
-    Name        = var.public_subnet_2_name
-    SBO_Billing = "common"
+    Name = var.public_subnet_2_name
   }
 }
 
@@ -32,8 +30,7 @@ resource "aws_route_table" "public" {
     aws_internet_gateway.igw
   ]
   tags = {
-    Name        = var.public_route_name
-    SBO_Billing = "common"
+    Name = var.public_route_name
   }
 }
 resource "aws_route" "public_route_default_ipv4" {

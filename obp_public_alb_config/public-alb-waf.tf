@@ -114,8 +114,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
   }
 
   tags = {
-    Name        = "aws_wafv2_web_acl"
-    SBO_Billing = "common"
+    Name = "aws_wafv2_web_acl"
   }
 }
 
@@ -129,8 +128,7 @@ resource "aws_cloudwatch_log_group" "waf_logs" {
   name              = "aws-waf-logs-public-loadbalancer"
   retention_in_days = 7
   tags_all = {
-    Name        = "aws-waf-logs-public-loadbalancer"
-    SBO_Billing = "common"
+    Name = "aws-waf-logs-public-loadbalancer"
   }
 }
 

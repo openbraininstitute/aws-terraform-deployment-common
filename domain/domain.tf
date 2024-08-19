@@ -1,10 +1,6 @@
 resource "aws_route53_zone" "domain" {
   name    = var.domain_name
   comment = var.comment
-
-  tags = {
-    SBO_Billing = "common"
-  }
 }
 
 resource "aws_route53_record" "domain_A" {

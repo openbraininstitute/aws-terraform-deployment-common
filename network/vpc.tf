@@ -7,8 +7,7 @@ resource "aws_vpc" "main_vpc" {
   enable_dns_hostnames = true
   instance_tenancy     = "default"
   tags = {
-    Name        = var.vpc_name
-    SBO_Billing = "common"
+    Name = var.vpc_name
   }
 }
 
@@ -26,8 +25,5 @@ resource "aws_default_security_group" "default" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    SBO_Billing = "common"
   }
 }
