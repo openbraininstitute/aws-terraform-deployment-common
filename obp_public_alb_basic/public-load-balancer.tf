@@ -5,6 +5,7 @@ resource "aws_lb" "alb" {
   security_groups    = [aws_security_group.alb.id]
   subnets            = [var.public_subnet_1_id, var.public_subnet_2_id]
 
+  idle_timeout               = 300
   drop_invalid_header_fields = true
 
   tags = {
