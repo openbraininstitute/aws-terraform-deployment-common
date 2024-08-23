@@ -213,25 +213,6 @@ output "public_alb_https_listener_arn" {
   value       = module.public_alb_config.alb_https_listener_arn
 }
 
-output "us_east_2_vpc_arn" {
-  description = "ARN of the us-east-2 VPC"
-  value       = aws_vpc.vpc_us_east_2.arn
-}
-
-output "us_east_2_vpc_id" {
-  description = "ID of the us-east-2 VPC"
-  value       = aws_vpc.vpc_us_east_2.id
-}
-
-output "us_east_2_vpc_cidr_block" {
-  description = "CIDR block or network range of the us-east-2 VPC"
-  value       = aws_vpc.vpc_us_east_2.cidr_block
-}
-output "us_east_2_peering_connection_id" {
-  description = "ID of the peering connection with us-east-2"
-  value       = aws_vpc_peering_connection.us_east_2_peering_connection.id
-  sensitive   = false
-}
 output "primary_auth_hostname" {
   description = "hostname for the keycloak authentication url on the primary domain"
   value       = module.public_alb_auth_config.primary_auth_hostname

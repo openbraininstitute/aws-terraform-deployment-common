@@ -28,13 +28,6 @@ module "public_alb_basic" {
   vpc_cidr_block     = module.network.vpc_cidr_block
 }
 
-module "vpc_peering_us_east_2" {
-  source                     = "./vpc_peering"
-  public_route_table_id      = module.network.public_route_table_id
-  destination_vpc_cidr_block = "172.16.0.0/16"
-  peering_connection_id      = aws_vpc_peering_connection.us_east_2_peering_connection.id
-}
-
 module "primary_domain" {
   source = "./domain"
 
