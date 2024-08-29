@@ -8,8 +8,87 @@ resource "aws_lb" "alb" {
   idle_timeout               = 300
   drop_invalid_header_fields = true
 
+  access_logs {
+    bucket  = aws_s3_bucket.alb_access_logs_bucket.bucket
+    prefix  = "public-alb"
+    enabled = true
+  }
+
   tags = {
     Name = var.alb_name
+  }
+}
+
+resource "aws_s3_bucket_acl" "alb_access_logs_bucket_acl" {
+  bucket = aws_s3_bucket.alb_access_logs_bucket.id
+  acl    = "private"
+}
+
+data "aws_elb_service_account" "main" {}
+
+#tfsec:ignore:aws-s3-enable-bucket-encryption
+#tfsec:ignore:aws-s3-enable-bucket-logging
+#tfsec:ignore:aws-s3-enable-versioning
+#tfsec:ignore:aws-s3-encryption-customer-key
+resource "aws_s3_bucket" "alb_access_logs_bucket" {
+  bucket        = "public-alb-access-logs-obp"
+  force_destroy = true
+}
+
+resource "aws_s3_bucket_public_access_block" "alb_access_logs_bucket_access_block" {
+  bucket = aws_s3_bucket.alb_access_logs_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_policy" "alb_access_logs_policy" {
+  bucket = aws_s3_bucket.alb_access_logs_bucket.id
+  policy = data.aws_iam_policy_document.alb_access_logs_lb_write.json
+}
+
+data "aws_iam_policy_document" "alb_access_logs_lb_write" {
+  policy_id = "s3_bucket_alb_access_logs"
+
+  statement {
+    actions = [
+      "s3:PutObject",
+    ]
+    effect = "Allow"
+    resources = [
+      "${aws_s3_bucket.alb_access_logs_bucket.arn}/*",
+    ]
+
+    principals {
+      identifiers = ["${data.aws_elb_service_account.main.arn}"]
+      type        = "AWS"
+    }
+  }
+
+  statement {
+    actions = [
+      "s3:PutObject"
+    ]
+    effect    = "Allow"
+    resources = ["${aws_s3_bucket.alb_access_logs_bucket.arn}/*"]
+    principals {
+      identifiers = ["delivery.logs.amazonaws.com"]
+      type        = "Service"
+    }
+  }
+
+  statement {
+    actions = [
+      "s3:GetBucketAcl"
+    ]
+    effect    = "Allow"
+    resources = ["${aws_s3_bucket.alb_access_logs_bucket.arn}"]
+    principals {
+      identifiers = ["delivery.logs.amazonaws.com"]
+      type        = "Service"
+    }
   }
 }
 
