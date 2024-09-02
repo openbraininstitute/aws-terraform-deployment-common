@@ -49,6 +49,24 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
           name = "EC2MetaDataSSRF_QUERYARGUMENTS"
         }
+        rule_action_override {
+          # This messes with Keycloak, it's unclear whether it's for dev setups only.
+          # Once openbluebrain is publicly accessible, evaluate whether we need to add an exception
+          action_to_use {
+            count {}
+          }
+
+          name = "EC2MetaDataSSRF_BODY"
+        }
+        rule_action_override {
+          # This messes with Keycloak, it's unclear whether it's for dev setups only.
+          # Once openbluebrain is publicly accessible, evaluate whether we need to add an exception
+          action_to_use {
+            count {}
+          }
+
+          name = "GenericRFI_BODY"
+        }
       }
     }
 
