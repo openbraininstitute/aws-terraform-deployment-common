@@ -21,18 +21,68 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
   rule {
     name     = "aws-common-ruleset"
-    priority = 1
+    priority = 10
 
     # This must be specified, but we don't really want to override anything
     # If a request matches this ruleset, we want to block it
     override_action {
-      count {}
+      none {}
     }
 
     statement {
       managed_rule_group_statement {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
+        rule_action_override {
+          # Ignore body size restrictions - we'll deal with those in the next rule
+          action_to_use {
+            count {}
+          }
+
+          name = "SizeRestrictions_Body"
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "aws-common-ruleset"
+      sampled_requests_enabled   = false
+    }
+  }
+
+  rule {
+    name     = "handle-oversize-body-requests"
+    priority = 20
+    action {
+      block {}
+    }
+    statement {
+      and_statement {
+        statement {
+          not_statement {
+            statement {
+              byte_match_statement {
+                field_to_match {
+                  uri_path {}
+                }
+                positional_constraint = "STARTS_WITH"
+                search_string         = "/api/nexus"
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+
+        }
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:core-rule-set:SizeRestrictions_Body"
+          }
+        }
       }
     }
 
@@ -45,7 +95,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
   rule {
     name     = "aws-known-bad-inputs"
-    priority = 2
+    priority = 30
 
     # This must be specified, but we don't really want to override anything
     # If a request matches this ruleset, we want to block it
@@ -69,7 +119,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
   rule {
     name     = "aws-bot-control"
-    priority = 3
+    priority = 40
 
     # This must be specified, but we don't really want to override anything
     # If a request matches this ruleset, we want to block it
@@ -98,7 +148,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
   rule {
     name     = "limit-excessive-requests"
-    priority = 4
+    priority = 50
 
     action {
       block {}
