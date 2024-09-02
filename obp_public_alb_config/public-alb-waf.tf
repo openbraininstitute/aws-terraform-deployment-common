@@ -39,7 +39,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
             count {}
           }
 
-          name = "SizeRestrictions_Body"
+          name = "SizeRestrictions_BODY"
         }
       }
     }
