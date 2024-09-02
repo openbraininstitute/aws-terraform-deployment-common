@@ -26,7 +26,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     # This must be specified, but we don't really want to override anything
     # If a request matches this ruleset, we want to block it
     override_action {
-      count {}
+      none {}
     }
 
     statement {
@@ -40,6 +40,14 @@ resource "aws_wafv2_web_acl" "basic_protection" {
           }
 
           name = "SizeRestrictions_BODY"
+        }
+        rule_action_override {
+          # Ignore SSRF Query Arguments - we'll deal with those in a later rule
+          action_to_use {
+            count {}
+          }
+
+          name = "EC2MetaDataSSRF_QUERYARGUMENTS"
         }
       }
     }
@@ -81,6 +89,39 @@ resource "aws_wafv2_web_acl" "basic_protection" {
           label_match_statement {
             scope = "LABEL"
             key   = "awswaf:managed:aws:core-rule-set:SizeRestrictions_Body"
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "aws-common-ruleset"
+      sampled_requests_enabled   = false
+    }
+  }
+
+  rule {
+    name     = "handle-ssrf-query-strings"
+    priority = 21
+    action {
+      block {}
+    }
+    statement {
+      and_statement {
+        statement {
+          not_statement {
+            statement {
+              ip_set_reference_statement {
+                arn = aws_wafv2_ip_set.bbp_ips.arn
+              }
+            }
+          }
+        }
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:core-rule-set:EC2MetaDataSSRF_QueryArguments"
           }
         }
       }
