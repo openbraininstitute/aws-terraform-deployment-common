@@ -26,7 +26,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     # This must be specified, but we don't really want to override anything
     # If a request matches this ruleset, we want to block it
     override_action {
-      none {}
+      count {}
     }
 
     statement {
@@ -81,7 +81,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     name     = "handle-oversize-body-requests"
     priority = 20
     action {
-      block {}
+      count {}
     }
     statement {
       and_statement {
@@ -117,13 +117,17 @@ resource "aws_wafv2_web_acl" "basic_protection" {
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
     }
+
+    rule_label {
+      name = "bbp-handle-oversize-body-requests"
+    }
   }
 
   rule {
     name     = "handle-ssrf-query-strings"
     priority = 21
     action {
-      block {}
+      count {}
     }
     statement {
       and_statement {
@@ -150,6 +154,11 @@ resource "aws_wafv2_web_acl" "basic_protection" {
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
     }
+
+    rule_label {
+      name = "bbp-handle-ssrf-query-strings"
+    }
+
   }
 
   rule {
