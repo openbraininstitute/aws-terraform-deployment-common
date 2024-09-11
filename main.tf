@@ -47,12 +47,11 @@ module "alt_domain_openbluebrain_ch" {
 }
 
 module "alt_domain_openbrainplatform_com" {
-  source = "./domain_test"
+  source = "./domain"
 
   domain_name         = "openbrainplatform.com"
   public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
   public_abl_zone_id  = module.public_alb_basic.alb_zone_id
-  vpc_id              = module.network.vpc_id
   comment             = "Alternative domain openbrainplatform.com"
 }
 
