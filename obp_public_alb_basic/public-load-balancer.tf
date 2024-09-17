@@ -107,7 +107,7 @@ resource "aws_security_group" "alb" {
   description = "Sec group for the public ALB"
 
   tags = {
-    Name = "alb_secgroup"
+    Name = "public_alb_secgroup"
   }
 }
 
@@ -120,7 +120,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_http_all" {
   cidr_ipv4         = "0.0.0.0/0"
 
   tags = {
-    Name = "alb_allow_https_all"
+    Name = "public_alb_allow_https_all"
   }
 }
 
@@ -133,7 +133,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_https_all" {
   cidr_ipv4         = "0.0.0.0/0"
 
   tags = {
-    Name = "alb_allow_https_all"
+    Name = "public_alb_allow_https_all"
   }
 }
 
@@ -146,7 +146,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_lb_internal" {
   ip_protocol       = "tcp"
   cidr_ipv4         = var.vpc_cidr_block
   tags = {
-    Name = "alb_allow_https_epfl"
+    Name = "public_alb_allow_https_epfl"
   }
 }
 
@@ -158,7 +158,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_allow_everything_outgoing" {
   cidr_ipv4         = "0.0.0.0/0"
 
   tags = {
-    Name = "alb_allow_everything_outgoing"
+    Name = "public_alb_allow_everything_outgoing"
   }
 }
 
