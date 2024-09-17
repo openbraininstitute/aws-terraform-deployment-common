@@ -5,6 +5,10 @@ resource "aws_lb_target_group" "private_alb_target_group_http" {
   protocol    = "TCP"
   vpc_id      = var.vpc_id
 
+  health_check {
+    enabled = false
+  }
+
 }
 
 resource "aws_lb_target_group" "private_alb_target_group_https" {
@@ -13,6 +17,10 @@ resource "aws_lb_target_group" "private_alb_target_group_https" {
   port        = 443
   protocol    = "TCP"
   vpc_id      = var.vpc_id
+
+  health_check {
+    enabled = false
+  }
 
 }
 
