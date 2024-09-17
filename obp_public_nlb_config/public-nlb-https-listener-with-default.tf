@@ -47,3 +47,13 @@ resource "aws_lb_listener" "http" {
     var.public_nlb_arn
   ]
 }
+
+resource "aws_lb_target_group_attachment" "private_alb_target_group_https_attachment" {
+  target_id        = var.private_alb_arn
+  target_group_arn = aws_lb_target_group.private_alb_target_group_https.arn
+}
+
+resource "aws_lb_target_group_attachment" "private_alb_target_group_http_attachment" {
+  target_id        = var.private_alb_arn
+  target_group_arn = aws_lb_target_group.private_alb_target_group_http.arn
+}

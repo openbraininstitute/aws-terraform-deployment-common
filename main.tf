@@ -215,8 +215,9 @@ module "private_alb_config" {
 module "public_nlb_config" {
   source = "./obp_public_nlb_config"
 
-  public_nlb_arn = module.public_nlb_basic.public_nlb_arn
-  vpc_id         = module.network.vpc_id
+  public_nlb_arn  = module.public_nlb_basic.public_nlb_arn
+  private_alb_arn = module.private_alb_basic.private_alb_arn
+  vpc_id          = module.network.vpc_id
 
 }
 

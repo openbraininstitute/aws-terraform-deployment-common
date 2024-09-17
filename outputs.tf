@@ -194,6 +194,11 @@ output "public_alb_arn" {
   value       = module.public_alb_basic.public_alb_arn
 }
 
+output "private_alb_arn" {
+  description = "ARN of the private ALB"
+  value       = module.private_alb_basic.private_alb_arn
+}
+
 output "public_alb_dns_name" {
   description = "DNS name of the public ALB"
   value       = module.public_alb_basic.public_alb_dns_name
