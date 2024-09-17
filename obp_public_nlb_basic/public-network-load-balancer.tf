@@ -1,6 +1,6 @@
 resource "aws_lb" "nlb" {
   name               = "public-nlb"
-  internal           = false
+  internal           = false #tfsec:ignore:aws-elb-alb-not-public
   load_balancer_type = "network"
   security_groups    = [aws_security_group.nlb.id]
   subnets            = [var.public_subnet_1_id, var.public_subnet_2_id]
