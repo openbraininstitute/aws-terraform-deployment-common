@@ -207,6 +207,7 @@ module "private_alb_config" {
   redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
   redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
   redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
+  aws_waf_bbp_ip_set_arn         = module.public_alb_config.aws_waf_bbp_ip_set_arn
 
   cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
 }

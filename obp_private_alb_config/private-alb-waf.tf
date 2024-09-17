@@ -1,16 +1,3 @@
-resource "aws_wafv2_ip_set" "bbp_ips" {
-  name               = "bbp-ip-ranges"
-  description        = "Internal IPs allowed to be ignored by WAF"
-  scope              = "REGIONAL"
-  ip_address_version = "IPV4"
-  addresses = [
-    "192.33.211.0/24", # bbp dmz
-    "192.33.194.0/24", # bb5 range
-    "128.178.0.0/16",  # EPFL network used for things like desktops
-    "128.179.0.0/16",  # VPN/WIFI
-  ]
-}
-
 resource "aws_wafv2_web_acl" "basic_protection" {
   name  = "private-alb-waf"
   scope = "REGIONAL"
@@ -135,7 +122,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
           not_statement {
             statement {
               ip_set_reference_statement {
-                arn = aws_wafv2_ip_set.bbp_ips.arn
+                arn = var.aws_waf_bbp_ip_set_arn
               }
             }
           }
@@ -232,7 +219,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
           not_statement {
             statement {
               ip_set_reference_statement {
-                arn = aws_wafv2_ip_set.bbp_ips.arn
+                arn = var.aws_waf_bbp_ip_set_arn
               }
             }
           }

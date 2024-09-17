@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "private_alb_target_group_http" {
-  name        = "private-alb-target-group"
+  name        = "private-alb-target-group-http"
   target_type = "alb"
   port        = 80
   protocol    = "TCP"
@@ -8,7 +8,7 @@ resource "aws_lb_target_group" "private_alb_target_group_http" {
 }
 
 resource "aws_lb_target_group" "private_alb_target_group_https" {
-  name        = "private-alb-target-group"
+  name        = "private-alb-target-group-https"
   target_type = "alb"
   port        = 443
   protocol    = "TCP"

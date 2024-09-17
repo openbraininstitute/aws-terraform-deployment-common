@@ -21,12 +21,12 @@ resource "aws_lb" "alb" {
 
 # See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-update-security-groups.html
 resource "aws_security_group" "alb" {
-  name        = "Private load balancer"
+  name        = "General Private Load Balancer"
   vpc_id      = var.vpc_id
   description = "Sec group for the private ALB"
 
   tags = {
-    Name = "private_alb_secgroup"
+    Name = "general_private_alb_secgroup"
   }
 }
 
