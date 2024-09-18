@@ -6,7 +6,9 @@ resource "aws_lb_target_group" "private_alb_target_group_http" {
   vpc_id      = var.vpc_id
 
   health_check {
-    enabled = false
+    enabled  = true
+    path     = "/mmb-beta"
+    protocol = "HTTP"
   }
 
 }
@@ -19,7 +21,9 @@ resource "aws_lb_target_group" "private_alb_target_group_https" {
   vpc_id      = var.vpc_id
 
   health_check {
-    enabled = false
+    enabled  = true
+    path     = "/mmb-beta"
+    protocol = "HTTP"
   }
 
 }
