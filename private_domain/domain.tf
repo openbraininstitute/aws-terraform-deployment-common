@@ -1,6 +1,9 @@
 resource "aws_route53_zone" "domain" {
   name    = var.domain_name
   comment = var.comment
+  vpc {
+    vpc_id = var.vpc_id
+  }
 }
 
 resource "aws_route53_record" "domain_A" {

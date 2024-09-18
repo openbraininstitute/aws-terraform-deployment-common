@@ -24,6 +24,7 @@ resource "aws_lb_target_group" "private_alb_target_group_https" {
     enabled  = true
     path     = "/mmb-beta"
     protocol = "HTTP"
+    port     = 80
   }
 
 }
