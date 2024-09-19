@@ -10,7 +10,7 @@ resource "aws_lb" "nlb" {
 
   access_logs {
     bucket  = var.lb_access_logs_bucket
-    prefix  = "private-nlb"
+    prefix  = "public-nlb"
     enabled = true
   }
 
@@ -40,6 +40,19 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_allow_http_all" {
 
   tags = {
     Name = "public_nlb_allow_https_all"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "nlb_allow_all" {
+  security_group_id = aws_security_group.nlb.id
+  description       = "Allow All for debugging"
+  from_port         = -1
+  to_port           = -1
+  ip_protocol       = -1
+  cidr_ipv4         = "0.0.0.0/0"
+
+  tags = {
+    Name = "public_nlb_allow_all"
   }
 }
 
