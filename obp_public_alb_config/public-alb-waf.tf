@@ -81,7 +81,11 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     name     = "handle-oversize-body-requests"
     priority = 20
     action {
-      block {}
+      block {
+        custom_response {
+          response_code = 499
+        }
+      }
     }
     statement {
       and_statement {
@@ -127,7 +131,11 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     name     = "handle-ssrf-query-strings"
     priority = 21
     action {
-      block {}
+      block {
+        custom_response {
+          response_code = 498
+        }
+      }
     }
     statement {
       and_statement {
@@ -219,7 +227,11 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     priority = 50
 
     action {
-      block {}
+      block {
+        custom_response {
+          response_code = 497
+        }
+      }
     }
 
     statement {
