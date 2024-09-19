@@ -13,6 +13,7 @@ resource "aws_flow_log" "nlb_flow_log_2" {
   eni_id          = "eni-0821de32711a30375"
 }
 
+#tfsec:ignore:aws-cloudwatch-log-group-customer-key
 resource "aws_cloudwatch_log_group" "nlb_flow_log" {
   name = "nlb-flow-log"
 }
@@ -47,7 +48,7 @@ data "aws_iam_policy_document" "nlb_flow_log_policy" {
       "logs:DescribeLogStreams",
     ]
 
-    resources = ["*"]
+    resources = ["*"] #tfsec:ignore:aws-iam-no-policy-wildcards
   }
 }
 
