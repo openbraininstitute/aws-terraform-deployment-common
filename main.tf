@@ -243,7 +243,3 @@ module "private_alb_auth_config" {
   secondary_auth_hostname_cert_arn = module.auth_openbrainplatform_com_cert.certificate_arn
   private_alb_https_listener_arn   = module.private_alb_config.alb_https_listener_arn
 }
-
-module "flow_logs" {
-  source = "./flow_logs"
-}
