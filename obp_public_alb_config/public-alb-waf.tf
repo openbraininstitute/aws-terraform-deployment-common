@@ -77,97 +77,97 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
   }
 
-  rule {
-    name     = "handle-oversize-body-requests"
-    priority = 20
-    action {
-      block {
-        custom_response {
-          response_code = 499
-        }
-      }
-    }
-    statement {
-      and_statement {
-        statement {
-          not_statement {
-            statement {
-              byte_match_statement {
-                field_to_match {
-                  uri_path {}
-                }
-                positional_constraint = "STARTS_WITH"
-                search_string         = "/api/nexus"
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-          }
+  #rule {
+  #  name     = "handle-oversize-body-requests"
+  #  priority = 20
+  #  action {
+  #    block {
+  #      custom_response {
+  #        response_code = 499
+  #      }
+  #    }
+  #  }
+  #  statement {
+  #    and_statement {
+  #      statement {
+  #        not_statement {
+  #          statement {
+  #            byte_match_statement {
+  #              field_to_match {
+  #                uri_path {}
+  #              }
+  #              positional_constraint = "STARTS_WITH"
+  #              search_string         = "/api/nexus"
+  #              text_transformation {
+  #                priority = 0
+  #                type     = "NONE"
+  #              }
+  #            }
+  #          }
+  #        }
 
-        }
-        statement {
-          label_match_statement {
-            scope = "LABEL"
-            key   = "awswaf:managed:aws:core-rule-set:SizeRestrictions_Body"
-          }
-        }
-      }
-    }
+  #      }
+  #      statement {
+  #        label_match_statement {
+  #          scope = "LABEL"
+  #          key   = "awswaf:managed:aws:core-rule-set:SizeRestrictions_Body"
+  #        }
+  #      }
+  #    }
+  #  }
 
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "aws-common-ruleset"
-      sampled_requests_enabled   = false
-    }
+  #  visibility_config {
+  #    cloudwatch_metrics_enabled = true
+  #    metric_name                = "aws-common-ruleset"
+  #    sampled_requests_enabled   = false
+  #  }
 
-    rule_label {
-      name = "bbp-handle-oversize-body-requests"
-    }
-  }
+  #  rule_label {
+  #    name = "bbp-handle-oversize-body-requests"
+  #  }
+  #}
 
-  rule {
-    name     = "handle-ssrf-query-strings"
-    priority = 21
-    action {
-      block {
-        custom_response {
-          response_code = 498
-        }
-      }
-    }
-    statement {
-      and_statement {
-        statement {
-          not_statement {
-            statement {
-              ip_set_reference_statement {
-                arn = aws_wafv2_ip_set.bbp_ips.arn
-              }
-            }
-          }
-        }
-        statement {
-          label_match_statement {
-            scope = "LABEL"
-            key   = "awswaf:managed:aws:core-rule-set:EC2MetaDataSSRF_QueryArguments"
-          }
-        }
-      }
-    }
+  #rule {
+  #  name     = "handle-ssrf-query-strings"
+  #  priority = 21
+  #  action {
+  #    block {
+  #      custom_response {
+  #        response_code = 498
+  #      }
+  #    }
+  #  }
+  #  statement {
+  #    and_statement {
+  #      statement {
+  #        not_statement {
+  #          statement {
+  #            ip_set_reference_statement {
+  #              arn = aws_wafv2_ip_set.bbp_ips.arn
+  #            }
+  #          }
+  #        }
+  #      }
+  #      statement {
+  #        label_match_statement {
+  #          scope = "LABEL"
+  #          key   = "awswaf:managed:aws:core-rule-set:EC2MetaDataSSRF_QueryArguments"
+  #        }
+  #      }
+  #    }
+  #  }
 
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "aws-common-ruleset"
-      sampled_requests_enabled   = false
-    }
+  #  visibility_config {
+  #    cloudwatch_metrics_enabled = true
+  #    metric_name                = "aws-common-ruleset"
+  #    sampled_requests_enabled   = false
+  #  }
 
-    rule_label {
-      name = "bbp-handle-ssrf-query-strings"
-    }
+  #  rule_label {
+  #    name = "bbp-handle-ssrf-query-strings"
+  #  }
 
-  }
+  #}
 
   rule {
     name     = "aws-known-bad-inputs"
@@ -222,43 +222,43 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
   }
 
-  rule {
-    name     = "limit-excessive-requests"
-    priority = 50
+  #rule {
+  #  name     = "limit-excessive-requests"
+  #  priority = 50
 
-    action {
-      block {
-        custom_response {
-          response_code = 497
-        }
-      }
-    }
+  #  action {
+  #    block {
+  #      custom_response {
+  #        response_code = 497
+  #      }
+  #    }
+  #  }
 
-    statement {
-      rate_based_statement {
-        limit                 = 1200
-        aggregate_key_type    = "IP"
-        evaluation_window_sec = 60
+  #  statement {
+  #    rate_based_statement {
+  #      limit                 = 1200
+  #      aggregate_key_type    = "IP"
+  #      evaluation_window_sec = 60
 
-        scope_down_statement {
-          not_statement {
-            statement {
-              ip_set_reference_statement {
-                arn = aws_wafv2_ip_set.bbp_ips.arn
-              }
-            }
-          }
-        }
-      }
-    }
+  #      scope_down_statement {
+  #        not_statement {
+  #          statement {
+  #            ip_set_reference_statement {
+  #              arn = aws_wafv2_ip_set.bbp_ips.arn
+  #            }
+  #          }
+  #        }
+  #      }
+  #    }
+  #  }
 
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "rate-limit-rule-limit-excessive-requests"
-      sampled_requests_enabled   = false
-    }
+  #  visibility_config {
+  #    cloudwatch_metrics_enabled = true
+  #    metric_name                = "rate-limit-rule-limit-excessive-requests"
+  #    sampled_requests_enabled   = false
+  #  }
 
-  }
+  #}
 
   visibility_config {
     cloudwatch_metrics_enabled = true
