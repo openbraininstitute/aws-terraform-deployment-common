@@ -213,10 +213,11 @@ output "public_alb_https_listener_arn" {
   value       = module.public_alb_config.alb_https_listener_arn
 }
 
-output "private_alb_https_listener_arn" {
-  description = "ARN of the private ALB"
-  value       = module.private_alb_config.alb_https_listener_arn
-}
+# TODO: re-enable for NLB/private ALB architecture change
+# output "private_alb_https_listener_arn" {
+#   description = "ARN of the private ALB"
+#   value       = module.private_alb_config.alb_https_listener_arn
+# }
 
 output "primary_auth_hostname" {
   description = "hostname for the keycloak authentication url on the primary domain"

@@ -19,9 +19,10 @@ module "network" {
   # public_subnet_2_availability_zone = "b"
 }
 
-module "s3" {
-  source = "./s3"
-}
+# TODO: re-enable for NLB/private ALB architecture change
+# module "s3" {
+#   source = "./s3"
+# }
 
 module "public_alb_basic" {
   source = "./obp_public_alb_basic"
@@ -33,27 +34,28 @@ module "public_alb_basic" {
   vpc_cidr_block     = module.network.vpc_cidr_block
 }
 
-module "private_alb_basic" {
-  source = "./obp_private_alb_basic"
-
-  private_subnet_1_id   = aws_subnet.private_alb_a.id
-  private_subnet_2_id   = aws_subnet.private_alb_b.id
-  alb_name              = "sbo-poc-alb"
-  vpc_id                = module.network.vpc_id
-  vpc_cidr_block        = module.network.vpc_cidr_block
-  lb_access_logs_bucket = module.s3.lb_access_logs_bucket
-}
-
-module "public_nlb_basic" {
-  source = "./obp_public_nlb_basic"
-
-  public_subnet_1_id    = module.network.public_1_subnet_id
-  public_subnet_2_id    = module.network.public_2_subnet_id
-  public_nlb_name       = "sbo-poc-nlb"
-  vpc_id                = module.network.vpc_id
-  vpc_cidr_block        = module.network.vpc_cidr_block
-  lb_access_logs_bucket = module.s3.lb_access_logs_bucket
-}
+# TODO: re-enable for NLB/private ALB architecture change
+# module "private_alb_basic" {
+#   source = "./obp_private_alb_basic"
+#
+#   private_subnet_1_id = aws_subnet.private_alb_a.id
+#   private_subnet_2_id = aws_subnet.private_alb_b.id
+#   alb_name            = "sbo-poc-alb"
+#   vpc_id              = module.network.vpc_id
+#   vpc_cidr_block      = module.network.vpc_cidr_block
+#   lb_access_logs_bucket = module.s3.lb_access_logs_bucket
+# }
+#
+# module "public_nlb_basic" {
+#   source = "./obp_public_nlb_basic"
+#
+#   public_subnet_1_id = module.network.public_1_subnet_id
+#   public_subnet_2_id = module.network.public_2_subnet_id
+#   public_nlb_name    = "sbo-poc-nlb"
+#   vpc_id             = module.network.vpc_id
+#   vpc_cidr_block     = module.network.vpc_cidr_block
+#   lb_access_logs_bucket = module.s3.lb_access_logs_bucket
+# }
 
 module "primary_domain" {
   source = "./domain"
@@ -77,20 +79,24 @@ module "alt_domain_openbrainplatform_com" {
   source = "./domain"
 
   domain_name         = "openbrainplatform.com"
-  public_abl_dns_name = module.public_nlb_basic.public_nlb_dns_name
-  public_abl_zone_id  = module.public_nlb_basic.nlb_zone_id
-  comment             = "Alternative domain openbrainplatform.com"
+  public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
+  public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  # TODO: re-enable for NLB/private ALB architecture change
+  # public_abl_dns_name = module.public_nlb_basic.public_nlb_dns_name
+  # public_abl_zone_id  = module.public_nlb_basic.nlb_zone_id
+  comment = "Alternative domain openbrainplatform.com"
 }
 
-module "alt_private_domain_openbrainplatform_com" {
-  source = "./private_domain"
-
-  domain_name          = "openbrainplatform.com"
-  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
-  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
-  comment              = "Alternative domain openbrainplatform.com"
-  vpc_id               = module.network.vpc_id
-}
+# TODO: re-enable for NLB/private ALB architecture change
+# module "alt_private_domain_openbrainplatform_com" {
+#   source = "./private_domain"
+#
+#   domain_name          = "openbrainplatform.com"
+#   private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
+#   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
+#   comment              = "Alternative domain openbrainplatform.com"
+#   vpc_id               = module.network.vpc_id
+# }
 
 module "alt_domain_shapes-registry_org" {
   source = "./domain"
@@ -194,33 +200,34 @@ module "public_alb_config" {
   cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
 }
 
-module "private_alb_config" {
-  source = "./obp_private_alb_config"
-
-  private_alb_arn = module.private_alb_basic.private_alb_arn
-
-  main_domain_hostname          = module.primary_domain.domain_name
-  main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn
-
-  redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
-  redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
-  redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
-  redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
-  redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
-  redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
-  aws_waf_bbp_ip_set_arn         = module.public_alb_config.aws_waf_bbp_ip_set_arn
-
-  cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
-}
-
-module "public_nlb_config" {
-  source = "./obp_public_nlb_config"
-
-  public_nlb_arn  = module.public_nlb_basic.public_nlb_arn
-  private_alb_arn = module.private_alb_basic.private_alb_arn
-  vpc_id          = module.network.vpc_id
-
-}
+# TODO: re-enable for NLB/private ALB architecture change
+# module "private_alb_config" {
+#   source = "./obp_private_alb_config"
+#
+#   private_alb_arn = module.private_alb_basic.private_alb_arn
+#
+#   main_domain_hostname          = module.primary_domain.domain_name
+#   main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn
+#
+#   redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
+#   redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
+#   redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
+#   redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
+#   redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
+#   redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
+#   aws_waf_bbp_ip_set_arn         = module.public_alb_config.aws_waf_bbp_ip_set_arn
+#
+#   cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
+# }
+#
+# module "public_nlb_config" {
+#   source = "./obp_public_nlb_config"
+#
+#   public_nlb_arn  = module.public_nlb_basic.public_nlb_arn
+#   private_alb_arn = module.private_alb_basic.private_alb_arn
+#   vpc_id          = module.network.vpc_id
+#
+# }
 
 module "public_alb_auth_config" {
   source = "./obp_public_alb_auth_config"
@@ -233,13 +240,14 @@ module "public_alb_auth_config" {
   public_alb_https_listener_arn    = module.public_alb_config.alb_https_listener_arn
 }
 
-module "private_alb_auth_config" {
-  source = "./obp_private_alb_auth_config"
-
-  private_alb_arn                  = module.private_alb_basic.private_alb_arn
-  primary_auth_hostname            = "auth.${module.alt_domain_openbrainplatform_org.domain_name}"
-  secondary_auth_hostname          = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
-  primary_auth_hostname_cert_arn   = module.auth_openbrainplatform_org_cert.certificate_arn
-  secondary_auth_hostname_cert_arn = module.auth_openbrainplatform_com_cert.certificate_arn
-  private_alb_https_listener_arn   = module.private_alb_config.alb_https_listener_arn
-}
+# TODO: re-enable for NLB/private ALB architecture change
+# module "private_alb_auth_config" {
+#   source = "./obp_private_alb_auth_config"
+#
+#   private_alb_arn                  = module.private_alb_basic.private_alb_arn
+#   primary_auth_hostname            = "auth.${module.alt_domain_openbrainplatform_org.domain_name}"
+#   secondary_auth_hostname          = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
+#   primary_auth_hostname_cert_arn   = module.auth_openbrainplatform_org_cert.certificate_arn
+#   secondary_auth_hostname_cert_arn = module.auth_openbrainplatform_com_cert.certificate_arn
+#   private_alb_https_listener_arn   = module.private_alb_config.alb_https_listener_arn
+# }
