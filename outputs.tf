@@ -174,6 +174,11 @@ output "vpc_cidr_block" {
   value       = module.network.vpc_cidr_block
 }
 
+output "vpc_default_sg_id" {
+  description = "ID of the Default Security Group for the VPC"
+  value       = module.network.vpc_default_sg_id
+}
+
 output "bbpproxy_cidr" {
   description = "CIDR of bbpproxy.epfl.ch"
   value       = var.bbpproxy_cidr

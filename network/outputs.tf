@@ -68,3 +68,8 @@ output "vpc_cidr_block" {
   value       = aws_vpc.main_vpc.cidr_block
   sensitive   = false
 }
+output "vpc_default_sg_id" {
+  description = "ID of the Default Security Group for the VPC"
+  value       = aws_vpc.main_vpc.default_security_group_id
+  sensitive   = false
+}
