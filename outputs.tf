@@ -110,6 +110,18 @@ output "public_alb_https_listener_arn" {
   value       = module.public_alb_config.alb_https_listener_arn
 }
 
+output "primary_domain" {
+  description = "Primary platform domain"
+  value       = module.primary_domain.domain_name
+  sensitive   = false
+}
+
+output "domain_zone_id" {
+  description = "zone_id of the domain shapes-registry.org"
+  value       = module.alt_domain_shapes-registry_org.domain_zone_id
+  sensitive   = false
+}
+
 # TODO: re-enable for NLB/private ALB architecture change
 # output "private_alb_https_listener_arn" {
 #   description = "ARN of the private ALB"
