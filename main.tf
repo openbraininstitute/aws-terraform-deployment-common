@@ -27,11 +27,12 @@ module "network" {
 module "public_alb_basic" {
   source = "./obp_public_alb_basic"
 
-  public_subnet_1_id = module.network.public_1_subnet_id
-  public_subnet_2_id = module.network.public_2_subnet_id
-  alb_name           = "sbo-poc-alb"
-  vpc_id             = module.network.vpc_id
-  vpc_cidr_block     = module.network.vpc_cidr_block
+  public_subnet_1_id   = module.network.public_1_subnet_id
+  public_subnet_2_id   = module.network.public_2_subnet_id
+  alb_name             = "sbo-poc-alb"
+  vpc_id               = module.network.vpc_id
+  vpc_cidr_block       = module.network.vpc_cidr_block
+  alb_logs_bucket_name = "public-alb-access-logs-obp"
 }
 
 # TODO: re-enable for NLB/private ALB architecture change

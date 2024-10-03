@@ -32,7 +32,7 @@ data "aws_elb_service_account" "main" {}
 #tfsec:ignore:aws-s3-enable-versioning
 #tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket" "alb_access_logs_bucket" {
-  bucket        = "public-alb-access-logs-obp"
+  bucket        = var.alb_logs_bucket_name
   force_destroy = true
 }
 
