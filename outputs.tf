@@ -5,12 +5,6 @@ output "aws_region" {
   value       = var.aws_region
 }
 
-# Dummy variable mostly for testing purposes
-output "dummy_test_output" {
-  description = "A dummy output for remote tests"
-  value       = "Core Services Dummy Test Output"
-}
-
 output "aws_coreservices_ssh_key_id" {
   description = "ID of the SSH key aws_resources"
   value       = aws_key_pair.aws_coreservices.id
@@ -56,108 +50,6 @@ output "public_b_subnet_arn" {
   description = "ARN of the public_b subnet"
   value       = module.network.public_2_subnet_arn
 }
-
-# deprecated, use alt_domain_shapes-registry_org_zone_id
-output "domain_zone_id" {
-  description = "zone_id of the domain shapes-registry.org"
-  value       = module.alt_domain_shapes-registry_org.domain_zone_id
-  sensitive   = false
-}
-
-output "alt_domain_shapes-registry_org_zone_id" {
-  description = "zone_id of the domain shapes-registry.org"
-  value       = module.alt_domain_shapes-registry_org.domain_zone_id
-  sensitive   = false
-}
-
-# deprecated, use alt_domain_shapes-registry_org_arn
-output "domain_arn" {
-  description = "ARN of the domain shapes-registry.org"
-  value       = module.alt_domain_shapes-registry_org.domain_arn
-  sensitive   = false
-}
-
-output "alt_domain_shapes-registry_org_arn" {
-  description = "ARN of the domain shapes-registry.org"
-  value       = module.alt_domain_shapes-registry_org.domain_arn
-  sensitive   = false
-}
-
-# deprecated, use alt_domain_openbrainplatform_org_domain_name
-output "primary_domain" {
-  description = "Primary platform domain"
-  value       = module.primary_domain.domain_name
-  sensitive   = false
-}
-
-output "alt_domain_openbrainplatform_org_domain_name" {
-  description = "Primary platform domain"
-  value       = module.alt_domain_openbrainplatform_org.domain_name
-  sensitive   = false
-}
-
-# deprecated, use alt_domain_openbrainplatform_org_zone_id
-output "primary_domain_zone_id" {
-  description = "zone_id of the primary domain"
-  value       = module.primary_domain.domain_zone_id
-  sensitive   = false
-}
-
-output "alt_domain_openbrainplatform_org_zone_id" {
-  description = "zone_id of the domain openbrainplatform.org"
-  value       = module.alt_domain_openbrainplatform_org.domain_zone_id
-  sensitive   = false
-}
-
-# deprecated, use alt_domain_openbrainplatform_org_arn
-output "primary_domain_arn" {
-  description = "ARN of the primary domain"
-  value       = module.primary_domain.domain_arn
-  sensitive   = false
-}
-
-output "alt_domain_openbrainplatform_org_arn" {
-  description = "ARN of the domain openbrainplatform.org"
-  value       = module.alt_domain_openbrainplatform_org.domain_arn
-  sensitive   = false
-}
-
-# deprecated, use alt_domain_openbrainplatform_com_domain_name
-output "secondary_domain" {
-  description = "Secondary platform domain"
-  value       = module.alt_domain_openbrainplatform_com.domain_name
-}
-
-output "alt_domain_openbrainplatform_com_domain_name" {
-  description = "Hostname openbrainplatform.com"
-  value       = module.alt_domain_openbrainplatform_com.domain_name
-  sensitive   = false
-}
-
-# deprecated, use alt_domain_openbrainplatform_com_zone_id
-output "secondary_domain_zone_id" {
-  description = "zone_id of the domain openbrainplatform.com"
-  value       = module.alt_domain_openbrainplatform_com.domain_zone_id
-}
-
-output "alt_domain_openbrainplatform_com_zone_id" {
-  description = "Zone ID of openbrainplatform.com"
-  value       = module.alt_domain_openbrainplatform_com.domain_zone_id
-  sensitive   = false
-}
-
-# deprecated, use alt_domain_openbrainplatform_com_arn
-output "secondary_domain_arn" {
-  description = "ARN of the domain openbrainplatform.com"
-  value       = module.alt_domain_openbrainplatform_com.domain_arn
-}
-
-output "alt_domain_openbrainplatform_com_arn" {
-  description = "ARN of the domain openbrainplatform.com"
-  value       = module.alt_domain_openbrainplatform_com.domain_arn
-  sensitive   = false
-}
-
 
 output "vpc_arn" {
   description = "ARN of the VPC"
@@ -223,14 +115,3 @@ output "public_alb_https_listener_arn" {
 #   description = "ARN of the private ALB"
 #   value       = module.private_alb_config.alb_https_listener_arn
 # }
-
-output "primary_auth_hostname" {
-  description = "hostname for the keycloak authentication url on the primary domain"
-  value       = module.public_alb_auth_config.primary_auth_hostname
-  sensitive   = false
-}
-output "secondary_auth_hostname" {
-  description = "hostname for the keycloak authentication url on the secondary domain"
-  value       = module.public_alb_auth_config.secondary_auth_hostname
-  sensitive   = false
-}
