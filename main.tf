@@ -19,7 +19,7 @@ module "network" {
 
 module "s3" {
   source               = "./s3"
-  nlb_logs_bucket_name = "public-nlb-access-logs-obp"
+  nlb_logs_bucket_name = "public-nlb-access-logs-obp-staging"
 }
 
 module "private_alb_basic" {
@@ -58,7 +58,7 @@ module "public_nlb_basic" {
 module "primary_domain" {
   source = "./domain"
 
-  domain_name         = "openbrainplatform.com"
+  domain_name         = "staging.openbrainplatform.com"
   public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
   public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Primary domain"
@@ -67,7 +67,7 @@ module "primary_domain" {
 module "alt_domain_openbluebrain_ch" {
   source = "./domain"
 
-  domain_name         = "openbluebrain.ch"
+  domain_name         = "staging.openbluebrain.ch"
   public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
   public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Alternative domain openbluebrain.ch"
@@ -76,7 +76,7 @@ module "alt_domain_openbluebrain_ch" {
 module "alt_private_domain_openbluebrain_ch" {
   source = "./private_domain"
 
-  domain_name          = "openbluebrain.ch"
+  domain_name          = "staging.openbluebrain.ch"
   private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
   comment              = "Alternative domain openbluebrain.ch"
@@ -86,7 +86,7 @@ module "alt_private_domain_openbluebrain_ch" {
 module "alt_domain_openbluebrain_com" {
   source = "./domain"
 
-  domain_name         = "openbluebrain.com"
+  domain_name         = "staging.openbluebrain.com"
   public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
   public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Alternative domain openbluebrain.com"
@@ -95,7 +95,7 @@ module "alt_domain_openbluebrain_com" {
 module "alt_private_domain_openbluebrain_com" {
   source = "./private_domain"
 
-  domain_name          = "openbluebrain.com"
+  domain_name          = "staging.openbluebrain.com"
   private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
   comment              = "Alternative domain openbluebrain.com"
@@ -105,7 +105,7 @@ module "alt_private_domain_openbluebrain_com" {
 module "alt_domain_openbrainplatform_org" {
   source = "./domain"
 
-  domain_name         = "openbrainplatform.org"
+  domain_name         = "staging.openbrainplatform.org"
   public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
   public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Alternative domain openbrainplatform.org"
@@ -114,7 +114,7 @@ module "alt_domain_openbrainplatform_org" {
 module "alt_private_domain_openbrainplatform_org" {
   source = "./private_domain"
 
-  domain_name          = "openbrainplatform.org"
+  domain_name          = "staging.openbrainplatform.org"
   private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
   comment              = "Alternative domain openbrainplatform.org"
@@ -195,4 +195,3 @@ module "public_nlb_config" {
 module "ecr" {
   source = "./ecr"
 }
-
