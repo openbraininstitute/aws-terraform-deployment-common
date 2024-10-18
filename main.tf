@@ -37,12 +37,23 @@ module "public_alb_basic" {
 module "private_alb_basic" {
   source = "./obp_private_alb_basic"
 
-  private_subnet_1_id   = aws_subnet.private_alb_a.id
-  private_subnet_2_id   = aws_subnet.private_alb_b.id
-  alb_name              = "sbo-poc-alb"
-  vpc_id                = module.network.vpc_id
-  vpc_cidr_block        = module.network.vpc_cidr_block
-  lb_access_logs_bucket = module.s3.lb_access_logs_bucket
+  private_subnet_1_id           = aws_subnet.private_alb_a.id
+  private_subnet_2_id           = aws_subnet.private_alb_b.id
+  alb_name                      = "sbo-poc-alb"
+  vpc_id                        = module.network.vpc_id
+  vpc_cidr_block                = module.network.vpc_cidr_block
+  lb_access_logs_bucket         = module.s3.lb_access_logs_bucket
+  main_domain_hostname          = module.primary_domain.domain_name
+  main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn
+
+  redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
+  redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
+  redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
+  redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
+  redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
+  redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
+
+  cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
 }
 
 module "public_nlb_basic" {
@@ -202,18 +213,7 @@ module "private_alb_config" {
 
   private_alb_arn = module.private_alb_basic.private_alb_arn
 
-  main_domain_hostname          = module.primary_domain.domain_name
-  main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn
-
-  redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
-  redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
-  redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
-  redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
-  redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
-  redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
-  aws_waf_bbp_ip_set_arn         = module.public_alb_config.aws_waf_bbp_ip_set_arn
-
-  cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
+  aws_waf_bbp_ip_set_arn = module.public_alb_config.aws_waf_bbp_ip_set_arn
 }
 
 module "public_nlb_config" {
@@ -244,5 +244,5 @@ module "private_alb_auth_config" {
   secondary_auth_hostname          = "auth.${module.alt_domain_openbrainplatform_com.domain_name}"
   primary_auth_hostname_cert_arn   = module.auth_openbrainplatform_org_cert.certificate_arn
   secondary_auth_hostname_cert_arn = module.auth_openbrainplatform_com_cert.certificate_arn
-  private_alb_https_listener_arn   = module.private_alb_config.alb_https_listener_arn
+  private_alb_https_listener_arn   = module.private_alb_basic.alb_https_listener_arn
 }

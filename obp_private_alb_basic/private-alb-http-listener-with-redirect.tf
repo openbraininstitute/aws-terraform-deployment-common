@@ -1,5 +1,5 @@
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = var.private_alb_arn
+  load_balancer_arn = aws_lb.alb.arn
   port              = 80
   #ts:skip=AC_AWS_0491
   protocol = "HTTP" #tfsec:ignore:aws-elb-http-not-used
@@ -13,8 +13,4 @@ resource "aws_lb_listener" "http" {
       status_code = "HTTP_301"
     }
   }
-
-  depends_on = [
-    var.private_alb_arn
-  ]
 }

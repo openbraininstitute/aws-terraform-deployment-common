@@ -124,5 +124,5 @@ output "domain_zone_id" {
 
 output "private_alb_https_listener_arn" {
   description = "ARN of the private ALB"
-  value       = module.private_alb_config.alb_https_listener_arn
+  value       = module.private_alb_basic.alb_https_listener_arn
 }

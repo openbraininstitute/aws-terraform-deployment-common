@@ -1,5 +1,5 @@
 resource "aws_lb_listener" "https" {
-  load_balancer_arn = var.private_alb_arn
+  load_balancer_arn = aws_lb.alb.arn
   port              = "443"
   protocol          = "HTTPS"
   certificate_arn   = var.main_domain_hostname_cert_arn # aws_acm_certificate_validation.primary_root.certificate_arn
@@ -14,10 +14,6 @@ resource "aws_lb_listener" "https" {
       status_code = "HTTP_302"
     }
   }
-
-  depends_on = [
-    var.private_alb_arn
-  ]
 }
 
 resource "aws_lb_listener_certificate" "primary_www_domain_certificate" {

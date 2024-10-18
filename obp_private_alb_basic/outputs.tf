@@ -18,3 +18,8 @@ output "alb_zone_id" {
   value       = aws_lb.alb.zone_id
   sensitive   = false
 }
+output "alb_https_listener_arn" {
+  description = "ARN of the listener on port 443 on this ALB"
+  value       = aws_lb_listener.https.arn
+  sensitive   = false
+}
