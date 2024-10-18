@@ -122,8 +122,7 @@ output "domain_zone_id" {
   sensitive   = false
 }
 
-# TODO: re-enable for NLB/private ALB architecture change
-# output "private_alb_https_listener_arn" {
-#   description = "ARN of the private ALB"
-#   value       = module.private_alb_config.alb_https_listener_arn
-# }
+output "private_alb_https_listener_arn" {
+  description = "ARN of the private ALB"
+  value       = module.private_alb_config.alb_https_listener_arn
+}
