@@ -5,8 +5,7 @@ resource "aws_lb" "nlb" {
   security_groups    = [aws_security_group.nlb.id]
   subnets            = [var.public_subnet_1_id, var.public_subnet_2_id]
 
-  enable_deletion_protection = true
-  idle_timeout               = 300
+  idle_timeout = 300
 
   access_logs {
     bucket  = var.lb_access_logs_bucket
