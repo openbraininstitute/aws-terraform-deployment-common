@@ -137,7 +137,6 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_https_all" {
   }
 }
 
-
 resource "aws_vpc_security_group_ingress_rule" "alb_allow_lb_internal" {
   security_group_id = aws_security_group.alb.id
   description       = "Allow 6000 for public lb"
@@ -161,4 +160,3 @@ resource "aws_vpc_security_group_egress_rule" "alb_allow_everything_outgoing" {
     Name = "public_alb_allow_everything_outgoing"
   }
 }
-

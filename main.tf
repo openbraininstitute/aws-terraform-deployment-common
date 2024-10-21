@@ -20,7 +20,8 @@ module "network" {
 }
 
 module "s3" {
-  source = "./s3"
+  source               = "./s3"
+  nlb_logs_bucket_name = "public-nlb-access-logs-obp"
 }
 
 module "public_alb_basic" {

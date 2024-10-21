@@ -9,7 +9,7 @@ resource "aws_s3_bucket_acl" "nlb_access_logs_bucket_acl" {
 #tfsec:ignore:aws-s3-enable-versioning
 #tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket" "lb_access_logs_bucket" {
-  bucket        = "public-nlb-access-logs-obp"
+  bucket        = var.nlb_logs_bucket_name
   force_destroy = true
 }
 
@@ -78,4 +78,3 @@ data "aws_iam_policy_document" "nlb_access_logs_lb_write" {
     }
   }
 }
-
