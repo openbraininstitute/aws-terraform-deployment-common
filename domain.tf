@@ -1,22 +1,3 @@
-# auth.openbrainplatform.com is an alias for openbrainplatform.com, as it's handled by the same ALB
-resource "aws_route53_record" "auth_openbrainplatform_com" {
-  zone_id = module.alt_domain_openbrainplatform_com.domain_zone_id
-  name    = "auth.openbrainplatform.com"
-  type    = "CNAME"
-  ttl     = 60
-  records = ["openbrainplatform.org"]
-}
-
-
-# auth.openbrainplatform.org is an alias for openbrainplatform.org, as it's handled by the same ALB
-resource "aws_route53_record" "auth_openbrainplatform_org" {
-  zone_id = module.alt_domain_openbrainplatform_org.domain_zone_id
-  name    = "auth.openbrainplatform.org"
-  type    = "CNAME"
-  ttl     = 60
-  records = ["openbrainplatform.org"]
-}
-
 # related to @openbrainplatform.org email addresses
 resource "aws_route53_record" "autodiscover_openbrainplatform_org" {
   zone_id = module.alt_domain_openbrainplatform_org.domain_zone_id
