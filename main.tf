@@ -86,6 +86,16 @@ module "alt_domain_openbluebrain_ch" {
   comment             = "Alternative domain openbluebrain.ch"
 }
 
+module "alt_private_domain_openbluebrain_ch" {
+  source = "./private_domain"
+
+  domain_name          = "openbluebrain.ch"
+  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
+  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
+  comment              = "Alternative domain openbluebrain.ch"
+  vpc_id               = module.network.vpc_id
+}
+
 module "alt_domain_openbrainplatform_com" {
   source = "./domain"
 
@@ -116,6 +126,16 @@ module "alt_domain_shapes-registry_org" {
   comment             = "Alternative domain shapes-registry.org"
 }
 
+module "alt_private_domain_shapes-registry_org" {
+  source = "./private_domain"
+
+  domain_name          = "shapes-registry.org"
+  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
+  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
+  comment              = "Alternative domain shapes-registry.org"
+  vpc_id               = module.network.vpc_id
+}
+
 module "alt_domain_openbrainplatform_org" {
   source = "./domain"
 
@@ -123,6 +143,16 @@ module "alt_domain_openbrainplatform_org" {
   public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
   public_abl_zone_id  = module.public_alb_basic.alb_zone_id
   comment             = "Alternative domain openbrainplatform.org"
+}
+
+module "alt_private_domain_openbrainplatform_org" {
+  source = "./private_domain"
+
+  domain_name          = "openbrainplatform.org"
+  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
+  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
+  comment              = "Alternative domain openbrainplatform.org"
+  vpc_id               = module.network.vpc_id
 }
 
 module "openbrainplatform_org_cert" {
