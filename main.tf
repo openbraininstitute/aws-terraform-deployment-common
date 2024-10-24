@@ -74,6 +74,8 @@ module "primary_domain" {
   domain_name         = "openbluebrain.com"
   public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
   public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
+  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Primary domain"
 }
 
@@ -83,6 +85,8 @@ module "alt_domain_openbluebrain_ch" {
   domain_name         = "openbluebrain.ch"
   public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
   public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
+  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Alternative domain openbluebrain.ch"
 }
 
@@ -104,6 +108,8 @@ module "alt_domain_openbrainplatform_com" {
   # public_abl_zone_id  = module.public_alb_basic.alb_zone_id
   public_abl_dns_name = module.public_nlb_basic.public_nlb_dns_name
   public_abl_zone_id  = module.public_nlb_basic.nlb_zone_id
+  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
+  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Alternative domain openbrainplatform.com"
 }
 
@@ -123,6 +129,8 @@ module "alt_domain_shapes-registry_org" {
   domain_name         = "shapes-registry.org"
   public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
   public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
+  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Alternative domain shapes-registry.org"
 }
 
@@ -142,6 +150,8 @@ module "alt_domain_openbrainplatform_org" {
   domain_name         = "openbrainplatform.org"
   public_abl_dns_name = module.public_alb_basic.public_alb_dns_name
   public_abl_zone_id  = module.public_alb_basic.alb_zone_id
+  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
+  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Alternative domain openbrainplatform.org"
 }
 
