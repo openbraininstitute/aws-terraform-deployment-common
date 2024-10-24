@@ -58,13 +58,3 @@ variable "nat_eip_name" {
   sensitive = false
   default   = "nat_eip"
 }
-
-variable "pclusters_peer_cidr_block" {
-  type      = string
-  sensitive = false
-}
-
-variable "pclusters_peer_connection_id" {
-  type      = string
-  sensitive = false
-}
