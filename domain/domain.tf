@@ -8,9 +8,10 @@ resource "aws_route53_record" "domain_A" {
   name    = var.domain_name
   type    = "A"
 
+  # TODO: public/private load balancer: switch to public NLB DNS name and zone id
   alias {
-    name                   = var.public_nlb_dns_name
-    zone_id                = var.public_nlb_zone_id
+    name                   = var.public_abl_dns_name
+    zone_id                = var.public_abl_zone_id
     evaluate_target_health = true
   }
 }
