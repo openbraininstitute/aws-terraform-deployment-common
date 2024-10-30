@@ -105,9 +105,18 @@ output "public_alb_sg_id" {
   value       = module.public_alb_basic.alb_securitygroup_id
 }
 
+output "private_alb_sg_id" {
+  description = "Id of ALB security group"
+  value       = module.private_alb_basic.alb_securitygroup_id
+}
+
 output "public_alb_https_listener_arn" {
   description = "ARN of the HTTPS listener of the public ALB"
   value       = module.public_alb_config.alb_https_listener_arn
+}
+output "public_nlb_sg_id" {
+  description = "Id of NLB security group"
+  value       = module.public_nlb_basic.nlb_securitygroup_id
 }
 
 output "primary_domain" {
