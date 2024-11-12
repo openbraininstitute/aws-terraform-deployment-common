@@ -122,3 +122,8 @@ output "generic_private_alb_security_group_id" {
   description = "Id of the SG of the new private ALB"
   value       = module.private_alb_basic.alb_securitygroup_id
 }
+
+output "resource_provisioner_ecr_url" {
+  description = "URL of the ECR for HPC Resource Provisioner"
+  value       = module.ecr.resource_provisioner_ecr_url
+}

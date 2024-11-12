@@ -212,3 +212,8 @@ module "public_nlb_config" {
   vpc_id          = module.network.vpc_id
 
 }
+
+module "ecr" {
+  source = "./ecr"
+}
+
