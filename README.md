@@ -55,3 +55,9 @@ No modules.
 |------|-------------|
 | <a name="output_aws_region"></a> [aws\_region](#output\_aws\_region) | AWS region to use |
 | <a name="output_dummy_test_output"></a> [dummy\_test\_output](#output\_dummy\_test\_output) | A dummy output for remote tests |
+
+# Funding and Acknowledgement
+
+The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.
+
+Copyright (c) 2024 Blue Brain Project/EPFL
