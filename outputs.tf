@@ -127,3 +127,13 @@ output "resource_provisioner_ecr_url" {
   description = "URL of the ECR for HPC Resource Provisioner"
   value       = module.ecr.resource_provisioner_ecr_url
 }
+
+output "virtual_lab_manager_secrets_arn" {
+  description = "ARN of the Virtual La  secrets manager service"
+  value       = aws_secretsmanager_secret.virtual_lab_manager_secrets.arn
+}
+
+output "keycloak_secrets_arn" {
+  description = "ARN of the Keycloak secrets manager"
+  value       = aws_secretsmanager_secret.keycloak_secrets.arn
+}
