@@ -167,3 +167,8 @@ output "nexus_secrets_arn" {
   description = "ARN of the Nexus secrets manager"
   value       = aws_secretsmanager_secret.nexus_secrets.arn
 }
+
+output "dockerhub_bbpbuildbot_secret_arn" {
+  description = "ARN of the dockerhub_bbpbuildbot secrets manager"
+  value       = aws_secretsmanager_secret.dockerhub_bbpbuildbot_secret.arn
+}

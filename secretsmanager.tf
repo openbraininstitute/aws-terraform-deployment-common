@@ -1,4 +1,10 @@
 #tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "dockerhub_bbpbuildbot_secret" {
+  name        = "dockerhub_bbpbuildbot_credentials"
+  description = "dockerhub bbpbuildbot user credentials"
+}
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "virtual_lab_manager_secrets" {
   name        = "virtual_lab_manager_secrets"
   description = "Secrets for the virtual lab manager service"
