@@ -52,6 +52,7 @@ resource "aws_secretsmanager_secret" "nexus_secrets" {
   description = "Secrets for the Nexus service"
 }
 
+#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "hpc_codebuild_github_secret" {
   name        = "hpc_codebuild_github_secret"
   description = "GitHub access token for use in CodeBuild"
