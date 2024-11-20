@@ -15,3 +15,21 @@ resource "aws_secretsmanager_secret" "core_webapp_secrets" {
   name        = "core_web_app_secrets"
   description = "Secret for the core-webapp service"
 }
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "ml_secrets_manager" {
+  name        = "ml_secrets"
+  description = "Secrets for ML services"
+}
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "accounting_service_secrets" {
+  name        = "accounting_service_secrets"
+  description = "Secrets for the accounting service"
+}
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "bluenaas_service_secrets" {
+  name        = "bluenaas_service_secrets"
+  description = "Secrets for the bluenaas service"
+}

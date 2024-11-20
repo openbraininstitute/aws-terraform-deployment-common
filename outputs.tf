@@ -142,3 +142,18 @@ output "core_webapp_secrets_arn" {
   description = "ARN of the core-webapp secrets manager"
   value       = aws_secretsmanager_secret.core_webapp_secrets.arn
 }
+
+output "ml_secrets_arn" {
+  description = "ARN of the ML secrets manager"
+  value       = aws_secretsmanager_secret.ml_secrets_manager.arn
+}
+
+output "accounting_service_secrets_arn" {
+  description = "ARN of the accounting_service secrets manager"
+  value       = aws_secretsmanager_secret.accounting_service_secrets.arn
+}
+
+output "bluenaas_service_secrets_arn" {
+  description = "ARN of the bluenaas secrets manager"
+  value       = aws_secretsmanager_secret.bluenaas_service_secrets.arn
+}
