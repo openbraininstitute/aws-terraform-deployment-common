@@ -51,3 +51,8 @@ resource "aws_secretsmanager_secret" "nexus_secrets" {
   name        = "nexus_service_secrets"
   description = "Secrets for the Nexus service"
 }
+
+resource "aws_secretsmanager_secret" "hpc_codebuild_github_secret" {
+  name        = "hpc_codebuild_github_secret"
+  description = "GitHub access token for use in CodeBuild"
+}

@@ -172,3 +172,8 @@ output "dockerhub_bbpbuildbot_secret_arn" {
   description = "ARN of the dockerhub_bbpbuildbot secrets manager"
   value       = aws_secretsmanager_secret.dockerhub_bbpbuildbot_secret.arn
 }
+
+output "hpc_codebuild_github_secret_arn" {
+  description = "ARN of the HPC CodeBuild/GitHub secret"
+  value       = aws_secretsmanager_secret.hpc_codebuild_github_secret.arn
+}
