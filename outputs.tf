@@ -162,3 +162,8 @@ output "hpc_slurm_secrets_arn" {
   description = "ARN of the HPC Slurm secrets manager"
   value       = aws_secretsmanager_secret.hpc_slurm_secrets.arn
 }
+
+output "nexus_secrets_arn" {
+  description = "ARN of the Nexus secrets manager"
+  value       = aws_secretsmanager_secret.nexus_secrets.arn
+}

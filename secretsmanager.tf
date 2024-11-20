@@ -39,3 +39,9 @@ resource "aws_secretsmanager_secret" "hpc_slurm_secrets" {
   name        = "hpc_slurm_secrets"
   description = "Slurm database password"
 }
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "nexus_secrets" {
+  name        = "nexus_service_secrets"
+  description = "Secrets for the Nexus service"
+}
