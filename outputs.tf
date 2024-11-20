@@ -137,3 +137,8 @@ output "keycloak_secrets_arn" {
   description = "ARN of the Keycloak secrets manager"
   value       = aws_secretsmanager_secret.keycloak_secrets.arn
 }
+
+output "core_webapp_secrets_arn" {
+  description = "ARN of the core-webapp secrets manager"
+  value       = aws_secretsmanager_secret.core_webapp_secrets.arn
+}
