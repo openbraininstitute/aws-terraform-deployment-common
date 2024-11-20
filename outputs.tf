@@ -157,3 +157,8 @@ output "bluenaas_service_secrets_arn" {
   description = "ARN of the bluenaas secrets manager"
   value       = aws_secretsmanager_secret.bluenaas_service_secrets.arn
 }
+
+output "hpc_slurm_secrets_arn" {
+  description = "ARN of the HPC Slurm secrets manager"
+  value       = aws_secretsmanager_secret.hpc_slurm_secrets.arn
+}

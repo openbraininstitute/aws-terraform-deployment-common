@@ -33,3 +33,9 @@ resource "aws_secretsmanager_secret" "bluenaas_service_secrets" {
   name        = "bluenaas_service_secrets"
   description = "Secrets for the bluenaas service"
 }
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "hpc_slurm_secrets" {
+  name        = "hpc_slurm_secrets"
+  description = "Slurm database password"
+}
