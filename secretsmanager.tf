@@ -18,7 +18,7 @@ resource "aws_secretsmanager_secret" "core_webapp_secrets" {
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "ml_secrets_manager" {
-  name        = "ml_secrets"
+  name        = "machine_learning_secrets"
   description = "Secrets for ML services"
 }
 
