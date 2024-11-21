@@ -1,20 +1,4 @@
 # The outputs defined here can be used by other modules/repos
-
-output "aws_region" {
-  description = "AWS region to use"
-  value       = var.aws_region
-}
-
-output "internet_gateway_id" {
-  description = "ID of the internet gateway for public subnets"
-  value       = module.network.internet_gateway_id
-}
-
-output "internet_gateway_arn" {
-  description = "ARN of the internet gateway for public subnets"
-  value       = module.network.internet_gateway_arn
-}
-
 output "nat_gateway_id" {
   description = "ID of the NAT gateway for private networks"
   value       = module.network.nat_gateway_id
@@ -41,11 +25,6 @@ output "public_b_subnet_arn" {
   value       = module.network.public_2_subnet_arn
 }
 
-output "vpc_arn" {
-  description = "ARN of the VPC"
-  value       = module.network.vpc_arn
-}
-
 output "vpc_id" {
   description = "ID of the VPC"
   value       = module.network.vpc_id
@@ -66,19 +45,9 @@ output "bbpproxy_cidr" {
   value       = var.bbpproxy_cidr
 }
 
-output "route_table_private_subnets_arn" {
-  description = "ARN of the route table for all private subnets in the main region"
-  value       = module.network.private_route_table_arn
-}
-
 output "route_table_private_subnets_id" {
   description = "ID of the route table for all private subnets in the main region"
   value       = module.network.private_route_table_id
-}
-
-output "private_alb_sg_id" {
-  description = "Id of ALB security group"
-  value       = module.private_alb_basic.alb_securitygroup_id
 }
 
 output "public_nlb_sg_id" {
@@ -111,11 +80,6 @@ output "private_alb_security_group_id" {
 output "generic_private_alb_security_group_id" {
   description = "Id of the SG of the new private ALB"
   value       = module.private_alb_basic.alb_securitygroup_id
-}
-
-output "resource_provisioner_ecr_url" {
-  description = "URL of the ECR for HPC Resource Provisioner"
-  value       = module.ecr.resource_provisioner_ecr_url
 }
 
 output "virtual_lab_manager_secrets_arn" {
