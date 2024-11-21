@@ -5,16 +5,6 @@ output "aws_region" {
   value       = var.aws_region
 }
 
-output "aws_coreservices_ssh_key_id" {
-  description = "ID of the SSH key aws_resources"
-  value       = aws_key_pair.aws_coreservices.id
-}
-
-output "aws_coreservices_ssh_key_arn" {
-  description = "ARN of the SSH key aws_resources"
-  value       = aws_key_pair.aws_coreservices.arn
-}
-
 output "internet_gateway_id" {
   description = "ID of the internet gateway for public subnets"
   value       = module.network.internet_gateway_id
