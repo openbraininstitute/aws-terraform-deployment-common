@@ -69,14 +69,6 @@ resource "aws_lb_listener" "private_alb_3000" {
   ]
 }
 
-resource "aws_route53_record" "private_alb_test" {
-  zone_id = module.alt_domain_shapes-registry_org.domain_zone_id
-  name    = var.private_alb_test_hostname
-  type    = "CNAME"
-  ttl     = 60
-  records = [aws_lb.private_alb.dns_name]
-}
-
 output "private_alb_listener_3000_id" {
   description = "ID of the listener on port 3000 for the private application load balancer"
   value       = aws_lb_listener.private_alb_3000.id

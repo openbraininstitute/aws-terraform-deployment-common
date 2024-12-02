@@ -11,13 +11,6 @@ variable "epfl_cidr" {
   sensitive   = false
 }
 
-variable "private_alb_test_hostname" {
-  default     = "private-alb-test.shapes-registry.org"
-  type        = string
-  description = "Hostname to test the default responses of the listeners of the private ALB"
-  sensitive   = false
-}
-
 variable "bbpproxy_cidr" {
   type        = string
   default     = "192.33.211.34/32"
