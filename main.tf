@@ -102,25 +102,6 @@ module "alt_private_domain_openbrainplatform_com" {
   vpc_id               = module.network.vpc_id
 }
 
-module "alt_domain_shapes-registry_org" {
-  source = "./domain"
-
-  domain_name         = "shapes-registry.org"
-  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
-  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
-  comment             = "Alternative domain shapes-registry.org"
-}
-
-module "alt_private_domain_shapes-registry_org" {
-  source = "./private_domain"
-
-  domain_name          = "shapes-registry.org"
-  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
-  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
-  comment              = "Alternative domain shapes-registry.org"
-  vpc_id               = module.network.vpc_id
-}
-
 module "alt_domain_openbrainplatform_org" {
   source = "./domain"
 
