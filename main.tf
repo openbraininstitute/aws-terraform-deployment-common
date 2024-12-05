@@ -32,14 +32,14 @@ module "private_alb_basic" {
   vpc_cidr_block                = module.network.vpc_cidr_block
   lb_access_logs_bucket         = module.s3.lb_access_logs_bucket
   main_domain_hostname          = module.primary_domain.domain_name
-  main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn
+  main_domain_hostname_cert_arn = module.openbrainplatform_com_cert.certificate_arn
 
   redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
-  redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
-  redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
+  redirected_hostname_2          = module.alt_domain_openbluebrain_com.domain_name
+  redirected_hostname_3          = "www.${module.alt_domain_openbluebrain_com.domain_name}"
   redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
-  redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
-  redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
+  redirected_hostname_2_cert_arn = module.openbluebrain_com_cert.certificate_arn
+  redirected_hostname_3_cert_arn = module.www_openbluebrain_com_cert.certificate_arn
 
   cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
 }
@@ -58,7 +58,7 @@ module "public_nlb_basic" {
 module "primary_domain" {
   source = "./domain"
 
-  domain_name         = "openbluebrain.com"
+  domain_name         = "openbrainplatform.com"
   public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
   public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Primary domain"
@@ -83,22 +83,22 @@ module "alt_private_domain_openbluebrain_ch" {
   vpc_id               = module.network.vpc_id
 }
 
-module "alt_domain_openbrainplatform_com" {
+module "alt_domain_openbluebrain_com" {
   source = "./domain"
 
-  domain_name         = "openbrainplatform.com"
+  domain_name         = "openbluebrain.com"
   public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
   public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
-  comment             = "Alternative domain openbrainplatform.com"
+  comment             = "Alternative domain openbluebrain.com"
 }
 
-module "alt_private_domain_openbrainplatform_com" {
+module "alt_private_domain_openbluebrain_com" {
   source = "./private_domain"
 
-  domain_name          = "openbrainplatform.com"
+  domain_name          = "openbluebrain.com"
   private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
-  comment              = "Alternative domain openbrainplatform.com"
+  comment              = "Alternative domain openbluebrain.com"
   vpc_id               = module.network.vpc_id
 }
 
@@ -135,28 +135,28 @@ module "www_openbrainplatform_org_cert" {
   zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
 
-module "openbrainplatform_com_cert" {
-  source = "./tls_certificate"
-
-  hostname = module.alt_domain_openbrainplatform_com.domain_name
-  zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
-}
-
-module "www_openbrainplatform_com_cert" {
-  source = "./tls_certificate"
-
-  hostname = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
-  zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
-}
-
 module "openbluebrain_com_cert" {
+  source = "./tls_certificate"
+
+  hostname = module.alt_domain_openbluebrain_com.domain_name
+  zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
+}
+
+module "www_openbluebrain_com_cert" {
+  source = "./tls_certificate"
+
+  hostname = "www.${module.alt_domain_openbluebrain_com.domain_name}"
+  zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
+}
+
+module "openbrainplatform_com_cert" {
   source = "./tls_certificate"
 
   hostname = module.primary_domain.domain_name
   zone_id  = module.primary_domain.domain_zone_id
 }
 
-module "www_openbluebrain_com_cert" {
+module "www_openbrainplatform_com_cert" {
   source = "./tls_certificate"
 
   hostname = "www.${module.primary_domain.domain_name}"
