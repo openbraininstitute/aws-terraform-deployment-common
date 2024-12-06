@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "nlb_access_logs_lb_write" {
     ]
 
     principals {
-      identifiers = ["${data.aws_elb_service_account.main.arn}"]
+      identifiers = [data.aws_elb_service_account.main.arn]
       type        = "AWS"
     }
   }
@@ -71,7 +71,7 @@ data "aws_iam_policy_document" "nlb_access_logs_lb_write" {
       "s3:GetBucketAcl"
     ]
     effect    = "Allow"
-    resources = ["${aws_s3_bucket.lb_access_logs_bucket.arn}"]
+    resources = [aws_s3_bucket.lb_access_logs_bucket.arn]
     principals {
       identifiers = ["delivery.logs.amazonaws.com"]
       type        = "Service"

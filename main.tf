@@ -181,8 +181,6 @@ module "private_alb_config" {
   source = "./obp_private_alb_config"
 
   private_alb_arn = module.private_alb_basic.private_alb_arn
-
-  aws_waf_bbp_ip_set_arn = module.private_alb_config.aws_waf_bbp_ip_set_arn
 }
 
 module "public_nlb_config" {
