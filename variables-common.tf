@@ -4,6 +4,11 @@ variable "aws_region" {
   sensitive = false
 }
 
+variable "environment" {
+  type      = string
+  sensitive = false
+}
+
 variable "epfl_cidr" {
   type        = string
   default     = "128.178.0.0/15"
