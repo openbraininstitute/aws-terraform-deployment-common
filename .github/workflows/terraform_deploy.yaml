@@ -1,17 +1,13 @@
 name: Terraform deployment
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'environment name'
-        required: true
 
 jobs:
   terraform_deployment:
-    environment: ${{ inputs.environment }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      ENVIRONMENT: ${{ github.head_ref || github.ref_name }} # use branch name as deployment environment
 
     runs-on: ubuntu-latest
     name: Run terraform
@@ -23,12 +19,12 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Initialize Terraform
-        run: terraform init -backend-config="./${{ inputs.environment }}.config"
+        run: terraform init -backend-config="./$ENVIRONMENT.config"
 
       - name: Run Terraform Plan
         run: |
-          terraform plan -var="environment=${{ inputs.environment }}"
+          terraform plan -var="environment=$ENVIRONMENT"
 
       #- name: Run Terraform Apply
       #  run: |
-      #    terraform apply -auto-approve -var="environment=${{ inputs.environment }}"
+      #    terraform apply -auto-approve -var="environment=$ENVIRONMENT
