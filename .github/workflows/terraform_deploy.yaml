@@ -4,6 +4,7 @@ on:
 
 jobs:
   terraform_deployment:
+    environment: ${{ github.ref_name }} # secrets are set per enviroment
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -19,12 +20,12 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Initialize Terraform
-        run: terraform init -backend-config="./$ENVIRONMENT.config"
+        run: terraform init -backend-config="./${{ github.ref_name }}.config" # use branch name as deployment environment
 
       - name: Run Terraform Plan
         run: |
-          terraform plan -var="environment=$ENVIRONMENT"
+          terraform plan -var="environment=${{ github.ref_name }}"
 
-      #- name: Run Terraform Apply
-      #  run: |
-      #    terraform apply -auto-approve -var="environment=$ENVIRONMENT
+      - name: Run Terraform Apply
+        run: |
+          terraform apply -auto-approve -var="environment=${{ github.ref_name }}"
