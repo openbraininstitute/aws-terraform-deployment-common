@@ -4,11 +4,10 @@ on:
 
 jobs:
   terraform_deployment:
-    environment: ${{ github.ref_name }} # secrets are set per enviroment
+    environment: ${{ github.ref_name }} # secrets are set per environment
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      ENVIRONMENT: ${{ github.head_ref || github.ref_name }} # use branch name as deployment environment
 
     runs-on: ubuntu-latest
     name: Run terraform
