@@ -19,6 +19,9 @@ jobs:
       - name: Configure Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Terraform format check
+        run: terraform fmt -check -diff -recursive
+
       - name: Initialize Terraform
         run: terraform init -backend-config="./${{ github.ref_name }}.config" # use branch name as deployment environment
 
