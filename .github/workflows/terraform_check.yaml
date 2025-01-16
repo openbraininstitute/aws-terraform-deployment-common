@@ -1,0 +1,31 @@
+name: Terraform check
+on:
+  pull_request:
+    branches: [staging, main]
+
+jobs:
+  terraform_deployment:
+    # github.base_ref = target branch of the pull request
+    environment: ${{ github.base_ref }} # secrets are set per environment
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    runs-on: ubuntu-latest
+    name: Run terraform
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform format check
+        run: terraform fmt -check -diff -recursive
+
+      - name: Initialize Terraform
+        run: terraform init -backend-config="./${{ github.base_ref }}.config" # use branch name as deployment environment
+
+      - name: Run Terraform Plan
+        run: |
+          terraform plan -var="environment=${{ github.base_ref }}"
