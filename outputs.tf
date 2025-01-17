@@ -45,6 +45,11 @@ output "route_table_private_subnets_id" {
   value       = module.network.private_route_table_id
 }
 
+output "route_table_public_id" {
+  description = "ID of the route table for all public subnets in the main region"
+  value       = module.network.public_route_table_id
+}
+
 output "public_nlb_sg_id" {
   description = "Id of NLB security group"
   value       = module.public_nlb_basic.nlb_securitygroup_id
