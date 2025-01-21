@@ -1,16 +1,22 @@
-name: Terraform deployment
+name: Apply changes
+
+# only trigger on pull request closed events
 on:
-  workflow_dispatch:
+  pull_request:
+    types: [ closed ]
+    branches:
+      - staging
 
 jobs:
-  terraform_deployment:
-    environment: ${{ github.ref_name }} # secrets are set per environment
+  terraform_apply:
+    if: github.event.pull_request.merged == true
+    environment: ${{ github.base_ref }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     runs-on: ubuntu-latest
-    name: Run terraform
+    name: Apply terraform code
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,15 +24,8 @@ jobs:
       - name: Configure Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform format check
-        run: terraform fmt -check -diff -recursive
-
       - name: Initialize Terraform
-        run: terraform init -backend-config="./${{ github.ref_name }}.config" # use branch name as deployment environment
-
-      - name: Run Terraform Plan
-        run: |
-          terraform plan -var-file="${{ github.ref_name }}.tfvars"
+        run: terraform init -backend-config="./${{ github.base_ref }}.config"
 
       - name: Run Terraform Apply
         run: |
