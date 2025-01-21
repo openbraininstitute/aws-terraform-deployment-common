@@ -1,4 +1,4 @@
-name: Terraform deployment
+name: Manual deployment
 on:
   workflow_dispatch:
 
@@ -10,7 +10,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     runs-on: ubuntu-latest
-    name: Run terraform
+    name: terraform apply
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
