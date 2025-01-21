@@ -9,7 +9,7 @@ on:
 
 jobs:
   terraform_apply:
-    if: github.event.pull_request.merged == true
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     environment: ${{ github.base_ref }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
