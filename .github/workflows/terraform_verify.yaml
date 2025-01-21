@@ -1,20 +1,19 @@
 name: Terraform verify
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'environment name'
-        required: true
+  pull_request:
+    branches:
+      - production
+      - staging
 
 jobs:
   terraform_verify:
-    environment: ${{ inputs.environment }} # secrets are set per environment
+    environment: ${{ github.base_ref }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     runs-on: ubuntu-latest
-    name: Run terraform verify
+    name: Verify & plan terraform code
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,8 +25,8 @@ jobs:
         run: terraform fmt -check -diff -recursive
 
       - name: Initialize Terraform
-        run: terraform init -backend-config="./${{ inputs.environment }}.config" # use branch name as deployment environment
+        run: terraform init -backend-config="./${{ github.base_ref }}.config"
 
       - name: Run Terraform Plan
         run: |
-          terraform plan -var-file="${{ inputs.environment }}.tfvars"
+          terraform plan -var-file="${{ github.base_ref }}.tfvars"
