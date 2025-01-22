@@ -40,11 +40,6 @@ output "vpc_default_sg_id" {
   value       = module.network.vpc_default_sg_id
 }
 
-output "bbpproxy_cidr" {
-  description = "CIDR of bbpproxy.epfl.ch"
-  value       = var.bbpproxy_cidr
-}
-
 output "route_table_private_subnets_id" {
   description = "ID of the route table for all private subnets in the main region"
   value       = module.network.private_route_table_id
