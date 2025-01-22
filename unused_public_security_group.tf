@@ -35,19 +35,6 @@ resource "aws_vpc_security_group_ingress_rule" "public_allow_https_all" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "public_allow_ssh_epfl" {
-  security_group_id = aws_security_group.public.id
-  description       = "Allow SSH from EPFL"
-  from_port         = 22
-  to_port           = 22
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "public_allow_ssh_epfl"
-  }
-}
-
 resource "aws_vpc_security_group_ingress_rule" "public_allow_ssh_internal" {
   security_group_id = aws_security_group.public.id
   description       = "Allow SSH from internal"
@@ -58,58 +45,6 @@ resource "aws_vpc_security_group_ingress_rule" "public_allow_ssh_internal" {
 
   tags = {
     Name = "public_allow_ssh_internal"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "public_allow_brayns_epfl" {
-  security_group_id = aws_security_group.public.id
-  description       = "Allow Brayns on port 5000 from EPFL"
-  from_port         = 5000
-  to_port           = 5000
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "public_allow_5000_epfl"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "public_allow_bcsb_epfl" {
-  security_group_id = aws_security_group.public.id
-  description       = "Allow BCSB on port 8000 from EPFL"
-  from_port         = 8000
-  to_port           = 8000
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "public_allow_8000_epfl"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "public_allow_vsm_epfl" {
-  security_group_id = aws_security_group.public.id
-  description       = "Allow VSM on port 4444 from EPFL"
-  from_port         = 4444
-  to_port           = 4444
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "public_allow_4444_epfl"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "public_allow_vsm_proxy_epfl" {
-  security_group_id = aws_security_group.public.id
-  description       = "Allow VSM-Proxy on port 8888 from EPFL"
-  from_port         = 8888
-  to_port           = 8888
-  ip_protocol       = "tcp"
-  cidr_ipv4         = var.epfl_cidr
-
-  tags = {
-    Name = "public_allow_8888_epfl"
   }
 }
 

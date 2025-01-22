@@ -47,7 +47,6 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | n/a | `string` | `"us-east-1"` | no |
 | <a name="input_create_nat_gateway"></a> [create\_nat\_gateway](#input\_create\_nat\_gateway) | Create the outgoing NAT / masquerading gateway for the private subnets | `bool` | `true` | no |
-| <a name="input_epfl_cidr"></a> [epfl\_cidr](#input\_epfl\_cidr) | CIDR of the network range used by EPFL | `string` | `"128.178.0.0/15"` | no |
 
 ## Outputs
 
