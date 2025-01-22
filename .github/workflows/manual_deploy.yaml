@@ -1,4 +1,4 @@
-name: Manual deployment
+name: Manual - Apply changes
 on:
   workflow_dispatch:
 
@@ -10,7 +10,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     runs-on: ubuntu-latest
-    name: terraform apply
+    name: Manual terraform apply
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
