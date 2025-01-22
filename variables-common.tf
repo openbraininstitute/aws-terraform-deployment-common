@@ -8,10 +8,3 @@ variable "environment" {
   type      = string
   sensitive = false
 }
-
-variable "epfl_cidr" {
-  type        = string
-  default     = "128.178.0.0/15"
-  description = "CIDR of the network range used by EPFL"
-  sensitive   = false
-}
