@@ -1,4 +1,4 @@
-name: Terraform verify
+name: Auto - Verify & plan
 on:
   pull_request:
     branches:
@@ -13,7 +13,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     runs-on: ubuntu-latest
-    name: Verify & plan terraform code
+    name: Auto Verify & plan terraform code
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
