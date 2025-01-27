@@ -117,6 +117,11 @@ output "nexus_secrets_arn" {
   value       = aws_secretsmanager_secret.nexus_secrets.arn
 }
 
+output "workflow_service_secrets_arn" {
+  description = "ARN of the workflow secrets manager"
+  value       = aws_secretsmanager_secret.workflow_secrets.arn
+}
+
 output "dockerhub_bbpbuildbot_secret_arn" {
   description = "ARN of the dockerhub_bbpbuildbot secrets manager"
   value       = aws_secretsmanager_secret.dockerhub_bbpbuildbot_secret.arn
