@@ -64,6 +64,16 @@ module "primary_domain" {
   comment             = "Primary domain"
 }
 
+module "private_primary_domain" {
+  source = "./private_domain"
+
+  domain_name          = var.primary_domain_name
+  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
+  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
+  comment              = "Primary domain"
+  vpc_id               = module.network.vpc_id
+}
+
 module "alt_domain_openbluebrain_ch" {
   source = "./domain"
 
