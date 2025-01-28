@@ -5,6 +5,7 @@ on:
       environment:
         type: choice
         description: Which environment to deploy to
+        default: staging
         options:
           - staging
           - production

@@ -1,13 +1,13 @@
-name: Auto - Verify & plan
+name: Auto - Verify & plan production
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - staging
+  push:
+    tags:
+      - '*'
 
 jobs:
   terraform_verify:
-    environment: ${{ github.base_ref }}
+    environment: production
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -25,8 +25,8 @@ jobs:
         run: terraform fmt -check -diff -recursive
 
       - name: Initialize Terraform
-        run: terraform init -backend-config="./${{ github.base_ref }}.config"
+        run: terraform init -backend-config="./production.config"
 
       - name: Run Terraform Plan
         run: |
-          terraform plan -var-file="${{ github.base_ref }}.tfvars"
+          terraform plan -var-file="production.tfvars"

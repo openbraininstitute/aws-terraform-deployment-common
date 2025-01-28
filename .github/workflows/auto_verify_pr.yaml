@@ -1,22 +1,19 @@
-name: Auto - Apply changes on Merge to staging
-
-# only trigger on pull request closed events
+name: Auto - Verify & plan branch environment
 on:
+  workflow_dispatch:
   pull_request:
-    types: [ closed ]
     branches:
       - staging
 
 jobs:
-  terraform_apply:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+  terraform_verify:
     environment: ${{ github.base_ref }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     runs-on: ubuntu-latest
-    name: Auto Apply terraform code to staging
+    name: Auto Verify & plan terraform code for branch environment
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,9 +21,12 @@ jobs:
       - name: Configure Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Terraform format check
+        run: terraform fmt -check -diff -recursive
+
       - name: Initialize Terraform
         run: terraform init -backend-config="./${{ github.base_ref }}.config"
 
-      - name: Run Terraform Apply
+      - name: Run Terraform Plan
         run: |
-          terraform apply -auto-approve -var-file="${{ github.ref_name }}.tfvars"
+          terraform plan -var-file="${{ github.base_ref }}.tfvars"
