@@ -1,10 +1,17 @@
 name: Manual - Apply changes
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which environment to deploy to
+        options:
+          - staging
+          - production
 
 jobs:
   terraform_deployment:
-    environment: ${{ github.ref_name }} # secrets are set per environment
+    environment: ${{ inputs.environment }} # secrets are set per environment
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -22,12 +29,12 @@ jobs:
         run: terraform fmt -check -diff -recursive
 
       - name: Initialize Terraform
-        run: terraform init -backend-config="./${{ github.ref_name }}.config" # use branch name as deployment environment
+        run: terraform init -backend-config="./${{ inputs.environment }}.config" # use branch name as deployment environment
 
       - name: Run Terraform Plan
         run: |
-          terraform plan -var-file="${{ github.ref_name }}.tfvars"
+          terraform plan -var-file="${{ inputs.environment }}.tfvars"
 
       - name: Run Terraform Apply
         run: |
-          terraform apply -auto-approve -var-file="${{ github.ref_name }}.tfvars"
+          terraform apply -auto-approve -var-file="${{ inputs.environment }}.tfvars"
