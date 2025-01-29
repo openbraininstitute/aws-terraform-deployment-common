@@ -1,0 +1,28 @@
+name: Auto - Check DNS records for TLS certificates - Production
+
+# For production, trigger on the creation of tags
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  dns_check:
+    environment: production
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    runs-on: ubuntu-latest
+    name: Auto Check DNS records for validation of TLS certificates
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x .github/scripts/check_dns_records_for_certificates.sh
+
+      - name: Run the script
+        run: .github/scripts/check_dns_records_for_certificates.sh
+
