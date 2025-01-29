@@ -16,22 +16,7 @@ resource "aws_lb_listener" "https" {
   }
 }
 
-resource "aws_lb_listener_certificate" "primary_www_domain_certificate" {
-  listener_arn    = aws_lb_listener.https.arn
-  certificate_arn = var.redirected_hostname_1_cert_arn # aws_acm_certificate_validation.primary_www.certificate_arn
-}
-
-resource "aws_lb_listener_certificate" "secondary_root_domain_certificate" {
-  listener_arn    = aws_lb_listener.https.arn
-  certificate_arn = var.redirected_hostname_2_cert_arn # aws_acm_certificate_validation.secondary_root.certificate_arn
-}
-
-resource "aws_lb_listener_certificate" "secondary_www_domain_certificate" {
-  listener_arn    = aws_lb_listener.https.arn
-  certificate_arn = var.redirected_hostname_3_cert_arn # aws_acm_certificate_validation.secondary_www.certificate_arn
-}
-
-resource "aws_lb_listener_certificate" "additional_certs_for_alb" {
+resource "aws_lb_listener_certificate" "certs_for_alb" {
   # Generates a set [0, 1, 2, ..] with an index for each entry in var.cert_arns
   for_each = toset(formatlist("%s", range(length(var.cert_arns))))
 
@@ -39,9 +24,14 @@ resource "aws_lb_listener_certificate" "additional_certs_for_alb" {
   certificate_arn = var.cert_arns[each.value]
 }
 
-resource "aws_lb_listener_rule" "domain_redirect" {
+# Generates a separate rule for each of the hostnames in redirect_hostnames
+# => each individual rule remains below the 5 conditions limit
+resource "aws_lb_listener_rule" "private_keycloak_redirect" {
+  # Generates a set [0, 1, 2, ..] with an index for each entry in var.redirected_hostnames
+  for_each = toset(formatlist("%s", range(length(var.redirected_hostnames))))
+
   listener_arn = aws_lb_listener.https.arn
-  priority     = 10000
+  priority     = 10000 + each.value
 
   action {
     type = "redirect"
@@ -53,11 +43,7 @@ resource "aws_lb_listener_rule" "domain_redirect" {
 
   condition {
     host_header {
-      values = [
-        var.redirected_hostname_1,
-        var.redirected_hostname_2,
-        var.redirected_hostname_3
-      ]
+      values = [var.redirected_hostnames[each.value]]
     }
   }
 }

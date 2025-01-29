@@ -34,14 +34,33 @@ module "private_alb_basic" {
   main_domain_hostname          = module.primary_domain.domain_name
   main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn
 
-  redirected_hostname_1          = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
-  redirected_hostname_2          = module.alt_domain_openbrainplatform_com.domain_name
-  redirected_hostname_3          = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
-  redirected_hostname_1_cert_arn = module.www_openbrainplatform_org_cert.certificate_arn
-  redirected_hostname_2_cert_arn = module.openbrainplatform_com_cert.certificate_arn
-  redirected_hostname_3_cert_arn = module.www_openbrainplatform_com_cert.certificate_arn
+  redirected_hostnames = [
+    "www.${module.alt_domain_openbrainplatform_org.domain_name}",
+    module.alt_domain_openbrainplatform_com.domain_name,
+    "www.${module.alt_domain_openbrainplatform_com.domain_name}",
+    var.domain_openbraininstitute_org_name,
+    "www.${var.domain_openbraininstitute_org_name}",
+    var.domain_openbraininstitute_com_name,
+    "www.${var.domain_openbraininstitute_com_name}",
+    var.domain_openbraininstitute_ch_name,
+    "www.${var.domain_openbraininstitute_ch_name}"
+  ]
 
-  cert_arns = [module.openbluebrain_com_cert.certificate_arn, module.openbluebrain_ch_cert.certificate_arn, module.www_openbluebrain_com_cert.certificate_arn, module.www_openbluebrain_ch_cert.certificate_arn]
+  cert_arns = [
+    module.openbluebrain_com_cert.certificate_arn,
+    module.openbluebrain_ch_cert.certificate_arn,
+    module.www_openbluebrain_com_cert.certificate_arn,
+    module.www_openbluebrain_ch_cert.certificate_arn,
+    module.www_openbrainplatform_org_cert.certificate_arn,
+    module.openbrainplatform_com_cert.certificate_arn,
+    module.www_openbrainplatform_com_cert.certificate_arn,
+    module.openbraininstitute_org_cert.certificate_arn,
+    module.www_openbraininstitute_org_cert.certificate_arn,
+    module.openbraininstitute_com_cert.certificate_arn,
+    module.www_openbraininstitute_com_cert.certificate_arn,
+    module.openbraininstitute_ch_cert.certificate_arn,
+    module.www_openbraininstitute_ch_cert.certificate_arn
+  ]
 }
 
 module "public_nlb_basic" {
@@ -185,6 +204,42 @@ module "www_openbluebrain_ch_cert" {
 
   hostname = "www.${module.alt_domain_openbluebrain_ch.domain_name}"
   zone_id  = module.alt_domain_openbluebrain_ch.domain_zone_id
+}
+
+module "openbraininstitute_org_cert" {
+  source = "./tls_certificate_without_domain"
+
+  hostname = var.domain_openbraininstitute_org_name
+}
+
+module "www_openbraininstitute_org_cert" {
+  source = "./tls_certificate_without_domain"
+
+  hostname = "www.${var.domain_openbraininstitute_org_name}"
+}
+
+module "openbraininstitute_ch_cert" {
+  source = "./tls_certificate_without_domain"
+
+  hostname = var.domain_openbraininstitute_ch_name
+}
+
+module "www_openbraininstitute_ch_cert" {
+  source = "./tls_certificate_without_domain"
+
+  hostname = "www.${var.domain_openbraininstitute_ch_name}"
+}
+
+module "openbraininstitute_com_cert" {
+  source = "./tls_certificate_without_domain"
+
+  hostname = var.domain_openbraininstitute_com_name
+}
+
+module "www_openbraininstitute_com_cert" {
+  source = "./tls_certificate_without_domain"
+
+  hostname = "www.${var.domain_openbraininstitute_com_name}"
 }
 
 module "private_alb_config" {
