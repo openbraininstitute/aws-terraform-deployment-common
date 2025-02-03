@@ -1,0 +1,6 @@
+environment                           = "sandbox-hpc"
+nlb_logs_bucket_name                  = "public-nlb-access-logs-obp-sandbox-hpc"
+primary_domain_name                   = "sandbox_hpc.openbluebrain.com"
+alt_domain_openbluebrain_ch_name      = "sandbox_hpc.openbluebrain.ch"
+alt_domain_openbrainplatform_com_name = "sandbox_hpc.openbrainplatform.com"
+alt_domain_openbrainplatform_org_name = "sandbox_hpc.openbrainplatform.org"
