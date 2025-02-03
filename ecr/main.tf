@@ -26,3 +26,20 @@ resource "aws_ecr_lifecycle_policy" "hpc-resource-provisioner-ecr-lifecycle-poli
   repository = aws_ecr_repository.hpc-resource-provisioner-ecr.name
   policy     = data.aws_ecr_lifecycle_policy_document.expire_images.json
 }
+
+# tfsec:ignore:aws-ecr-repository-customer-key
+resource "aws_ecr_repository" "workflow-svc-ecr" {
+  name = "bbp-workflow-svc"
+
+  # mutable, because otherwise we can't update `latest`
+  # see https://github.com/aws/containers-roadmap/issues/878
+  image_tag_mutability = "MUTABLE" # tfsec:ignore:aws-ecr-enforce-immutable-repository
+  image_scanning_configuration {
+    scan_on_push = false # tfsec:ignore:aws-ecr-enable-image-scans
+  }
+}
+
+resource "aws_ecr_lifecycle_policy" "workflow-svc-ecr-lifecycle-policy" {
+  repository = aws_ecr_repository.workflow-svc-ecr.name
+  policy     = data.aws_ecr_lifecycle_policy_document.expire_images.json
+}
