@@ -8,6 +8,11 @@ variable "primary_domain_name" {
   sensitive = false
 }
 
+variable "alt_domain_openbluebrain_com_name" {
+  type      = string
+  sensitive = false
+}
+
 variable "alt_domain_openbluebrain_ch_name" {
   type      = string
   sensitive = false
