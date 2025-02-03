@@ -1,6 +1,7 @@
 environment                           = "staging"
 nlb_logs_bucket_name                  = "public-nlb-access-logs-obp-staging"
-primary_domain_name                   = "staging.openbluebrain.com"
+primary_domain_name                   = "staging.openbraininstitute.org"
+alt_domain_openbluebrain_com_name     = "staging.openbluebrain.com"
 alt_domain_openbluebrain_ch_name      = "staging.openbluebrain.ch"
 alt_domain_openbrainplatform_com_name = "staging.openbrainplatform.com"
 alt_domain_openbrainplatform_org_name = "staging.openbrainplatform.org"

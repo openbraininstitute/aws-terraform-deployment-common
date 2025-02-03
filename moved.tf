@@ -1,35 +1,30 @@
 
 moved {
-  from = module.private_alb_basic.aws_lb_listener_certificate.additional_certs_for_alb["0"]
-  to   = module.private_alb_basic.aws_lb_listener_certificate.certs_for_alb["0"]
+  from = module.private_primary_domain.aws_route53_record.domain_A
+  to   = module.alt_private_domain_openbluebrain_com.aws_route53_record.domain_A
 }
 
 moved {
-  from = module.private_alb_basic.aws_lb_listener_certificate.additional_certs_for_alb["1"]
-  to   = module.private_alb_basic.aws_lb_listener_certificate.certs_for_alb["1"]
+  from = module.private_primary_domain.aws_route53_record.www_domain
+  to   = module.alt_private_domain_openbluebrain_com.aws_route53_record.www_domain
 }
 
 moved {
-  from = module.private_alb_basic.aws_lb_listener_certificate.additional_certs_for_alb["2"]
-  to   = module.private_alb_basic.aws_lb_listener_certificate.certs_for_alb["2"]
+  from = module.private_primary_domain.aws_route53_zone.domain
+  to   = module.alt_private_domain_openbluebrain_com.aws_route53_zone.domain
 }
 
 moved {
-  from = module.private_alb_basic.aws_lb_listener_certificate.additional_certs_for_alb["3"]
-  to   = module.private_alb_basic.aws_lb_listener_certificate.certs_for_alb["3"]
+  from = module.primary_domain.aws_route53_record.domain_A
+  to   = module.alt_domain_openbluebrain_com.aws_route53_record.domain_A
 }
 
 moved {
-  from = module.private_alb_basic.aws_lb_listener_certificate.primary_www_domain_certificate
-  to   = module.private_alb_basic.aws_lb_listener_certificate.certs_for_alb["4"]
+  from = module.primary_domain.aws_route53_record.www_domain
+  to   = module.alt_domain_openbluebrain_com.aws_route53_record.www_domain
 }
 
 moved {
-  from = module.private_alb_basic.aws_lb_listener_certificate.secondary_root_domain_certificate
-  to   = module.private_alb_basic.aws_lb_listener_certificate.certs_for_alb["5"]
-}
-
-moved {
-  from = module.private_alb_basic.aws_lb_listener_certificate.secondary_www_domain_certificate
-  to   = module.private_alb_basic.aws_lb_listener_certificate.certs_for_alb["6"]
+  from = module.primary_domain.aws_route53_zone.domain
+  to   = module.alt_domain_openbluebrain_com.aws_route53_zone.domain
 }

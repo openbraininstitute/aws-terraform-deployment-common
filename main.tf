@@ -31,8 +31,8 @@ module "private_alb_basic" {
   vpc_id                        = module.network.vpc_id
   vpc_cidr_block                = module.network.vpc_cidr_block
   lb_access_logs_bucket         = module.s3.lb_access_logs_bucket
-  main_domain_hostname          = module.primary_domain.domain_name
-  main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn
+  main_domain_hostname          = var.primary_domain_name
+  main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn # It doesn't matter which one we take as default as we're adding all them anyway as additional certificates.
 
   redirected_hostnames = [
     "www.${module.alt_domain_openbrainplatform_org.domain_name}",
@@ -74,22 +74,35 @@ module "public_nlb_basic" {
   lb_access_logs_bucket = module.s3.lb_access_logs_bucket
 }
 
-module "primary_domain" {
-  source = "./domain"
+# There's no public domain setup anymore for openbraininstitute.org as its DNS is handled by godaddy.
+# We still create a private domain for the ALB.
 
-  domain_name         = var.primary_domain_name
-  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
-  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
-  comment             = "Primary domain"
-}
-
-module "private_primary_domain" {
+module "alt_private_domain_openbraininstitute_org" {
   source = "./private_domain"
 
   domain_name          = var.primary_domain_name
   private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
   comment              = "Primary domain"
+  vpc_id               = module.network.vpc_id
+}
+
+module "alt_domain_openbluebrain_com" {
+  source = "./domain"
+
+  domain_name         = var.alt_domain_openbluebrain_com_name
+  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
+  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
+  comment             = "Alternative domain openbluebrain.com"
+}
+
+module "alt_private_domain_openbluebrain_com" {
+  source = "./private_domain"
+
+  domain_name          = var.alt_domain_openbluebrain_com_name
+  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
+  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
+  comment              = "Alternative domain openbluebrain.com"
   vpc_id               = module.network.vpc_id
 }
 
@@ -101,6 +114,7 @@ module "alt_domain_openbluebrain_ch" {
   public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
   comment             = "Alternative domain openbluebrain.ch"
 }
+
 
 module "alt_private_domain_openbluebrain_ch" {
   source = "./private_domain"
@@ -181,15 +195,15 @@ module "www_openbrainplatform_com_cert" {
 module "openbluebrain_com_cert" {
   source = "./tls_certificate"
 
-  hostname = module.primary_domain.domain_name
-  zone_id  = module.primary_domain.domain_zone_id
+  hostname = var.alt_domain_openbluebrain_com_name
+  zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
 }
 
 module "www_openbluebrain_com_cert" {
   source = "./tls_certificate"
 
-  hostname = "www.${module.primary_domain.domain_name}"
-  zone_id  = module.primary_domain.domain_zone_id
+  hostname = "www.${var.alt_domain_openbluebrain_com_name}"
+  zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
 }
 
 module "openbluebrain_ch_cert" {

@@ -52,13 +52,13 @@ output "public_nlb_sg_id" {
 
 output "primary_domain" {
   description = "Primary platform domain"
-  value       = module.primary_domain.domain_name
+  value       = var.primary_domain_name
   sensitive   = false
 }
 
 output "primary_domain_zone_id" {
-  description = "zone_id of the primary domain"
-  value       = module.primary_domain.domain_zone_id
+  description = "zone_id of the primary domain" # only used by ssh bastion host at the moment: for now pointing to openbluebrain.com, to be fixed
+  value       = module.alt_domain_openbluebrain_com.domain_zone_id
   sensitive   = false
 }
 
