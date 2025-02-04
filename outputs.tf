@@ -136,3 +136,8 @@ output "hpc_codebuild_github_secret_arn" {
   description = "ARN of the HPC CodeBuild/GitHub secret"
   value       = aws_secretsmanager_secret.hpc_codebuild_github_secret.arn
 }
+
+output "email_domain_name" {
+  description = "domain used for sending mails from the platform, mainly to send no-reply@ emails"
+  value       = var.email_domain_name
+}
