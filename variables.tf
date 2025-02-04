@@ -8,6 +8,12 @@ variable "primary_domain_name" {
   sensitive = false
 }
 
+variable "email_domain_name" {
+  type        = string
+  sensitive   = false
+  description = "domain used for sending mails from the platform, mainly to send no-reply@ emails"
+}
+
 variable "alt_domain_openbluebrain_com_name" {
   type      = string
   sensitive = false

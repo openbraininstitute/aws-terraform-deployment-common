@@ -274,3 +274,9 @@ module "public_nlb_config" {
 module "ecr" {
   source = "./ecr"
 }
+
+module "ses" {
+  source = "./ses"
+
+  email_domain_name = var.email_domain_name
+}
