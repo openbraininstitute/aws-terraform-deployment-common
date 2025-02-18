@@ -92,6 +92,11 @@ output "keycloak_secrets_arn" {
   value       = aws_secretsmanager_secret.keycloak_secrets.arn
 }
 
+output "jupyterhub_secrets_arn" {
+  description = "ARN of the JupyterHub secrets manager"
+  value       = aws_secretsmanager_secret.jupyterhub_secrets.arn
+}
+
 output "core_webapp_secrets_arn" {
   description = "ARN of the core-webapp secrets manager"
   value       = aws_secretsmanager_secret.core_webapp_secrets.arn

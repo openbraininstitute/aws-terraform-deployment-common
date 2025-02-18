@@ -17,6 +17,12 @@ resource "aws_secretsmanager_secret" "keycloak_secrets" {
 }
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "jupyterhub_secrets" {
+  name        = "jupyterhub_secrets"
+  description = "Secrets for the JupyterHub service"
+}
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "core_webapp_secrets" {
   name        = "core_web_app_secrets"
   description = "Secret for the core-webapp service"
