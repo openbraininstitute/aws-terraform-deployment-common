@@ -1,6 +1,6 @@
 environment                           = "production"
 nlb_logs_bucket_name                  = "public-nlb-access-logs-obp"
-primary_domain_name                   = "openbluebrain.com"
+primary_domain_name                   = "www.openbraininstitute.org"
 email_domain_name                     = "openbraininstitute.org"
 alt_domain_openbluebrain_com_name     = "openbluebrain.com"
 alt_domain_openbluebrain_ch_name      = "openbluebrain.ch"
