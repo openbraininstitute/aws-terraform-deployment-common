@@ -16,15 +16,12 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_alt_domain_openbluebrain_ch"></a> [alt\_domain\_openbluebrain\_ch](#module\_alt\_domain\_openbluebrain\_ch) | ./domain | n/a |
 | <a name="module_alt_domain_openbrainplatform_com"></a> [alt\_domain\_openbrainplatform\_com](#module\_alt\_domain\_openbrainplatform\_com) | ./domain | n/a |
 | <a name="module_alt_domain_openbrainplatform_org"></a> [alt\_domain\_openbrainplatform\_org](#module\_alt\_domain\_openbrainplatform\_org) | ./domain | n/a |
-| <a name="module_alt_private_domain_openbluebrain_ch"></a> [alt\_private\_domain\_openbluebrain\_ch](#module\_alt\_private\_domain\_openbluebrain\_ch) | ./private_domain | n/a |
 | <a name="module_alt_private_domain_openbrainplatform_com"></a> [alt\_private\_domain\_openbrainplatform\_com](#module\_alt\_private\_domain\_openbrainplatform\_com) | ./private_domain | n/a |
 | <a name="module_alt_private_domain_openbrainplatform_org"></a> [alt\_private\_domain\_openbrainplatform\_org](#module\_alt\_private\_domain\_openbrainplatform\_org) | ./private_domain | n/a |
 | <a name="module_ecr"></a> [ecr](#module\_ecr) | ./ecr | n/a |
 | <a name="module_network"></a> [network](#module\_network) | ./network | n/a |
-| <a name="module_openbluebrain_ch_cert"></a> [openbluebrain\_ch\_cert](#module\_openbluebrain\_ch\_cert) | ./tls_certificate | n/a |
 | <a name="module_openbluebrain_com_cert"></a> [openbluebrain\_com\_cert](#module\_openbluebrain\_com\_cert) | ./tls_certificate | n/a |
 | <a name="module_openbrainplatform_com_cert"></a> [openbrainplatform\_com\_cert](#module\_openbrainplatform\_com\_cert) | ./tls_certificate | n/a |
 | <a name="module_openbrainplatform_org_cert"></a> [openbrainplatform\_org\_cert](#module\_openbrainplatform\_org\_cert) | ./tls_certificate | n/a |
@@ -35,7 +32,6 @@
 | <a name="module_public_nlb_basic"></a> [public\_nlb\_basic](#module\_public\_nlb\_basic) | ./obp_public_nlb_basic | n/a |
 | <a name="module_public_nlb_config"></a> [public\_nlb\_config](#module\_public\_nlb\_config) | ./obp_public_nlb_config | n/a |
 | <a name="module_s3"></a> [s3](#module\_s3) | ./s3 | n/a |
-| <a name="module_www_openbluebrain_ch_cert"></a> [www\_openbluebrain\_ch\_cert](#module\_www\_openbluebrain\_ch\_cert) | ./tls_certificate | n/a |
 | <a name="module_www_openbluebrain_com_cert"></a> [www\_openbluebrain\_com\_cert](#module\_www\_openbluebrain\_com\_cert) | ./tls_certificate | n/a |
 | <a name="module_www_openbrainplatform_com_cert"></a> [www\_openbrainplatform\_com\_cert](#module\_www\_openbrainplatform\_com\_cert) | ./tls_certificate | n/a |
 | <a name="module_www_openbrainplatform_org_cert"></a> [www\_openbrainplatform\_org\_cert](#module\_www\_openbrainplatform\_org\_cert) | ./tls_certificate | n/a |
@@ -76,7 +72,6 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_alt_domain_openbluebrain_ch_name"></a> [alt\_domain\_openbluebrain\_ch\_name](#input\_alt\_domain\_openbluebrain\_ch\_name) | n/a | `string` | n/a | yes |
 | <a name="input_alt_domain_openbrainplatform_com_name"></a> [alt\_domain\_openbrainplatform\_com\_name](#input\_alt\_domain\_openbrainplatform\_com\_name) | n/a | `string` | n/a | yes |
 | <a name="input_alt_domain_openbrainplatform_org_name"></a> [alt\_domain\_openbrainplatform\_org\_name](#input\_alt\_domain\_openbrainplatform\_org\_name) | n/a | `string` | n/a | yes |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | n/a | `string` | `"us-east-1"` | no |

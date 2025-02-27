@@ -48,9 +48,7 @@ module "private_alb_basic" {
 
   cert_arns = [
     module.openbluebrain_com_cert.certificate_arn,
-    module.openbluebrain_ch_cert.certificate_arn,
     module.www_openbluebrain_com_cert.certificate_arn,
-    module.www_openbluebrain_ch_cert.certificate_arn,
     module.www_openbrainplatform_org_cert.certificate_arn,
     module.openbrainplatform_com_cert.certificate_arn,
     module.www_openbrainplatform_com_cert.certificate_arn,
@@ -103,26 +101,6 @@ module "alt_private_domain_openbluebrain_com" {
   private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
   comment              = "Alternative domain openbluebrain.com"
-  vpc_id               = module.network.vpc_id
-}
-
-module "alt_domain_openbluebrain_ch" {
-  source = "./domain"
-
-  domain_name         = var.alt_domain_openbluebrain_ch_name
-  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
-  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
-  comment             = "Alternative domain openbluebrain.ch"
-}
-
-
-module "alt_private_domain_openbluebrain_ch" {
-  source = "./private_domain"
-
-  domain_name          = var.alt_domain_openbluebrain_ch_name
-  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
-  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
-  comment              = "Alternative domain openbluebrain.ch"
   vpc_id               = module.network.vpc_id
 }
 
@@ -204,20 +182,6 @@ module "www_openbluebrain_com_cert" {
 
   hostname = "www.${var.alt_domain_openbluebrain_com_name}"
   zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
-}
-
-module "openbluebrain_ch_cert" {
-  source = "./tls_certificate"
-
-  hostname = module.alt_domain_openbluebrain_ch.domain_name
-  zone_id  = module.alt_domain_openbluebrain_ch.domain_zone_id
-}
-
-module "www_openbluebrain_ch_cert" {
-  source = "./tls_certificate"
-
-  hostname = "www.${module.alt_domain_openbluebrain_ch.domain_name}"
-  zone_id  = module.alt_domain_openbluebrain_ch.domain_zone_id
 }
 
 module "openbraininstitute_org_cert" {
