@@ -61,9 +61,15 @@ output "primary_domain" {
   sensitive   = false
 }
 
-output "primary_domain_zone_id" {
-  description = "zone_id of the primary domain" # only used by ssh bastion host at the moment: for now pointing to openbluebrain.com, to be fixed
-  value       = module.alt_domain_openbluebrain_com.domain_zone_id
+output "bastion_domain" {
+  description = "bastion domain name"
+  value       = module.alt_domain_openbrainplatform_org.domain_name
+  sensitive   = false
+}
+
+output "bastion_domain_zone_id" {
+  description = "zone_id of the bastion domain" # openbrainplatform.org
+  value       = module.alt_domain_openbrainplatform_org.domain_zone_id
   sensitive   = false
 }
 
