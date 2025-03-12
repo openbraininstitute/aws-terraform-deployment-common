@@ -69,3 +69,9 @@ resource "aws_secretsmanager_secret" "hpc_codebuild_github_secret" {
   name        = "hpc_codebuild_github_secret"
   description = "GitHub access token for use in CodeBuild"
 }
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "entitycore_service_secrets" {
+  name        = "entitycore_service_secrets"
+  description = "Secrets for the entitycore service"
+}

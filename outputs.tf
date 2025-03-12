@@ -153,6 +153,11 @@ output "hpc_codebuild_github_secret_arn" {
   value       = aws_secretsmanager_secret.hpc_codebuild_github_secret.arn
 }
 
+output "entitycore_service_secrets_arn" {
+  description = "ARN of the entitycore_service secrets manager"
+  value       = aws_secretsmanager_secret.entitycore_service_secrets.arn
+}
+
 output "email_domain_name" {
   description = "domain used for sending mails from the platform, mainly to send no-reply@ emails"
   value       = var.email_domain_name
