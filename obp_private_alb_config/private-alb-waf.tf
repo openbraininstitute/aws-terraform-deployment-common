@@ -127,13 +127,9 @@ resource "aws_wafv2_web_acl" "basic_protection" {
       #}
     }
     statement {
-      and_statement {
-        statement {
-          label_match_statement {
-            scope = "LABEL"
-            key   = "awswaf:managed:aws:core-rule-set:EC2MetaDataSSRF_QueryArguments"
-          }
-        }
+      label_match_statement {
+        scope = "LABEL"
+        key   = "awswaf:managed:aws:core-rule-set:EC2MetaDataSSRF_QueryArguments"
       }
     }
 
