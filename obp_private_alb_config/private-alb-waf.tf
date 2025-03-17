@@ -7,6 +7,38 @@ resource "aws_wafv2_web_acl" "basic_protection" {
   }
 
   rule {
+    name     = "obi-country-blocklist"
+    priority = 1
+
+    action {
+      block {}
+    }
+
+    statement {
+      geo_match_statement {
+        country_codes = [
+          "AF",
+          "BY",
+          "CU",
+          "IR",
+          "MM",
+          "KP",
+          "RU",
+          "SY",
+          "UA",
+          "VE"
+        ]
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "obi-country-blocklist"
+      sampled_requests_enabled   = false
+    }
+  }
+
+  rule {
     name     = "aws-common-ruleset"
     priority = 10
 
