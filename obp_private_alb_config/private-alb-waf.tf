@@ -244,9 +244,22 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
     statement {
       rate_based_statement {
-        limit                 = 1200
+        limit                 = 1000
         aggregate_key_type    = "IP"
         evaluation_window_sec = 60
+        scope_down_statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "STARTS_WITH"
+            search_string         = "/api/agent/"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
       }
     }
 
