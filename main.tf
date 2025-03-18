@@ -191,6 +191,8 @@ module "next_staging_openbraininstitute_org_cert" {
   source = "./tls_certificate_without_domain"
 
   hostname = "next.staging.openbraininstitute.org"
+
+  validation_domain = "openbraininstitute.org"
 }
 
 module "openbraininstitute_org_cert" {
