@@ -1,4 +1,6 @@
 environment                           = "staging"
+is_staging                            = true
+is_production                         = false
 nlb_logs_bucket_name                  = "public-nlb-access-logs-obp-staging"
 primary_domain_name                   = "staging.openbraininstitute.org"
 email_domain_name                     = "staging.openbraininstitute.org"
