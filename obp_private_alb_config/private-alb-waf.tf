@@ -234,12 +234,11 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     priority = 50
 
     action {
-      count {}
-      #block {
-      #  custom_response {
-      #    response_code = 497
-      #  }
-      #}
+      block {
+        custom_response {
+          response_code = 497
+        }
+      }
     }
 
     statement {
