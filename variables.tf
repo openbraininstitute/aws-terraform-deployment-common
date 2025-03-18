@@ -43,3 +43,16 @@ variable "domain_openbraininstitute_ch_name" {
   type      = string
   sensitive = false
 }
+
+variable "is_production" {
+  type        = bool
+  default     = true
+  sensitive   = false
+  description = "Whether deployment is happening in production or not"
+}
+
+variable "is_staging" {
+  description = "Whether deployment is happening in staging"
+  type        = bool
+  default     = false
+}

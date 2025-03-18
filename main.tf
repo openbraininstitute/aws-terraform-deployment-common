@@ -46,7 +46,9 @@ module "private_alb_basic" {
     "www.${var.domain_openbraininstitute_ch_name}"
   ]
 
-  cert_arns = [
+  # In staging, we currently need 1 additional cert for the next.staging.openbraininstitute.org domain,
+  # which is used for the core web app which no longer uses Nexus.
+  cert_arns = concat([
     module.openbluebrain_com_cert.certificate_arn,
     module.www_openbluebrain_com_cert.certificate_arn,
     module.www_openbrainplatform_org_cert.certificate_arn,
@@ -58,7 +60,7 @@ module "private_alb_basic" {
     module.www_openbraininstitute_com_cert.certificate_arn,
     module.openbraininstitute_ch_cert.certificate_arn,
     module.www_openbraininstitute_ch_cert.certificate_arn
-  ]
+  ], (var.is_staging ? [module.next_staging_openbraininstitute_org_cert[0].certificate_arn] : []))
 }
 
 module "public_nlb_basic" {
@@ -182,6 +184,13 @@ module "www_openbluebrain_com_cert" {
 
   hostname = "www.${var.alt_domain_openbluebrain_com_name}"
   zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
+}
+
+module "next_staging_openbraininstitute_org_cert" {
+  count  = var.is_staging ? 1 : 0
+  source = "./tls_certificate_without_domain"
+
+  hostname = "next.staging.openbraininstitute.org"
 }
 
 module "openbraininstitute_org_cert" {
