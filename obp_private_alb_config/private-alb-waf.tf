@@ -32,7 +32,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "obi-country-blocklist"
       sampled_requests_enabled   = false
     }
@@ -90,7 +90,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
     }
@@ -137,7 +137,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
     }
@@ -166,7 +166,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
     }
@@ -194,7 +194,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-known-bad-inputs"
       sampled_requests_enabled   = false
     }
@@ -223,7 +223,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-bot-control"
       sampled_requests_enabled   = false
     }
@@ -263,7 +263,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "rate-limit-rule-limit-excessive-requests"
       sampled_requests_enabled   = false
     }
@@ -285,15 +285,7 @@ resource "aws_wafv2_web_acl_association" "waf_association" {
   resource_arn = var.private_alb_arn
 }
 
-#tfsec:ignore:aws-cloudwatch-log-group-customer-key
-resource "aws_cloudwatch_log_group" "waf_logs" {
-  name              = "aws-waf-logs-private-loadbalancer"
-  retention_in_days = 30
-  tags_all = {
-    Name = "aws-waf-logs-private-loadbalancer"
-  }
-}
-
+# to re-use with S3 logging
 resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
   log_destination_configs = [aws_cloudwatch_log_group.waf_logs.arn]
   resource_arn            = aws_wafv2_web_acl.basic_protection.arn
@@ -316,11 +308,13 @@ resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
   }
 }
 
+# S3 logging will probably need something similar
 resource "aws_cloudwatch_log_resource_policy" "waf_log_resource_policy" {
   policy_document = data.aws_iam_policy_document.waf_log_policy.json
   policy_name     = "webacl-policy-uniq-name"
 }
 
+# S3 logging will probably need something similar
 data "aws_iam_policy_document" "waf_log_policy" {
   version = "2012-10-17"
   statement {
