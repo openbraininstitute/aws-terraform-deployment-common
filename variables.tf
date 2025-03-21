@@ -1,3 +1,8 @@
+variable "waf_logs_bucket_name" {
+  description = "Bucket name for AWS WAF logs"
+  type        = string
+  sensitive   = false
+}
 variable "nlb_logs_bucket_name" {
   type      = string
   sensitive = false

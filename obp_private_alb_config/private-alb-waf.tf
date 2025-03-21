@@ -286,7 +286,7 @@ resource "aws_wafv2_web_acl_association" "waf_association" {
 }
 
 resource "aws_s3_bucket" "aws_waf_logs_bucket" {
-  bucket = "aws-waf-logs-ce4f2"
+  bucket = var.waf_logs_bucket_name
 }
 
 resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {

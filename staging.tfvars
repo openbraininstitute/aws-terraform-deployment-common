@@ -1,6 +1,7 @@
 environment                           = "staging"
 is_staging                            = true
 is_production                         = false
+waf_logs_bucket_name                  = "aws-waf-logs-staging-db5fa"
 nlb_logs_bucket_name                  = "public-nlb-access-logs-obp-staging"
 primary_domain_name                   = "staging.openbraininstitute.org"
 email_domain_name                     = "staging.openbraininstitute.org"
