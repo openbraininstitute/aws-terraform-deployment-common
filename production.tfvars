@@ -1,6 +1,7 @@
 environment                           = "production"
 is_staging                            = false
 is_production                         = true
+waf_logs_bucket_name                  = "aws-waf-logs-prod-ae83f"
 nlb_logs_bucket_name                  = "public-nlb-access-logs-obp"
 primary_domain_name                   = "www.openbraininstitute.org"
 email_domain_name                     = "openbraininstitute.org"

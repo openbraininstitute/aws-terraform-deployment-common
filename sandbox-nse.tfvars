@@ -1,4 +1,5 @@
 environment                           = "sandbox-nse"
+waf_logs_bucket_name                  = "aws-waf-logs-sandboxnse-6ba52"
 nlb_logs_bucket_name                  = "public-nlb-access-logs-obp-sandbox-nse"
 primary_domain_name                   = "sandboxnse.openbraininstitute.org"
 email_domain_name                     = "sandboxnse.openbraininstitute.org"

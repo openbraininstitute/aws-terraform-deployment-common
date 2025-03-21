@@ -1,6 +1,7 @@
 environment                           = "sandbox-hpc"
 is_staging                            = false
 is_production                         = false
+waf_logs_bucket_name                  = "aws-waf-logs-sandboxhpc-ce4f2"
 nlb_logs_bucket_name                  = "public-nlb-access-logs-obp-sandbox-hpc"
 primary_domain_name                   = "sandboxhpc.openbraininstitute.org"
 email_domain_name                     = "sandboxhpc.openbraininstitute.org"

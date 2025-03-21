@@ -234,7 +234,8 @@ module "www_openbraininstitute_com_cert" {
 module "private_alb_config" {
   source = "./obp_private_alb_config"
 
-  private_alb_arn = module.private_alb_basic.private_alb_arn
+  private_alb_arn      = module.private_alb_basic.private_alb_arn
+  waf_logs_bucket_name = var.waf_logs_bucket_name
 }
 
 module "public_nlb_config" {

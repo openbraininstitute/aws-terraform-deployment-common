@@ -4,3 +4,8 @@ variable "private_alb_arn" {
   sensitive   = false
 }
 
+variable "waf_logs_bucket_name" {
+  description = "Bucket name for AWS WAF logs"
+  type        = string
+  sensitive   = false
+}
