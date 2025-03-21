@@ -285,58 +285,58 @@ resource "aws_wafv2_web_acl_association" "waf_association" {
   resource_arn = var.private_alb_arn
 }
 
-# to re-use with S3 logging
-resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
-  log_destination_configs = [aws_cloudwatch_log_group.waf_logs.arn]
-  resource_arn            = aws_wafv2_web_acl.basic_protection.arn
-  logging_filter {
-    default_behavior = "DROP"
-    filter {
-      behavior = "KEEP"
-      condition {
-        action_condition {
-          action = "BLOCK"
-        }
-      }
-      condition {
-        action_condition {
-          action = "COUNT"
-        }
-      }
-      requirement = "MEETS_ANY"
-    }
-  }
-}
-
-# S3 logging will probably need something similar
-resource "aws_cloudwatch_log_resource_policy" "waf_log_resource_policy" {
-  policy_document = data.aws_iam_policy_document.waf_log_policy.json
-  policy_name     = "webacl-policy-uniq-name"
-}
-
-# S3 logging will probably need something similar
-data "aws_iam_policy_document" "waf_log_policy" {
-  version = "2012-10-17"
-  statement {
-    effect = "Allow"
-    principals {
-      identifiers = ["delivery.logs.amazonaws.com"]
-      type        = "Service"
-    }
-    actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
-    resources = ["${aws_cloudwatch_log_group.waf_logs.arn}:*"]
-    condition {
-      test     = "ArnLike"
-      values   = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
-      variable = "aws:SourceArn"
-    }
-    condition {
-      test     = "StringEquals"
-      values   = [tostring(data.aws_caller_identity.current.account_id)]
-      variable = "aws:SourceAccount"
-    }
-  }
-}
+# # to re-use with S3 logging
+# resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
+#   log_destination_configs = [aws_cloudwatch_log_group.waf_logs.arn]
+#   resource_arn            = aws_wafv2_web_acl.basic_protection.arn
+#   logging_filter {
+#     default_behavior = "DROP"
+#     filter {
+#       behavior = "KEEP"
+#       condition {
+#         action_condition {
+#           action = "BLOCK"
+#         }
+#       }
+#       condition {
+#         action_condition {
+#           action = "COUNT"
+#         }
+#       }
+#       requirement = "MEETS_ANY"
+#     }
+#   }
+# }
+#
+# # S3 logging will probably need something similar
+# resource "aws_cloudwatch_log_resource_policy" "waf_log_resource_policy" {
+#   policy_document = data.aws_iam_policy_document.waf_log_policy.json
+#   policy_name     = "webacl-policy-uniq-name"
+# }
+#
+# # S3 logging will probably need something similar
+# data "aws_iam_policy_document" "waf_log_policy" {
+#   version = "2012-10-17"
+#   statement {
+#     effect = "Allow"
+#     principals {
+#       identifiers = ["delivery.logs.amazonaws.com"]
+#       type        = "Service"
+#     }
+#     actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
+#     resources = ["${aws_cloudwatch_log_group.waf_logs.arn}:*"]
+#     condition {
+#       test     = "ArnLike"
+#       values   = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
+#       variable = "aws:SourceArn"
+#     }
+#     condition {
+#       test     = "StringEquals"
+#       values   = [tostring(data.aws_caller_identity.current.account_id)]
+#       variable = "aws:SourceAccount"
+#     }
+#   }
+# }
 
 data "aws_region" "current" {}
 
