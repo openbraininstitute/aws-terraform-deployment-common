@@ -1,4 +1,6 @@
 environment                           = "sandbox-hpc"
+is_staging                            = false
+is_production                         = false
 nlb_logs_bucket_name                  = "public-nlb-access-logs-obp-sandbox-hpc"
 primary_domain_name                   = "sandboxhpc.openbraininstitute.org"
 email_domain_name                     = "sandboxhpc.openbraininstitute.org"

@@ -32,7 +32,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "obi-country-blocklist"
       sampled_requests_enabled   = false
     }
@@ -90,7 +90,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
     }
@@ -137,7 +137,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
     }
@@ -166,7 +166,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
     }
@@ -194,7 +194,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-known-bad-inputs"
       sampled_requests_enabled   = false
     }
@@ -223,7 +223,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "aws-bot-control"
       sampled_requests_enabled   = false
     }
@@ -263,7 +263,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = true
+      cloudwatch_metrics_enabled = false
       metric_name                = "rate-limit-rule-limit-excessive-requests"
       sampled_requests_enabled   = false
     }
@@ -285,18 +285,21 @@ resource "aws_wafv2_web_acl_association" "waf_association" {
   resource_arn = var.private_alb_arn
 }
 
-#tfsec:ignore:aws-cloudwatch-log-group-customer-key
-resource "aws_cloudwatch_log_group" "waf_logs" {
-  name              = "aws-waf-logs-private-loadbalancer"
-  retention_in_days = 30
-  tags_all = {
-    Name = "aws-waf-logs-private-loadbalancer"
-  }
+resource "aws_s3_bucket" "aws_waf_logs_bucket" {
+  bucket = "aws-waf-logs-ce4f2"
 }
 
 resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
-  log_destination_configs = [aws_cloudwatch_log_group.waf_logs.arn]
+  log_destination_configs = [aws_s3_bucket.aws_waf_logs_bucket.arn]
   resource_arn            = aws_wafv2_web_acl.basic_protection.arn
+
+  redacted_fields {
+    single_header {
+      # must be provided in lowercase according to terraform docs
+      name = "authorization"
+    }
+  }
+
   logging_filter {
     default_behavior = "DROP"
     filter {
@@ -312,34 +315,6 @@ resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
         }
       }
       requirement = "MEETS_ANY"
-    }
-  }
-}
-
-resource "aws_cloudwatch_log_resource_policy" "waf_log_resource_policy" {
-  policy_document = data.aws_iam_policy_document.waf_log_policy.json
-  policy_name     = "webacl-policy-uniq-name"
-}
-
-data "aws_iam_policy_document" "waf_log_policy" {
-  version = "2012-10-17"
-  statement {
-    effect = "Allow"
-    principals {
-      identifiers = ["delivery.logs.amazonaws.com"]
-      type        = "Service"
-    }
-    actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
-    resources = ["${aws_cloudwatch_log_group.waf_logs.arn}:*"]
-    condition {
-      test     = "ArnLike"
-      values   = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
-      variable = "aws:SourceArn"
-    }
-    condition {
-      test     = "StringEquals"
-      values   = [tostring(data.aws_caller_identity.current.account_id)]
-      variable = "aws:SourceAccount"
     }
   }
 }
