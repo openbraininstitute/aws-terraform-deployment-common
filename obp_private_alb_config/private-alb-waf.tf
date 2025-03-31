@@ -63,7 +63,6 @@ resource "aws_wafv2_web_acl" "basic_protection" {
         }
         rule_action_override {
           # Ignore SSRF Query Arguments - we'll deal with those in a later rule
-          # staging 2025-03-24: doesn't seem to get hit
           action_to_use {
             count {}
           }
@@ -73,7 +72,6 @@ resource "aws_wafv2_web_acl" "basic_protection" {
         rule_action_override {
           # This messes with Keycloak, it's unclear whether it's for dev setups only.
           # Once openbluebrain is publicly accessible, evaluate whether we need to add an exception
-          # staging 2025-03-24: doesn't seem to get hit
           action_to_use {
             count {}
           }
@@ -83,12 +81,19 @@ resource "aws_wafv2_web_acl" "basic_protection" {
         rule_action_override {
           # This messes with Keycloak, it's unclear whether it's for dev setups only.
           # Once openbluebrain is publicly accessible, evaluate whether we need to add an exception
-          # staging 2025-03-24: doesn't seem to get hit
           action_to_use {
             count {}
           }
 
           name = "GenericRFI_BODY"
+        }
+        rule_action_override {
+          # Some file uploads run into this
+          action_to_use {
+            count {}
+          }
+
+          name = "CrossSiteScripting_BODY"
         }
       }
     }
