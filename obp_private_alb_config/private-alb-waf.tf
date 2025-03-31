@@ -1,3 +1,9 @@
+resource "aws_wafv2_ip_set" "internal_ips" {
+  name               = "internal IPs"
+  scope              = "REGIONAL"
+  ip_address_version = "IPV4"
+  addresses          = ["10.0.0.0/16"]
+}
 resource "aws_wafv2_web_acl" "basic_protection" {
   name  = "private-alb-waf"
   scope = "REGIONAL"
@@ -34,6 +40,27 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     visibility_config {
       cloudwatch_metrics_enabled = false
       metric_name                = "obi-country-blocklist"
+      sampled_requests_enabled   = false
+    }
+  }
+
+  rule {
+    name     = "obi-allow-internal-traffic"
+    priority = 5
+
+    action {
+      allow {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.internal_ips.arn
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = false
+      metric_name                = "obi_allow-internal-traffic"
       sampled_requests_enabled   = false
     }
   }
