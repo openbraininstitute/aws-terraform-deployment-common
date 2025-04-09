@@ -236,6 +236,7 @@ module "private_alb_config" {
 
   private_alb_arn      = module.private_alb_basic.private_alb_arn
   waf_logs_bucket_name = var.waf_logs_bucket_name
+  vpc_cidr_block       = module.network.vpc_cidr_block
 }
 
 module "public_nlb_config" {
