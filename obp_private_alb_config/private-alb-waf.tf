@@ -2,7 +2,7 @@ resource "aws_wafv2_ip_set" "internal_ips" {
   name               = "internal_IPs"
   scope              = "REGIONAL"
   ip_address_version = "IPV4"
-  addresses          = ["10.0.0.0/16"]
+  addresses          = [var.vpc_cidr_block]
 }
 resource "aws_wafv2_web_acl" "basic_protection" {
   name  = "private-alb-waf"

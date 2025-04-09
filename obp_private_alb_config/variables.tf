@@ -9,3 +9,9 @@ variable "waf_logs_bucket_name" {
   type        = string
   sensitive   = false
 }
+
+variable "vpc_cidr_block" {
+  description = "CIDR block or network range of the VPC"
+  type        = string
+  sensitive   = false
+}
