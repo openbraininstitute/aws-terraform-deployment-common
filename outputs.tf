@@ -158,6 +158,11 @@ output "entitycore_service_secrets_arn" {
   value       = aws_secretsmanager_secret.entitycore_service_secrets.arn
 }
 
+output "obi_generative_gui_secrets_arn" {
+  description = "ARN of the obi-generative-gui secrets manager"
+  value       = aws_secretsmanager_secret.obi_generative_gui_service_secrets.arn
+}
+
 output "email_domain_name" {
   description = "domain used for sending mails from the platform, mainly to send no-reply@ emails"
   value       = var.email_domain_name
