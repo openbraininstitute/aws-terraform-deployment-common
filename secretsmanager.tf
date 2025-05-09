@@ -75,3 +75,9 @@ resource "aws_secretsmanager_secret" "entitycore_service_secrets" {
   name        = "entitycore_service_secrets"
   description = "Secrets for the entitycore service"
 }
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "obi_generative_gui_service_secrets" {
+  name        = "obi_generative_gui_secrets"
+  description = "Secrets for the obi-generative-gui service"
+}
