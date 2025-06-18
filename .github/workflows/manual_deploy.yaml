@@ -41,4 +41,4 @@ jobs:
 
       - name: Run Terraform Apply
         run: |
-          terraform apply -auto-approve -var-file="${{ inputs.environment }}.tfvars"
+          terraform apply -input=false -auto-approve -var-file="${{ inputs.environment }}.tfvars"
