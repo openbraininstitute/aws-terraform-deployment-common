@@ -17,3 +17,14 @@ provider "aws" {
     }
   }
 }
+
+provider "aws" {
+  alias  = "site_to_site_vpn"
+  region = "us-east-1"
+
+  default_tags {
+    tags = {
+      SBO_Billing = "site_to_site_vpn"
+    }
+  }
+}
