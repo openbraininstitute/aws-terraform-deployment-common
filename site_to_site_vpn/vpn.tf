@@ -14,8 +14,9 @@ resource "aws_vpn_gateway" "vpn_gateway" {
 # Create a Customer Gateway for the Azure Virtual Hub VPN Gateway
 resource "aws_customer_gateway" "azure_hub_gw" {
   bgp_asn = var.azure_bgp_asn
-  # Azure side should connect to AWS side
-  # ip_address = var.azure_vpn_gateway_tunnel1_ip_address
+
+  ip_address = var.azure_vpn_gateway_tunnel1_ip_address
+
   type = "ipsec.1"
 
   tags = {
