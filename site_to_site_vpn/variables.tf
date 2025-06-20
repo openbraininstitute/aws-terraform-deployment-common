@@ -16,11 +16,11 @@ variable "azure_bgp_asn" {
   sensitive   = false
 }
 
-# variable "azure_vpn_gateway_tunnel1_ip_address" {
-#   description = "The IP address of the tunnel interface on the Azure VPN Gateway"
-#   type        = string
-#   sensitive   = false
-# }
+variable "azure_vpn_gateway_tunnel1_ip_address" {
+  description = "The IP address of the tunnel interface on the Azure VPN Gateway"
+  type        = string
+  sensitive   = false
+}
 
 variable "tunnel1_preshared_key" {
   description = "The first preshared key for the Azure VPN Gateway"
