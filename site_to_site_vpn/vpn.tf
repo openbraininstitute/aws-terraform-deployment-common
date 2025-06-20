@@ -13,9 +13,10 @@ resource "aws_vpn_gateway" "vpn_gateway" {
 
 # Create a Customer Gateway for the Azure Virtual Hub VPN Gateway
 resource "aws_customer_gateway" "azure_hub_gw" {
-  bgp_asn    = var.azure_bgp_asn
-  ip_address = var.azure_vpn_gateway_tunnel1_ip_address
-  type       = "ipsec.1"
+  bgp_asn = var.azure_bgp_asn
+  # Azure side should connect to AWS side
+  # ip_address = var.azure_vpn_gateway_tunnel1_ip_address
+  type = "ipsec.1"
 
   tags = {
     Name = "CGW-to-Azure-Hub"
@@ -30,10 +31,36 @@ resource "aws_vpn_connection" "to_azure_hub" {
   static_routes_only      = false
   outside_ip_address_type = "PublicIpv4"
 
-  tunnel1_preshared_key = var.azure_vpn_gateway_preshared_key
-  tunnel2_preshared_key = var.azure_vpn_gateway_preshared_key
+  tunnel1_preshared_key = var.tunnel1_preshared_key
+  tunnel2_preshared_key = var.tunnel2_preshared_key
+
+  # Note: needs to be a /30 from RFC 6890. AWS always takes subnet+.1
+  # AWS only allows certain ranges, see https://docs.aws.amazon.com/vpn/latest/s2svpn/VPNTunnels.html
+  # Azure only allows certain ranges, see https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-howto-aws-bgp
+  # Basically: within 169.254.21.0 up to 169.254.22.255, you need 2 /30s
+  tunnel1_inside_cidr = var.azure_vpn_gateway_tunnel1_inside_cidr
+  tunnel2_inside_cidr = var.azure_vpn_gateway_tunnel2_inside_cidr
+
+  tunnel1_ike_versions = ["ikev2"]
+  tunnel2_ike_versions = ["ikev2"]
 
   tags = {
     Name = "VPN-to-Azure-Hub"
   }
+}
+
+resource "aws_route53_record" "vpn_hostname1" {
+  zone_id = var.zone_id
+  name    = "${var.cname_base}1.${var.domainname}"
+  type    = "A"
+  ttl     = 60 # TODO increase
+  records = [aws_vpn_connection.to_azure_hub.tunnel1_address]
+}
+
+resource "aws_route53_record" "vpn_hostname2" {
+  zone_id = var.zone_id
+  name    = "${var.cname_base}2.${var.domainname}"
+  type    = "A"
+  ttl     = 60 # TODO increase
+  records = [aws_vpn_connection.to_azure_hub.tunnel2_address]
 }
