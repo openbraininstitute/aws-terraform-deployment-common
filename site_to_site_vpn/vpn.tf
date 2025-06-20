@@ -24,6 +24,15 @@ resource "aws_customer_gateway" "azure_hub_gw" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "tunnel1" {
+  name = "vpn-tunnel-1"
+}
+
+resource "aws_cloudwatch_log_group" "tunnel2" {
+  name = "vpn-tunnel-2"
+}
+
+
 # Create a VPN Connection to the Azure Virtual Hub
 resource "aws_vpn_connection" "to_azure_hub" {
   vpn_gateway_id          = aws_vpn_gateway.vpn_gateway.id
@@ -34,6 +43,21 @@ resource "aws_vpn_connection" "to_azure_hub" {
 
   tunnel1_preshared_key = var.tunnel1_preshared_key
   tunnel2_preshared_key = var.tunnel2_preshared_key
+
+  tunnel1_log_options {
+    cloudwatch_log_options {
+      log_enabled       = true
+      log_output_format = "json"
+      log_group_arn     = aws_cloudwatch_log_group.tunnel1.arn
+    }
+  }
+  tunnel2_log_options {
+    cloudwatch_log_options {
+      log_enabled       = true
+      log_output_format = "json"
+      log_group_arn     = aws_cloudwatch_log_group.tunnel2.arn
+    }
+  }
 
   # Note: needs to be a /30 from RFC 6890. AWS always takes subnet+.1
   # AWS only allows certain ranges, see https://docs.aws.amazon.com/vpn/latest/s2svpn/VPNTunnels.html
