@@ -62,14 +62,14 @@ variable "is_staging" {
   default     = false
 }
 
-variable "azure_vpn_gateway_preshared_key" {
+variable "azure_vpn_gateway_tunnel1_preshared_key" {
+  description = "The first preshared key for the Azure VPN Gateway"
   type        = string
-  description = "Preshared key for the VPN gateway towards Azure"
   sensitive   = true
 }
 
-variable "azure_vpn_gateway_tunnel1_ip_address" {
+variable "azure_vpn_gateway_tunnel2_preshared_key" {
+  description = "The second preshared key for the Azure VPN Gateway"
   type        = string
-  description = "IP address of the first tunnel interface on the Azure side of the VPN connection."
-  sensitive   = false
+  sensitive   = true
 }
