@@ -25,11 +25,15 @@ resource "aws_customer_gateway" "azure_hub_gw" {
 }
 
 resource "aws_cloudwatch_log_group" "tunnel1" {
-  name = "vpn-tunnel-1"
+  name              = "vpn-tunnel-to-azure-1"
+  log_group_class   = "INFREQUENT_ACCESS"
+  retention_in_days = 3
 }
 
 resource "aws_cloudwatch_log_group" "tunnel2" {
-  name = "vpn-tunnel-2"
+  name              = "vpn-tunnel-to-azure-2"
+  log_group_class   = "INFREQUENT_ACCESS"
+  retention_in_days = 3
 }
 
 
