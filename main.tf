@@ -280,7 +280,7 @@ module "vpn_to_azure" {
   domainname = module.alt_domain_openbrainplatform_org.domain_name
   zone_id    = module.alt_domain_openbrainplatform_org.domain_zone_id
 
-  azure_vpn_gateway_tunnel1_ip_address = "172.212.2.128"
+  azure_vpn_gateway_tunnel1_ip_address = "4.237.204.136"
 
   providers = {
     aws = aws.site_to_site_vpn
