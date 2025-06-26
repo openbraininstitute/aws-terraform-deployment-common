@@ -286,3 +286,21 @@ module "vpn_to_azure" {
     aws = aws.site_to_site_vpn
   }
 }
+
+# Goal: private NLB with fixed ip address, which points to the private ALB which cannot have a fixed ip address
+# Once the AWS and Azure private networks are linked, then the AWS components can be reached via this
+# static ip.
+module "private_nlb" {
+  source = "./private_nlb"
+
+  count = var.is_staging ? 1 : 0
+
+  private_subnet_1_id         = aws_subnet.private_alb_a.id
+  private_subnet_1_ip_address = "10.0.2.157"
+  private_subnet_2_id         = aws_subnet.private_alb_b.id
+  private_subnet_2_ip_address = "10.0.2.173"
+  private_nlb_name            = "private-nlb"
+  vpc_id                      = module.network.vpc_id
+  vpc_cidr_block              = module.network.vpc_cidr_block
+  lb_access_logs_bucket       = module.s3.lb_access_logs_bucket
+}
