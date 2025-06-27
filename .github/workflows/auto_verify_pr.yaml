@@ -16,6 +16,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_azure_vpn_gateway_tunnel1_preshared_key: ${{ secrets.AZURE_VPN_GATEWAY_PRESHARED_KEY1 }}
       TF_VAR_azure_vpn_gateway_tunnel2_preshared_key: ${{ secrets.AZURE_VPN_GATEWAY_PRESHARED_KEY2 }}
+      TF_VAR_azure_vpn_gateway_tunnel1_ip_address: ${{ secrets.AZURE_VPN_GATEWAY_TUNNEL1_IP_ADDRESS }}
 
     runs-on: ubuntu-latest
     name: Auto Verify & plan terraform code for branch environment

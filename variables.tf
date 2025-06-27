@@ -73,3 +73,9 @@ variable "azure_vpn_gateway_tunnel2_preshared_key" {
   type        = string
   sensitive   = true
 }
+
+variable "azure_vpn_gateway_tunnel1_ip_address" {
+  description = "The first IP address of the Azure VPN Gateway"
+  type        = string
+  sensitive   = false
+}
