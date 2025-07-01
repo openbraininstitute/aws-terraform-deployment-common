@@ -33,6 +33,14 @@ resource "aws_route_table" "public" {
     Name = var.public_route_name
   }
 }
+
+resource "aws_vpn_gateway_route_propagation" "public_propagation" {
+  count = var.vpn_gateway_id != null ? 1 : 0
+
+  route_table_id = aws_route_table.public.id
+  vpn_gateway_id = var.vpn_gateway_id
+}
+
 resource "aws_route" "public_route_default_ipv4" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
