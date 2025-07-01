@@ -15,6 +15,8 @@ module "network" {
   # nat_eip_name               = "nat_eip"
   # public_subnet_1_availability_zone = "a"
   # public_subnet_2_availability_zone = "b"
+
+  vpn_gateway_id = var.is_staging ? module.vpn_to_azure[0].vpn_gateway_id : null
 }
 
 module "s3" {

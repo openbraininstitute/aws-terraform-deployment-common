@@ -58,3 +58,9 @@ variable "nat_eip_name" {
   sensitive = false
   default   = "nat_eip"
 }
+
+variable "vpn_gateway_id" {
+  type      = string
+  sensitive = false
+  default   = null
+}
