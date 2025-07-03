@@ -65,6 +65,19 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_internal" {
   }
 }
 
+resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure_staging" {
+  security_group_id = aws_security_group.nlb.id
+  description       = "Allow HTTPS via VPN to azure staging"
+  from_port         = 443
+  to_port           = 443
+  ip_protocol       = "tcp"
+  cidr_ipv4         = "10.101.0.0/16"
+
+  tags = {
+    Name = "private_nlb_allow_https_within_vpc"
+  }
+}
+
 # TODO limit to only the listener ports and health check ports of the instance groups
 resource "aws_vpc_security_group_egress_rule" "nlb_allow_outgoing_internal" {
   security_group_id = aws_security_group.nlb.id
