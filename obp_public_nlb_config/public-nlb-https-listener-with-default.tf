@@ -7,7 +7,7 @@ resource "aws_lb_target_group" "private_alb_target_group_http" {
 
   health_check {
     enabled  = true
-    path     = "/mmb-beta"
+    path     = "/mmb-beta" # TODO change into / ?
     protocol = "HTTP"
   }
 
@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "private_alb_target_group_https" {
 
   health_check {
     enabled  = true
-    path     = "/mmb-beta"
+    path     = "/mmb-beta" # TODO change into / ?
     protocol = "HTTP"
     port     = 80
   }
