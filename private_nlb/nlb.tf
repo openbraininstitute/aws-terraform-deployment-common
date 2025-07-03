@@ -89,3 +89,76 @@ resource "aws_vpc_security_group_egress_rule" "nlb_allow_outgoing_internal" {
     Name = "private_nlb_allow_outgoing_within_vpc"
   }
 }
+
+resource "aws_lb_target_group" "private_alb_target_group_http" {
+  name        = "priv-nlb-to-priv-alb-http"
+  target_type = "alb"
+  port        = 80
+  protocol    = "TCP"
+  vpc_id      = var.vpc_id
+
+  health_check {
+    enabled  = true
+    path     = "/"
+    protocol = "HTTP"
+  }
+
+}
+
+resource "aws_lb_target_group" "private_alb_target_group_https" {
+  name        = "priv-nlb-to-priv-alb-https"
+  target_type = "alb"
+  port        = 443
+  protocol    = "TCP"
+  vpc_id      = var.vpc_id
+
+  health_check {
+    enabled  = true
+    path     = "/"
+    protocol = "HTTP"
+    port     = 80
+  }
+
+}
+
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.nlb.arn
+  port              = "443"
+  protocol          = "TCP"
+
+  default_action {
+    type = "forward"
+
+    target_group_arn = aws_lb_target_group.private_alb_target_group_https.arn
+  }
+
+  depends_on = [
+    aws_lb.nlb
+  ]
+}
+
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.nlb.arn
+  port              = "80"
+  protocol          = "TCP"
+
+  default_action {
+    type = "forward"
+
+    target_group_arn = aws_lb_target_group.private_alb_target_group_http.arn
+  }
+
+  depends_on = [
+    aws_lb.nlb
+  ]
+}
+
+resource "aws_lb_target_group_attachment" "private_alb_target_group_https_attachment" {
+  target_id        = var.private_alb_arn
+  target_group_arn = aws_lb_target_group.private_alb_target_group_https.arn
+}
+
+resource "aws_lb_target_group_attachment" "private_alb_target_group_http_attachment" {
+  target_id        = var.private_alb_arn
+  target_group_arn = aws_lb_target_group.private_alb_target_group_http.arn
+}

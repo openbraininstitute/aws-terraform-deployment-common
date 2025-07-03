@@ -305,4 +305,5 @@ module "private_nlb" {
   vpc_id                      = module.network.vpc_id
   vpc_cidr_block              = module.network.vpc_cidr_block
   lb_access_logs_bucket       = module.s3.lb_access_logs_bucket
+  private_alb_arn             = module.private_alb_basic.private_alb_arn
 }

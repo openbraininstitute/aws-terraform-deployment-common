@@ -45,3 +45,9 @@ variable "lb_access_logs_bucket" {
   type        = string
   description = "Bucket to which the load balancer can log"
 }
+
+variable "private_alb_arn" {
+  description = "ARN of the private ALB"
+  type        = string
+  sensitive   = false
+}
