@@ -63,7 +63,7 @@ module "private_alb_basic" {
     module.www_openbraininstitute_com_cert.certificate_arn,
     module.openbraininstitute_ch_cert.certificate_arn,
     module.www_openbraininstitute_ch_cert.certificate_arn
-  ], (var.is_staging ? [module.next_staging_openbraininstitute_org_cert[0].certificate_arn] : []))
+  ], (var.is_staging ? [module.next_staging_openbraininstitute_org_cert[0].certificate_arn, module.dev_openbraininstitute_org_cert[0].certificate_arn] : []))
 }
 
 module "public_nlb_basic" {
@@ -189,6 +189,7 @@ module "www_openbluebrain_com_cert" {
   zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
 }
 
+# TODO: deleteme when next env is decommisioned
 module "next_staging_openbraininstitute_org_cert" {
   count  = var.is_staging ? 1 : 0
   source = "./tls_certificate_without_domain"
@@ -202,6 +203,14 @@ module "cdn_openbraininstitute_org_cert" {
   source = "./tls_certificate_without_domain"
 
   hostname          = "cdn.${var.primary_domain_name}"
+  validation_domain = "openbraininstitute.org"
+}
+
+module "dev_openbraininstitute_org_cert" {
+  count  = var.is_staging ? 1 : 0
+  source = "./tls_certificate_without_domain"
+
+  hostname          = "dev.openbraininstitute.org"
   validation_domain = "openbraininstitute.org"
 }
 
