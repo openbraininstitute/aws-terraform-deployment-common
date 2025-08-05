@@ -53,6 +53,7 @@ module "private_alb_basic" {
   cert_arns = concat([
     module.openbluebrain_com_cert.certificate_arn,
     module.www_openbluebrain_com_cert.certificate_arn,
+    module.jupyterhub_openbrainplatform_com_cert.certificate_arn,
     module.www_openbrainplatform_org_cert.certificate_arn,
     module.openbrainplatform_com_cert.certificate_arn,
     module.www_openbrainplatform_com_cert.certificate_arn,
@@ -187,6 +188,13 @@ module "www_openbluebrain_com_cert" {
 
   hostname = "www.${var.alt_domain_openbluebrain_com_name}"
   zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
+}
+
+module "jupyterhub_openbrainplatform_com_cert" {
+  source = "./tls_certificate_without_domain"
+
+  hostname          = "jupyterhub.${module.alt_domain_openbrainplatform_com.domain_name}"
+  validation_domain = var.is_production ? "openbrainplatform.com" : "staging.openbrainplatform.com"
 }
 
 module "next_staging_openbraininstitute_org_cert" {
