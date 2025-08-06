@@ -209,7 +209,7 @@ module "next_staging_openbraininstitute_org_cert" {
 module "cdn_openbraininstitute_org_cert" {
   source = "./tls_certificate_without_domain"
 
-  hostname          = "cdn.${var.primary_domain_name}"
+  hostname          = var.is_production ? "cdn.openbraininstitute.org" : "cdn.staging.openbraininstitute.org"
   validation_domain = "openbraininstitute.org"
 }
 
