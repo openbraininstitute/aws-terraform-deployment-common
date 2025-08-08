@@ -167,3 +167,9 @@ output "email_domain_name" {
   description = "domain used for sending mails from the platform, mainly to send no-reply@ emails"
   value       = var.email_domain_name
 }
+
+output "cloudfront_certificate_arn" {
+  description = "cloudfront certificate for cdn.{staging}.openbraininstitute.org domain"
+  value       = module.cdn_openbraininstitute_org_cert.certificate_arn
+}
+
