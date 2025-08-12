@@ -78,11 +78,6 @@ output "private_alb_https_listener_arn" {
   value       = module.private_alb_basic.alb_https_listener_arn
 }
 
-output "private_alb_security_group_id" {
-  description = "ID of the SG of the private ALB"
-  value       = aws_security_group.private_alb.id
-}
-
 output "generic_private_alb_security_group_id" {
   description = "Id of the SG of the new private ALB"
   value       = module.private_alb_basic.alb_securitygroup_id
