@@ -4,6 +4,7 @@ resource "aws_route53_zone" "domain" {
 }
 
 resource "aws_route53_record" "domain_A" {
+  count   = var.public_nlb_dns_name != null && var.public_nlb_zone_id != null ? 1 : 0
   zone_id = aws_route53_zone.domain.id
   name    = var.domain_name
   type    = "A"

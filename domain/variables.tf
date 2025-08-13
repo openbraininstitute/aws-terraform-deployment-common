@@ -5,10 +5,12 @@ variable "domain_name" {
 variable "public_nlb_dns_name" {
   type      = string
   sensitive = false
+  default   = null
 }
 variable "public_nlb_zone_id" {
   type      = string
   sensitive = false
+  default   = null
 }
 variable "comment" {
   type        = string
