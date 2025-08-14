@@ -123,11 +123,6 @@ output "hpc_slurm_secrets_arn" {
   value       = aws_secretsmanager_secret.hpc_slurm_secrets.arn
 }
 
-output "nexus_secrets_arn" {
-  description = "ARN of the Nexus secrets manager"
-  value       = aws_secretsmanager_secret.nexus_secrets.arn
-}
-
 output "workflow_service_secrets_arn" {
   description = "ARN of the workflow secrets manager"
   value       = aws_secretsmanager_secret.workflow_secrets.arn
@@ -167,4 +162,3 @@ output "cloudfront_certificate_arn" {
   description = "cloudfront certificate for cdn.{staging}.openbraininstitute.org domain"
   value       = module.cdn_openbraininstitute_org_cert.certificate_arn
 }
-

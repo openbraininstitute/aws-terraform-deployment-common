@@ -48,8 +48,7 @@ module "private_alb_basic" {
     "www.${var.domain_openbraininstitute_ch_name}"
   ]
 
-  # In staging, we currently need 1 additional cert for the next.staging.openbraininstitute.org domain,
-  # which is used for the core web app which no longer uses Nexus.
+  # In staging, we currently need 1 additional cert for the next.staging.openbraininstitute.org domain
   cert_arns = concat([
     module.openbluebrain_com_cert.certificate_arn,
     module.www_openbluebrain_com_cert.certificate_arn,
