@@ -53,12 +53,6 @@ resource "aws_secretsmanager_secret" "hpc_slurm_secrets" {
 }
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
-resource "aws_secretsmanager_secret" "workflow_secrets" {
-  name        = "workflow_secrets"
-  description = "Secret for the workflow service"
-}
-
-#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "hpc_codebuild_github_secret" {
   name        = "hpc_codebuild_github_secret"
   description = "GitHub access token for use in CodeBuild"
