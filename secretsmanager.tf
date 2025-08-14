@@ -53,12 +53,6 @@ resource "aws_secretsmanager_secret" "hpc_slurm_secrets" {
 }
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
-resource "aws_secretsmanager_secret" "nexus_secrets" {
-  name        = "nexus_service_secrets"
-  description = "Secrets for the Nexus service"
-}
-
-#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "workflow_secrets" {
   name        = "workflow_secrets"
   description = "Secret for the workflow service"
