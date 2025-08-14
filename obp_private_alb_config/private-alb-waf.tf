@@ -162,58 +162,6 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
   }
 
-  # staging 2025-03-24: doesn't seem to get hit
-  rule {
-    name     = "handle-oversize-body-requests"
-    priority = 20
-    action {
-      count {}
-      #block {
-      #  custom_response {
-      #    response_code = 499
-      #  }
-      #}
-    }
-    statement {
-      and_statement {
-        statement {
-          not_statement {
-            statement {
-              byte_match_statement {
-                field_to_match {
-                  uri_path {}
-                }
-                positional_constraint = "STARTS_WITH"
-                search_string         = "/api/nexus"
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-          }
-
-        }
-        statement {
-          label_match_statement {
-            scope = "LABEL"
-            key   = "awswaf:managed:aws:core-rule-set:SizeRestrictions_Body"
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = false
-      metric_name                = "aws-common-ruleset"
-      sampled_requests_enabled   = false
-    }
-
-    rule_label {
-      name = "bbp-handle-oversize-body-requests"
-    }
-  }
-
   rule {
     name     = "handle-ssrf-query-strings"
     priority = 21
