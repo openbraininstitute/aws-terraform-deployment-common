@@ -53,6 +53,7 @@ module "private_alb_basic" {
     module.openbluebrain_com_cert.certificate_arn,
     module.www_openbluebrain_com_cert.certificate_arn,
     module.jupyterhub_openbrainplatform_com_cert.certificate_arn,
+    module.jupyterhub_openbraininstitute_org_cert.certificate_arn,
     module.www_openbrainplatform_org_cert.certificate_arn,
     module.openbrainplatform_com_cert.certificate_arn,
     module.www_openbrainplatform_com_cert.certificate_arn,
@@ -88,6 +89,15 @@ module "alt_private_domain_openbraininstitute_org" {
   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
   comment              = "Primary domain"
   vpc_id               = module.network.vpc_id
+}
+
+module "jupyterhub_openbraininstitute_org" {
+  source = "./domain"
+
+  # remove 'www.' from local.primary_domain and prepend 'jupyterhub'. ie: jupyterhub.openbraininstitute.org
+  domain_name      = join(".", ["jupyterhub", trimprefix(var.primary_domain_name, "www.")])
+  comment          = "subdomain for the jupyterhub service"
+  create_www_cname = false
 }
 
 module "alt_domain_openbluebrain_com" {
@@ -145,6 +155,13 @@ module "alt_private_domain_openbrainplatform_org" {
   private_alb_zone_id  = module.private_alb_basic.alb_zone_id
   comment              = "Alternative domain openbrainplatform.org"
   vpc_id               = module.network.vpc_id
+}
+
+module "jupyterhub_openbraininstitute_org_cert" {
+  source = "./tls_certificate"
+
+  hostname = module.jupyterhub_openbraininstitute_org.domain_name
+  zone_id  = module.jupyterhub_openbraininstitute_org.domain_zone_id
 }
 
 module "openbrainplatform_org_cert" {
