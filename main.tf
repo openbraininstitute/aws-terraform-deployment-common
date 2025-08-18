@@ -90,6 +90,14 @@ module "alt_private_domain_openbraininstitute_org" {
   vpc_id               = module.network.vpc_id
 }
 
+module "jupyterhub_openbraininstitute_org" {
+  source = "./domain"
+
+  # remove 'www.' from local.primary_domain and prepend 'jupyterhub'. ie: jupyterhub.openbraininstitute.org
+  domain_name = join(".", ["jupyterhub", trimprefix(var.primary_domain_name, "www.")])
+  comment     = "subdomain for the jupyterhub service"
+}
+
 module "alt_domain_openbluebrain_com" {
   source = "./domain"
 
