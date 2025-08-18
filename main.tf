@@ -95,8 +95,9 @@ module "jupyterhub_openbraininstitute_org" {
   source = "./domain"
 
   # remove 'www.' from local.primary_domain and prepend 'jupyterhub'. ie: jupyterhub.openbraininstitute.org
-  domain_name = join(".", ["jupyterhub", trimprefix(var.primary_domain_name, "www.")])
-  comment     = "subdomain for the jupyterhub service"
+  domain_name      = join(".", ["jupyterhub", trimprefix(var.primary_domain_name, "www.")])
+  comment          = "subdomain for the jupyterhub service"
+  create_www_cname = false
 }
 
 module "alt_domain_openbluebrain_com" {
