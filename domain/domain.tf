@@ -17,6 +17,7 @@ resource "aws_route53_record" "domain_A" {
 }
 
 resource "aws_route53_record" "www_domain" {
+  count   = var.create_www_cname ? 1 : 0
   zone_id = aws_route53_zone.domain.id
   name    = "www.${var.domain_name}"
   type    = "CNAME"
