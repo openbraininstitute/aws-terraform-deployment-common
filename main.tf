@@ -48,7 +48,7 @@ module "private_alb_basic" {
     "www.${var.domain_openbraininstitute_ch_name}"
   ]
 
-  # In staging, we currently need 1 additional cert for the next.staging.openbraininstitute.org domain
+  # In staging, we currently need 1 additional cert for the dev.openbraininstitute.org domain
   cert_arns = concat([
     module.openbluebrain_com_cert.certificate_arn,
     module.www_openbluebrain_com_cert.certificate_arn,
@@ -64,7 +64,7 @@ module "private_alb_basic" {
     module.www_openbraininstitute_com_cert.certificate_arn,
     module.openbraininstitute_ch_cert.certificate_arn,
     module.www_openbraininstitute_ch_cert.certificate_arn
-  ], (var.is_staging ? [module.next_staging_openbraininstitute_org_cert[0].certificate_arn] : []))
+  ], (var.is_staging ? [module.dev_openbraininstitute_org_cert[0].certificate_arn] : []))
 }
 
 module "public_nlb_basic" {
@@ -213,11 +213,11 @@ module "jupyterhub_openbrainplatform_com_cert" {
   validation_domain = var.is_production ? "openbrainplatform.com" : "staging.openbrainplatform.com"
 }
 
-module "next_staging_openbraininstitute_org_cert" {
+module "dev_openbraininstitute_org_cert" {
   count  = var.is_staging ? 1 : 0
   source = "./tls_certificate_without_domain"
 
-  hostname = "next.staging.openbraininstitute.org"
+  hostname = "dev.openbraininstitute.org"
 
   validation_domain = "openbraininstitute.org"
 }
