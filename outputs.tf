@@ -148,6 +148,11 @@ output "obi_generative_gui_secrets_arn" {
   value       = aws_secretsmanager_secret.obi_generative_gui_service_secrets.arn
 }
 
+output "notebook_service_secrets_arn" {
+  description = "ARN of the secrets of the notebooks service"
+  value       = aws_secretsmanager_secret.notebook_service_secrets.arn
+}
+
 output "email_domain_name" {
   description = "domain used for sending mails from the platform, mainly to send no-reply@ emails"
   value       = var.email_domain_name
