@@ -69,3 +69,9 @@ resource "aws_secretsmanager_secret" "obi_generative_gui_service_secrets" {
   name        = "obi_generative_gui_secrets"
   description = "Secrets for the obi-generative-gui service"
 }
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "notebook_service_secrets" {
+  name        = "notebook_service_secrets"
+  description = "Secrets for the notebook service"
+}
