@@ -72,6 +72,6 @@ resource "aws_secretsmanager_secret" "obi_generative_gui_service_secrets" {
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "notebook_service_secrets" {
-  name        = "notebook_service_secrets"
+  name        = "notebook_service_secrets_v2"
   description = "Secrets for the notebook service"
 }
