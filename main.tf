@@ -64,7 +64,7 @@ module "private_alb_basic" {
     module.www_openbraininstitute_com_cert.certificate_arn,
     module.openbraininstitute_ch_cert.certificate_arn,
     module.www_openbraininstitute_ch_cert.certificate_arn
-  ], (var.is_staging ? [module.dev_openbraininstitute_org_cert[0].certificate_arn] : []))
+  ], (var.is_staging ? [module.dev_openbraininstitute_org_cert[0].certificate_arn, module.secrets_openbraininstitute_org_cert[0].certificate_arn] : []))
 }
 
 module "public_nlb_basic" {
@@ -219,6 +219,13 @@ module "dev_openbraininstitute_org_cert" {
 
   hostname = "dev.openbraininstitute.org"
 
+  validation_domain = "openbraininstitute.org"
+}
+
+module "secrets_openbraininstitute_org_cert" {
+  count             = var.is_staging ? 1 : 0
+  source            = "./tls_certificate_without_domain"
+  hostname          = "secrets.openbraininstitute.org"
   validation_domain = "openbraininstitute.org"
 }
 
