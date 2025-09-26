@@ -127,6 +127,14 @@ resource "aws_wafv2_web_acl" "basic_protection" {
           name = "EC2MetaDataSSRF_QUERYARGUMENTS"
         }
         rule_action_override {
+          # Ignore GenericLFI_Body - we'll deal with this in a later rule
+          action_to_use {
+            count {}
+          }
+
+          name = "GenericLFI_BODY"
+        }
+        rule_action_override {
           # This messes with Keycloak, it's unclear whether it's for dev setups only.
           # Once openbluebrain is publicly accessible, evaluate whether we need to add an exception
           action_to_use {
@@ -188,6 +196,66 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
     rule_label {
       name = "bbp-handle-ssrf-query-strings"
+    }
+  }
+
+  rule {
+    name     = "handle-generic-lfi-body"
+    priority = 22
+    action {
+      block {
+        custom_response {
+          response_code = 498
+        }
+      }
+    }
+    statement {
+      and_statement {
+
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:core-rule-set:GenericLFI_BODY"
+          }
+        }
+
+        statement {
+          regex_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            regex_string = "^/api/entitycore/.*/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/assets$"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+
+        statement {
+          byte_match_statement {
+            field_to_match {
+              method {}
+            }
+            positional_constraint = "EXACTLY"
+            search_string         = "POST"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = false
+      metric_name                = "aws-common-ruleset"
+      sampled_requests_enabled   = false
+    }
+
+    rule_label {
+      name = "obi-handle-generic-lfi-body"
     }
   }
 
