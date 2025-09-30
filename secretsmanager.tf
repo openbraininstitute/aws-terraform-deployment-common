@@ -12,7 +12,7 @@ resource "aws_secretsmanager_secret" "virtual_lab_manager_secrets" {
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "virtual_lab_manager_database_readonly_secret" {
-  name        = "virtual_lab_manager_secrets"
+  name        = "virtual_lab_manager_database_readonly_secret"
   description = "Secret containing a username and password for read-only access to the virtual-lab-manager database"
 }
 
