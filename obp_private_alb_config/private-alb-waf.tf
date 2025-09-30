@@ -299,7 +299,8 @@ resource "aws_wafv2_web_acl" "basic_protection" {
         vendor_name = "AWS"
         managed_rule_group_configs {
           aws_managed_rules_bot_control_rule_set {
-            inspection_level = "COMMON"
+            inspection_level        = "COMMON"
+            enable_machine_learning = false
           }
         }
       }
