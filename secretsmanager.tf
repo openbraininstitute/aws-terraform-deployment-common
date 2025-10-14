@@ -17,6 +17,12 @@ resource "aws_secretsmanager_secret" "virtual_lab_manager_database_readonly_secr
 }
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "accounting_database_readonly_secret" {
+  name        = "accounting_database_readonly_secret"
+  description = "Secret containing a username and password for read-only access to the accounting database"
+}
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "keycloak_secrets" {
   name        = "keycloak_secrets"
   description = "Secret for the Keycloak service"
