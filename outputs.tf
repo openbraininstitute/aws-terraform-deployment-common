@@ -93,6 +93,12 @@ output "virtual_lab_manager_database_readonly_secret_arn" {
   value       = aws_secretsmanager_secret.virtual_lab_manager_database_readonly_secret.arn
 }
 
+output "accounting_database_readonly_secret_arn" {
+  description = "ARN of the secret containing a username and password for read-only access to the accounting database"
+  value       = aws_secretsmanager_secret.accounting_database_readonly_secret.arn
+}
+
+
 output "keycloak_secrets_arn" {
   description = "ARN of the Keycloak secrets manager"
   value       = aws_secretsmanager_secret.keycloak_secrets.arn
