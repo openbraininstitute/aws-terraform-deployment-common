@@ -215,19 +215,23 @@ resource "aws_wafv2_web_acl" "basic_protection" {
         statement {
           label_match_statement {
             scope = "LABEL"
-            key   = "awswaf:managed:aws:core-rule-set:GenericLFI_BODY"
+            key   = "awswaf:managed:aws:core-rule-set:GenericLFI_Body"
           }
         }
 
         statement {
-          regex_match_statement {
-            field_to_match {
-              uri_path {}
-            }
-            regex_string = "^/api/entitycore/.*/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/assets$"
-            text_transformation {
-              priority = 0
-              type     = "NONE"
+          not_statement {
+            statement {
+              regex_match_statement {
+                field_to_match {
+                  uri_path {}
+                }
+                regex_string = "^/api/entitycore/.*/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/assets$"
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
             }
           }
         }
