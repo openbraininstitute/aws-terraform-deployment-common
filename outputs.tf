@@ -173,3 +173,8 @@ output "cloudfront_certificate_arn" {
   description = "cloudfront certificate for cdn.{staging}.openbraininstitute.org domain"
   value       = module.cdn_openbraininstitute_org_cert.certificate_arn
 }
+
+output "launch_server_secrets_arn" {
+  description = "ARN of the secrets of the launch service"
+  value       = aws_secretsmanager_secret.launch_service_secrets.arn
+}
