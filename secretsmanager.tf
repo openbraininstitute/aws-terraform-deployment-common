@@ -87,3 +87,9 @@ resource "aws_secretsmanager_secret" "notebook_service_secrets" {
   name        = "notebook_service_secrets_v2"
   description = "Secrets for the notebook service"
 }
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "launch_service_secrets" {
+  name        = "launch_service_secrets_v2"
+  description = "Secrets for the launch service"
+}
