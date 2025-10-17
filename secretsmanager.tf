@@ -90,6 +90,6 @@ resource "aws_secretsmanager_secret" "notebook_service_secrets" {
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "launch_service_secrets" {
-  name        = "launch_service_secrets_v2"
+  name        = "launch_service_secrets"
   description = "Secrets for the launch service"
 }
