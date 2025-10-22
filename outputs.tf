@@ -178,3 +178,8 @@ output "launch_server_secrets_arn" {
   description = "ARN of the secrets of the launch service"
   value       = aws_secretsmanager_secret.launch_service_secrets.arn
 }
+
+output "teams_webhook_secrets_arn" {
+  description = "ARN of the secret with the teams webhooks"
+  value       = aws_secretsmanager_secret.teams_webhook_secrets.arn
+}
