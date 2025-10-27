@@ -94,6 +94,16 @@ module "alt_private_domain_openbraininstitute_org" {
   vpc_id               = module.network.vpc_id
 }
 
+
+resource "aws_route53_record" "cdn_domain" {
+  zone_id = module.alt_private_domain_openbraininstitute_org.domain_zone_id
+  name    = "cdn.${var.primary_domain_name}"
+  type    = "CNAME"
+  ttl     = 60
+  records = [var.primary_domain_name]
+}
+
+
 module "jupyterhub_openbraininstitute_org" {
   source = "./domain"
 
