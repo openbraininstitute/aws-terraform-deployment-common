@@ -183,3 +183,8 @@ output "teams_webhook_secrets_arn" {
   description = "ARN of the secret with the teams webhooks"
   value       = aws_secretsmanager_secret.teams_webhook_secrets.arn
 }
+
+output "auth_manager_secrets_arn" {
+  description = "ARN of the secrets of the auth manager service"
+  value       = aws_secretsmanager_secret.auth_manager_secrets.arn
+}
