@@ -98,3 +98,8 @@ resource "aws_secretsmanager_secret" "teams_webhook_secrets" {
   name        = "teams_webhook_secrets"
   description = "The webhooks of Teams to send SNS messages to Teams channels"
 }
+
+resource "aws_secretsmanager_secret" "auth_manager_secrets" {
+  name        = "auth_manager_secrets"
+  description = "Secrets for the Auth Manager service"
+}
