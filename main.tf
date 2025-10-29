@@ -368,3 +368,19 @@ module "private_nlb" {
   lb_access_logs_bucket       = module.s3.lb_access_logs_bucket
   private_alb_arn             = module.private_alb_basic.private_alb_arn
 }
+
+module "logs_glue_tables" {
+  # Glue tables for certain logs: WAF logs and ALB access logs
+  source = "./logs_glue_tables"
+
+  web_logs_athena_workgroup_bucket_name = var.web_logs_athena_workgroup_bucket_name
+
+  # WAF
+  waf_logs_bucket  = var.waf_logs_bucket_name
+  waf_web_acl_name = module.private_alb_config.waf_web_acl_name
+  waf_table_name   = "waf_access_logs"
+
+  # Private ALB
+  private_alb_logs_bucket = var.nlb_logs_bucket_name
+  private_alb_table_name  = "private_alb_access_logs"
+}

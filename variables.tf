@@ -79,3 +79,9 @@ variable "azure_vpn_gateway_tunnel1_ip_address" {
   type        = string
   sensitive   = false
 }
+
+variable "web_logs_athena_workgroup_bucket_name" {
+  description = "Bucket name for athena workgroup for web logs like waf and the ALBs"
+  type        = string
+  sensitive   = false
+}
