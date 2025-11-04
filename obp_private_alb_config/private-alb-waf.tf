@@ -96,6 +96,36 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
 
   rule {
+    name     = "obi-allow-all-notebook-service"
+    priority = 7
+
+    action {
+      allow {}
+    }
+
+    statement {
+      byte_match_statement {
+        field_to_match {
+          uri_path {}
+        }
+        positional_constraint = "STARTS_WITH"
+        search_string         = "/api/notebook"
+        text_transformation {
+          priority = 0
+          type     = "NONE"
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = false
+      metric_name                = "obi_allow-notebook-service-traffic"
+      sampled_requests_enabled   = false
+    }
+  }
+
+
+  rule {
     name     = "aws-common-ruleset"
     priority = 10
 
