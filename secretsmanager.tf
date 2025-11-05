@@ -53,6 +53,12 @@ resource "aws_secretsmanager_secret" "accounting_service_secrets" {
 }
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "small_scale_simulator_secrets" {
+  name        = "small_scale_simulator_secrets"
+  description = "Secrets for the small_scale_simulator"
+}
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "hpc_slurm_secrets" {
   name        = "hpc_slurm_secrets"
   description = "Slurm database password"
