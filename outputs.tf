@@ -129,6 +129,11 @@ output "bluenaas_service_secrets_arn" {
   value       = aws_secretsmanager_secret.bluenaas_service_secrets.arn
 }
 
+output "small_scale_simulator_secrets_arn" {
+  description = "ARN of the small_scale_simulator secrets manager"
+  value       = aws_secretsmanager_secret.small_scale_simulator_secrets.arn
+}
+
 output "hpc_slurm_secrets_arn" {
   description = "ARN of the HPC Slurm secrets manager"
   value       = aws_secretsmanager_secret.hpc_slurm_secrets.arn
