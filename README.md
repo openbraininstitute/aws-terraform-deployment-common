@@ -47,7 +47,6 @@
 | [aws_route_table_association.private_alb_a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
 | [aws_route_table_association.private_alb_b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
 | [aws_secretsmanager_secret.accounting_service_secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
-| [aws_secretsmanager_secret.bluenaas_service_secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.core_webapp_secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.dockerhub_bbpbuildbot_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.hpc_codebuild_github_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
@@ -84,7 +83,6 @@
 | Name | Description |
 |------|-------------|
 | <a name="output_accounting_service_secrets_arn"></a> [accounting\_service\_secrets\_arn](#output\_accounting\_service\_secrets\_arn) | ARN of the accounting\_service secrets manager |
-| <a name="output_bluenaas_service_secrets_arn"></a> [bluenaas\_service\_secrets\_arn](#output\_bluenaas\_service\_secrets\_arn) | ARN of the bluenaas secrets manager |
 | <a name="output_core_webapp_secrets_arn"></a> [core\_webapp\_secrets\_arn](#output\_core\_webapp\_secrets\_arn) | ARN of the core-webapp secrets manager |
 | <a name="output_dockerhub_bbpbuildbot_policy_arn"></a> [dockerhub\_bbpbuildbot\_policy\_arn](#output\_dockerhub\_bbpbuildbot\_policy\_arn) | ARN of the dockerhub\_bbpbuildbot policy |
 | <a name="output_dockerhub_bbpbuildbot_secret_arn"></a> [dockerhub\_bbpbuildbot\_secret\_arn](#output\_dockerhub\_bbpbuildbot\_secret\_arn) | ARN of the dockerhub\_bbpbuildbot secrets manager |
