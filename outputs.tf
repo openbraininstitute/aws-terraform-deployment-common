@@ -174,9 +174,9 @@ output "cloudfront_certificate_arn" {
   value       = module.cdn_openbraininstitute_org_cert.certificate_arn
 }
 
-output "launch_server_secrets_arn" {
-  description = "ARN of the secrets of the launch service"
-  value       = aws_secretsmanager_secret.launch_service_secrets.arn
+output "launch_system_secrets_arn" {
+  description = "ARN of the secrets of the launch system"
+  value       = aws_secretsmanager_secret.launch_system_secrets.arn
 }
 
 output "teams_webhook_secrets_arn" {

@@ -89,9 +89,9 @@ resource "aws_secretsmanager_secret" "notebook_service_secrets" {
 }
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
-resource "aws_secretsmanager_secret" "launch_service_secrets" {
-  name        = "launch_service_secrets"
-  description = "Secrets for the launch service"
+resource "aws_secretsmanager_secret" "launch_system_secrets" {
+  name        = "launch_system_secrets"
+  description = "Secrets for the launch system"
 }
 
 resource "aws_secretsmanager_secret" "teams_webhook_secrets" {
