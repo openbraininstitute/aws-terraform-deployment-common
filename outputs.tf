@@ -50,11 +50,6 @@ output "route_table_public_id" {
   value       = module.network.public_route_table_id
 }
 
-output "public_nlb_sg_id" {
-  description = "Id of NLB security group"
-  value       = module.public_nlb_basic.nlb_securitygroup_id
-}
-
 output "primary_domain" {
   description = "Primary platform domain"
   value       = var.primary_domain_name
@@ -132,16 +127,6 @@ output "small_scale_simulator_secrets_arn" {
 output "hpc_slurm_secrets_arn" {
   description = "ARN of the HPC Slurm secrets manager"
   value       = aws_secretsmanager_secret.hpc_slurm_secrets.arn
-}
-
-output "dockerhub_bbpbuildbot_secret_arn" {
-  description = "ARN of the dockerhub_bbpbuildbot secrets manager"
-  value       = aws_secretsmanager_secret.dockerhub_bbpbuildbot_secret.arn
-}
-
-output "dockerhub_bbpbuildbot_policy_arn" {
-  description = "ARN of the dockerhub_bbpbuildbot policy"
-  value       = aws_iam_policy.dockerhub_credentials_access.arn
 }
 
 output "hpc_codebuild_github_secret_arn" {

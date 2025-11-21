@@ -40,7 +40,6 @@
 
 | Name | Type |
 |------|------|
-| [aws_iam_policy.dockerhub_credentials_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_lb.private_alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb) | resource |
 | [aws_lb_listener.private_alb_3000](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_network_acl.private_alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
@@ -48,7 +47,6 @@
 | [aws_route_table_association.private_alb_b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
 | [aws_secretsmanager_secret.accounting_service_secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.core_webapp_secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
-| [aws_secretsmanager_secret.dockerhub_bbpbuildbot_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.hpc_codebuild_github_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.hpc_slurm_secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.keycloak_secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
@@ -84,8 +82,6 @@
 |------|-------------|
 | <a name="output_accounting_service_secrets_arn"></a> [accounting\_service\_secrets\_arn](#output\_accounting\_service\_secrets\_arn) | ARN of the accounting\_service secrets manager |
 | <a name="output_core_webapp_secrets_arn"></a> [core\_webapp\_secrets\_arn](#output\_core\_webapp\_secrets\_arn) | ARN of the core-webapp secrets manager |
-| <a name="output_dockerhub_bbpbuildbot_policy_arn"></a> [dockerhub\_bbpbuildbot\_policy\_arn](#output\_dockerhub\_bbpbuildbot\_policy\_arn) | ARN of the dockerhub\_bbpbuildbot policy |
-| <a name="output_dockerhub_bbpbuildbot_secret_arn"></a> [dockerhub\_bbpbuildbot\_secret\_arn](#output\_dockerhub\_bbpbuildbot\_secret\_arn) | ARN of the dockerhub\_bbpbuildbot secrets manager |
 | <a name="output_generic_private_alb_security_group_id"></a> [generic\_private\_alb\_security\_group\_id](#output\_generic\_private\_alb\_security\_group\_id) | Id of the SG of the new private ALB |
 | <a name="output_hpc_codebuild_github_secret_arn"></a> [hpc\_codebuild\_github\_secret\_arn](#output\_hpc\_codebuild\_github\_secret\_arn) | ARN of the HPC CodeBuild/GitHub secret |
 | <a name="output_hpc_slurm_secrets_arn"></a> [hpc\_slurm\_secrets\_arn](#output\_hpc\_slurm\_secrets\_arn) | ARN of the HPC Slurm secrets manager |
@@ -104,7 +100,6 @@
 | <a name="output_public_a_subnet_id"></a> [public\_a\_subnet\_id](#output\_public\_a\_subnet\_id) | ID of the public\_a subnet |
 | <a name="output_public_b_subnet_arn"></a> [public\_b\_subnet\_arn](#output\_public\_b\_subnet\_arn) | ARN of the public\_b subnet |
 | <a name="output_public_b_subnet_id"></a> [public\_b\_subnet\_id](#output\_public\_b\_subnet\_id) | ID of the public\_b subnet |
-| <a name="output_public_nlb_sg_id"></a> [public\_nlb\_sg\_id](#output\_public\_nlb\_sg\_id) | Id of NLB security group |
 | <a name="output_route_table_private_subnets_id"></a> [route\_table\_private\_subnets\_id](#output\_route\_table\_private\_subnets\_id) | ID of the route table for all private subnets in the main region |
 | <a name="output_virtual_lab_manager_secrets_arn"></a> [virtual\_lab\_manager\_secrets\_arn](#output\_virtual\_lab\_manager\_secrets\_arn) | ARN of the Virtual La  secrets manager service |
 | <a name="output_vpc_cidr_block"></a> [vpc\_cidr\_block](#output\_vpc\_cidr\_block) | CIDR block or network range of the VPC |
