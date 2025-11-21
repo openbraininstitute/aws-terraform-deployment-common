@@ -50,11 +50,6 @@ output "route_table_public_id" {
   value       = module.network.public_route_table_id
 }
 
-output "public_nlb_sg_id" {
-  description = "Id of NLB security group"
-  value       = module.public_nlb_basic.nlb_securitygroup_id
-}
-
 output "primary_domain" {
   description = "Primary platform domain"
   value       = var.primary_domain_name

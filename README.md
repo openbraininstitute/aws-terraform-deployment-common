@@ -100,7 +100,6 @@
 | <a name="output_public_a_subnet_id"></a> [public\_a\_subnet\_id](#output\_public\_a\_subnet\_id) | ID of the public\_a subnet |
 | <a name="output_public_b_subnet_arn"></a> [public\_b\_subnet\_arn](#output\_public\_b\_subnet\_arn) | ARN of the public\_b subnet |
 | <a name="output_public_b_subnet_id"></a> [public\_b\_subnet\_id](#output\_public\_b\_subnet\_id) | ID of the public\_b subnet |
-| <a name="output_public_nlb_sg_id"></a> [public\_nlb\_sg\_id](#output\_public\_nlb\_sg\_id) | Id of NLB security group |
 | <a name="output_route_table_private_subnets_id"></a> [route\_table\_private\_subnets\_id](#output\_route\_table\_private\_subnets\_id) | ID of the route table for all private subnets in the main region |
 | <a name="output_virtual_lab_manager_secrets_arn"></a> [virtual\_lab\_manager\_secrets\_arn](#output\_virtual\_lab\_manager\_secrets\_arn) | ARN of the Virtual La  secrets manager service |
 | <a name="output_vpc_cidr_block"></a> [vpc\_cidr\_block](#output\_vpc\_cidr\_block) | CIDR block or network range of the VPC |
