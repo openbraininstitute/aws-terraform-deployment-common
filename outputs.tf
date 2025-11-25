@@ -173,3 +173,13 @@ output "auth_manager_secrets_arn" {
   description = "ARN of the secrets of the auth manager service"
   value       = aws_secretsmanager_secret.auth_manager_secrets.arn
 }
+
+output "private_alb_cidr_a" {
+  value       = aws_subnet.private_alb_a.cidr_block
+  description = "CIDR block of the first subnet containing the private ALB"
+}
+
+output "private_alb_cidr_b" {
+  value       = aws_subnet.private_alb_b.cidr_block
+  description = "CIDR block of the second subnet containing the private ALB"
+}
