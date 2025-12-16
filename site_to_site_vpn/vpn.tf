@@ -156,7 +156,7 @@ resource "aws_customer_gateway" "azure_hub_gw2" {
 resource "aws_cloudwatch_log_group" "tunnel2_1" {
   count = var.vpn2_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel2-to-staging-azure-south-central-us-1"
+  name              = "vpn-tunnel2-ike-to-staging-azure-south-central-us-1"
   log_group_class   = "STANDARD"
   retention_in_days = 3
 }
@@ -164,7 +164,23 @@ resource "aws_cloudwatch_log_group" "tunnel2_1" {
 resource "aws_cloudwatch_log_group" "tunnel2_2" {
   count = var.vpn2_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel2-to-staging-azure-south-central-us-2"
+  name              = "vpn-tunnel2-ike-to-staging-azure-south-central-us-2"
+  log_group_class   = "STANDARD"
+  retention_in_days = 3
+}
+
+resource "aws_cloudwatch_log_group" "tunnel2_1_bgp" {
+  count = var.vpn2_to_azure_enabled ? 1 : 0
+
+  name              = "vpn-tunnel2-bgp-to-staging-azure-south-central-us-1"
+  log_group_class   = "STANDARD"
+  retention_in_days = 3
+}
+
+resource "aws_cloudwatch_log_group" "tunnel2_2_bgp" {
+  count = var.vpn2_to_azure_enabled ? 1 : 0
+
+  name              = "vpn-tunnel2-bgp-to-staging-azure-south-central-us-2"
   log_group_class   = "STANDARD"
   retention_in_days = 3
 }
@@ -184,16 +200,22 @@ resource "aws_vpn_connection" "to_azure_hub2" {
 
   tunnel1_log_options {
     cloudwatch_log_options {
-      log_enabled       = true
-      log_output_format = "json"
-      log_group_arn     = aws_cloudwatch_log_group.tunnel2_1[0].arn
+      log_enabled           = true
+      log_output_format     = "json"
+      log_group_arn         = aws_cloudwatch_log_group.tunnel2_1[0].arn
+      bgp_log_enabled       = true
+      bgp_log_group_arn     = aws_cloudwatch_log_group.tunnel2_1_bgp[0].arn
+      bgp_log_output_format = "json"
     }
   }
   tunnel2_log_options {
     cloudwatch_log_options {
-      log_enabled       = true
-      log_output_format = "json"
-      log_group_arn     = aws_cloudwatch_log_group.tunnel2_2[0].arn
+      log_enabled           = true
+      log_output_format     = "json"
+      log_group_arn         = aws_cloudwatch_log_group.tunnel2_2[0].arn
+      bgp_log_enabled       = true
+      bgp_log_group_arn     = aws_cloudwatch_log_group.tunnel2_2_bgp[0].arn
+      bgp_log_output_format = "json"
     }
   }
 
