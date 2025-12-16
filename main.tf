@@ -326,15 +326,21 @@ module "vpn_to_azure" {
 
   count = var.is_staging ? 1 : 0
 
-  vpc_id        = module.network.vpc_id
-  aws_bgp_asn   = 65000
-  azure_bgp_asn = 65515
+  vpc_id         = module.network.vpc_id
+  aws_bgp_asn    = 65000
+  azure_bgp_asn1 = 65515
+  azure_bgp_asn2 = 65516
+
   # azure_vpn_gateway_tunnel1_ip_address = var.azure_vpn_gateway_tunnel1_ip_address
-  tunnel1_preshared_key                 = var.azure_vpn_gateway_tunnel1_preshared_key1
-  tunnel2_preshared_key                 = var.azure_vpn_gateway_tunnel1_preshared_key2
-  aws_region                            = var.aws_region
-  azure_vpn_gateway_tunnel1_inside_cidr = "169.254.21.0/30"
-  azure_vpn_gateway_tunnel2_inside_cidr = "169.254.21.4/30"
+  tunnel1_preshared_key1                 = var.azure_vpn_gateway_tunnel1_preshared_key1
+  tunnel1_preshared_key2                 = var.azure_vpn_gateway_tunnel1_preshared_key2
+  tunnel2_preshared_key1                 = var.azure_vpn_gateway_tunnel2_preshared_key1
+  tunnel2_preshared_key2                 = var.azure_vpn_gateway_tunnel2_preshared_key2
+  aws_region                             = var.aws_region
+  azure_vpn_gateway_tunnel1_inside_cidr1 = "169.254.21.0/30"
+  azure_vpn_gateway_tunnel1_inside_cidr2 = "169.254.21.4/30"
+  azure_vpn_gateway_tunnel2_inside_cidr1 = "169.254.21.8/30"
+  azure_vpn_gateway_tunnel2_inside_cidr2 = "169.254.21.12/30"
 
   # define the domain which should be used to create a cname record
   # full names become in staging vpn-for-azure1.staging.openbrainplatform.org
@@ -344,35 +350,10 @@ module "vpn_to_azure" {
   zone_id    = module.alt_domain_openbrainplatform_org.domain_zone_id
 
   azure_vpn_gateway_tunnel1_ip_address = var.azure_vpn_gateway_tunnel1_ip_address
+  azure_vpn_gateway_tunnel2_ip_address = var.azure_vpn_gateway_tunnel2_ip_address
 
-  providers = {
-    aws = aws.site_to_site_vpn
-  }
-}
-
-module "vpn_to_azure_south_central_us" {
-  source = "./site_to_site_vpn"
-
-  count = var.is_staging ? 1 : 0
-
-  vpc_id        = module.network.vpc_id
-  aws_bgp_asn   = 65000
-  azure_bgp_asn = 65515
-  # azure_vpn_gateway_tunnel1_ip_address = var.azure_vpn_gateway_tunnel1_ip_address
-  tunnel1_preshared_key                 = var.azure_vpn_gateway_tunnel2_preshared_key1
-  tunnel2_preshared_key                 = var.azure_vpn_gateway_tunnel2_preshared_key2
-  aws_region                            = var.aws_region
-  azure_vpn_gateway_tunnel1_inside_cidr = "169.254.21.0/30"
-  azure_vpn_gateway_tunnel2_inside_cidr = "169.254.21.4/30"
-
-  # define the domain which should be used to create a cname record
-  # full names become in staging vpn-for-azure1.staging.openbrainplatform.org
-  # and vpn-for-azure2.staging.openbrainplatform.org
-  cname_base = "vpn-for-azure-south-central-us"
-  domainname = module.alt_domain_openbrainplatform_org.domain_name
-  zone_id    = module.alt_domain_openbrainplatform_org.domain_zone_id
-
-  azure_vpn_gateway_tunnel1_ip_address = var.azure_vpn_gateway_tunnel2_ip_address
+  vpn1_to_azure_enabled = true
+  vpn2_to_azure_enabled = true
 
   providers = {
     aws = aws.site_to_site_vpn
