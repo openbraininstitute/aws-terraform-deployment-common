@@ -62,20 +62,43 @@ variable "is_staging" {
   default     = false
 }
 
-variable "azure_vpn_gateway_tunnel1_preshared_key" {
-  description = "The first preshared key for the Azure VPN Gateway"
+# link to east us
+
+variable "azure_vpn_gateway_tunnel1_preshared_key1" {
+  description = "The first preshared key for the Azure VPN Gateway in East US"
   type        = string
   sensitive   = true
 }
 
-variable "azure_vpn_gateway_tunnel2_preshared_key" {
-  description = "The second preshared key for the Azure VPN Gateway"
+variable "azure_vpn_gateway_tunnel1_preshared_key2" {
+  description = "The second preshared key for the Azure VPN Gateway in East US"
   type        = string
   sensitive   = true
 }
 
 variable "azure_vpn_gateway_tunnel1_ip_address" {
-  description = "The first IP address of the Azure VPN Gateway"
+  description = "The first IP address of the Azure VPN Gateway in East US"
+  type        = string
+  sensitive   = false
+}
+
+# link to south central us
+
+variable "azure_vpn_gateway_tunnel2_preshared_key1" {
+  description = "The first preshared key for the Azure VPN Gateway in South Central US"
+  type        = string
+  sensitive   = true
+}
+
+variable "azure_vpn_gateway_tunnel2_preshared_key2" {
+  description = "The second preshared key for the Azure VPN Gateway in South Central US"
+  type        = string
+  sensitive   = true
+}
+
+
+variable "azure_vpn_gateway_tunnel2_ip_address" {
+  description = "The first IP address of the Azure VPN Gateway in South Central US"
   type        = string
   sensitive   = false
 }
