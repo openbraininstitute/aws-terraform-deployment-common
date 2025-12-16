@@ -24,6 +24,13 @@ resource "aws_customer_gateway" "azure_hub_gw1" {
   tags = {
     Name = var.customer_gw1_name
   }
+
+  lifecycle {
+    create_before_destroy = false
+  }
+  depends_on = [
+    aws_vpn_connection.to_azure_hub1
+  ]
 }
 
 resource "aws_cloudwatch_log_group" "tunnel1_1" {
@@ -82,6 +89,10 @@ resource "aws_vpn_connection" "to_azure_hub1" {
 
   tags = {
     Name = var.vpn1_conn_name
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
@@ -150,6 +161,13 @@ resource "aws_customer_gateway" "azure_hub_gw2" {
   tags = {
     Name = var.customer_gw2_name
   }
+
+  lifecycle {
+    create_before_destroy = false
+  }
+  depends_on = [
+    aws_vpn_connection.to_azure_hub2
+  ]
 }
 
 
