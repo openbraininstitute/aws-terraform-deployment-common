@@ -22,7 +22,7 @@ resource "aws_customer_gateway" "azure_hub_gw1" {
   type = "ipsec.1"
 
   tags = {
-    Name = "CGW-to-Azure-Hub"
+    Name = var.customer_gw1_name
   }
 }
 
@@ -81,7 +81,7 @@ resource "aws_vpn_connection" "to_azure_hub1" {
   tunnel2_ike_versions = ["ikev2"]
 
   tags = {
-    Name = "VPN-to-Azure-Hub"
+    Name = var.vpn1_conn_name
   }
 }
 
@@ -148,7 +148,7 @@ resource "aws_customer_gateway" "azure_hub_gw2" {
   type = "ipsec.1"
 
   tags = {
-    Name = "CGW-to-Azure-Hub"
+    Name = var.customer_gw2_name
   }
 }
 
@@ -208,7 +208,7 @@ resource "aws_vpn_connection" "to_azure_hub2" {
   tunnel2_ike_versions = ["ikev2"]
 
   tags = {
-    Name = "VPN-to-Azure-Hub"
+    Name = var.vpn2_conn_name
   }
 }
 

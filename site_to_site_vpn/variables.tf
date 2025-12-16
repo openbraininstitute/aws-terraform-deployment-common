@@ -117,3 +117,27 @@ variable "vpn2_to_azure_enabled" {
   sensitive   = false
   description = "Enable or disable vpn1 to azure"
 }
+
+variable "customer_gw1_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the customer gateway 1"
+}
+
+variable "customer_gw2_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the customer gateway 2"
+}
+
+variable "vpn1_conn_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the vpn connection 1"
+}
+
+variable "vpn2_conn_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the vpn connection 2"
+}

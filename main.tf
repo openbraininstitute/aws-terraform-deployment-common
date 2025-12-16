@@ -355,6 +355,12 @@ module "vpn_to_azure" {
   vpn1_to_azure_enabled = true
   vpn2_to_azure_enabled = true
 
+  customer_gw1_name = "CGW-Azure-East-US-VWAN"
+  customer_gw2_name = "CGW-Azure-Staging-South-Central-US"
+
+  vpn1_conn_name = "Conn-Azure-East-US-VWAN"
+  vpn2_conn_name = "Conn-Azure-Staging-South-Central-US"
+
   providers = {
     aws = aws.site_to_site_vpn
   }
