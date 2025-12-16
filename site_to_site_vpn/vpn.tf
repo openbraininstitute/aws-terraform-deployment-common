@@ -156,16 +156,16 @@ resource "aws_customer_gateway" "azure_hub_gw2" {
 resource "aws_cloudwatch_log_group" "tunnel2_1" {
   count = var.vpn2_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel2-to-azure-1"
-  log_group_class   = "INFREQUENT_ACCESS"
+  name              = "vpn-tunnel2-to-staging-azure-south-central-us-1"
+  log_group_class   = "STANDARD"
   retention_in_days = 3
 }
 
 resource "aws_cloudwatch_log_group" "tunnel2_2" {
   count = var.vpn2_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel2-to-azure-2"
-  log_group_class   = "INFREQUENT_ACCESS"
+  name              = "vpn-tunnel2-to-staging-azure-south-central-us-2"
+  log_group_class   = "STANDARD"
   retention_in_days = 3
 }
 
