@@ -71,7 +71,7 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure_staging" {
   from_port         = 443
   to_port           = 443
   ip_protocol       = "tcp"
-  cidr_ipv4         = "10.101.0.0/16"
+  cidr_ipv4         = "10.102.0.0/16"
 
   tags = {
     Name = "private_nlb_allow_https_within_vpc"
