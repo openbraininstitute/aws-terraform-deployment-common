@@ -326,6 +326,14 @@ module "vpn_to_azure" {
 
   count = var.is_staging ? 1 : 0
 
+  # Note: configures 2 VPNs at the same time.
+  # VPN 1 was used as link towards virtualwan setup in azure east us
+  # and is now disabled, no longer in use.
+  # VPN 2 is used as a link towards the s2s vpn to a main hub network
+  # within azure south central US in staging.
+  vpn1_to_azure_enabled = false
+  vpn2_to_azure_enabled = true
+
   vpc_id         = module.network.vpc_id
   aws_bgp_asn    = 65000
   azure_bgp_asn1 = 65515
@@ -351,9 +359,6 @@ module "vpn_to_azure" {
 
   azure_vpn_gateway_tunnel1_ip_address = var.azure_vpn_gateway_tunnel1_ip_address
   azure_vpn_gateway_tunnel2_ip_address = var.azure_vpn_gateway_tunnel2_ip_address
-
-  vpn1_to_azure_enabled = true
-  vpn2_to_azure_enabled = true
 
   customer_gw1_name = "CGW-Azure-East-US-VWAN"
   customer_gw2_name = "CGW-Azure-Staging-South-Central-US"
