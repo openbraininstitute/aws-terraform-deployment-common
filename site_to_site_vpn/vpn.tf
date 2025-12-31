@@ -29,7 +29,7 @@ resource "aws_customer_gateway" "azure_hub_gw1" {
 resource "aws_cloudwatch_log_group" "tunnel1_1" {
   count = var.vpn1_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel-to-azure-1"
+  name              = var.tunnel1_ike_log_group1_name
   log_group_class   = "INFREQUENT_ACCESS"
   retention_in_days = 3
 }
@@ -37,7 +37,7 @@ resource "aws_cloudwatch_log_group" "tunnel1_1" {
 resource "aws_cloudwatch_log_group" "tunnel1_2" {
   count = var.vpn1_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel-to-azure-2"
+  name              = var.tunnel1_ike_log_group2_name
   log_group_class   = "INFREQUENT_ACCESS"
   retention_in_days = 3
 }
@@ -156,7 +156,7 @@ resource "aws_customer_gateway" "azure_hub_gw2" {
 resource "aws_cloudwatch_log_group" "tunnel2_1" {
   count = var.vpn2_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel2-ike-to-staging-azure-south-central-us-1"
+  name              = var.tunnel2_ike_log_group1_name
   log_group_class   = "STANDARD"
   retention_in_days = 3
 }
@@ -164,7 +164,7 @@ resource "aws_cloudwatch_log_group" "tunnel2_1" {
 resource "aws_cloudwatch_log_group" "tunnel2_2" {
   count = var.vpn2_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel2-ike-to-staging-azure-south-central-us-2"
+  name              = var.tunnel2_ike_log_group2_name
   log_group_class   = "STANDARD"
   retention_in_days = 3
 }
@@ -172,7 +172,7 @@ resource "aws_cloudwatch_log_group" "tunnel2_2" {
 resource "aws_cloudwatch_log_group" "tunnel2_1_bgp" {
   count = var.vpn2_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel2-bgp-to-staging-azure-south-central-us-1"
+  name              = var.tunnel2_bgp_log_group1_name
   log_group_class   = "STANDARD"
   retention_in_days = 3
 }
@@ -180,7 +180,7 @@ resource "aws_cloudwatch_log_group" "tunnel2_1_bgp" {
 resource "aws_cloudwatch_log_group" "tunnel2_2_bgp" {
   count = var.vpn2_to_azure_enabled ? 1 : 0
 
-  name              = "vpn-tunnel2-bgp-to-staging-azure-south-central-us-2"
+  name              = var.tunnel2_bgp_log_group2_name
   log_group_class   = "STANDARD"
   retention_in_days = 3
 }
