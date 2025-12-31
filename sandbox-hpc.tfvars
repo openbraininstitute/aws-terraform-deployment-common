@@ -12,3 +12,15 @@ domain_openbraininstitute_org_name    = "sandboxhpc.openbraininstitute.org"
 domain_openbraininstitute_com_name    = "sandboxhpc.openbraininstitute.com"
 domain_openbraininstitute_ch_name     = "sandboxhpc.openbraininstitute.ch"
 web_logs_athena_workgroup_bucket_name = "web-logs-athena-workgroup-obi-sandbox-hpc"
+
+vpn2_to_azure_enabled                  = false
+vpn_to_azure_aws_bgp_asn               = -1
+azure_bgp_asn2                         = -1
+azure_vpn_gateway_tunnel2_inside_cidr1 = "not enabled"
+azure_vpn_gateway_tunnel2_inside_cidr2 = "not enabled"
+vpn_customer_gw2_name                  = "not enabled"
+vpn2_conn_name                         = "not enabled"
+tunnel2_ike_log_group1_name            = "not enabled"
+tunnel2_ike_log_group2_name            = "not enabled"
+tunnel2_bgp_log_group1_name            = "not enabled"
+tunnel2_bgp_log_group2_name            = "not enabled"

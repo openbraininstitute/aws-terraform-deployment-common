@@ -324,32 +324,17 @@ module "ses" {
 module "vpn_to_azure" {
   source = "./site_to_site_vpn"
 
-  count = var.is_staging ? 1 : 0
+  count = 1
 
   # Note: configures 2 VPNs at the same time.
   # VPN 1 was used as link towards virtualwan setup in azure east us
   # and is now disabled, no longer in use.
   # VPN 2 is used as a link towards the s2s vpn to a main hub network
   # within azure south central US in staging.
-  vpn1_to_azure_enabled = false
-  vpn2_to_azure_enabled = true
 
-  vpc_id         = module.network.vpc_id
-  aws_bgp_asn    = 65000
-  azure_bgp_asn1 = 65515
-  azure_bgp_asn2 = 65516
-
-  # azure_vpn_gateway_tunnel1_ip_address = var.azure_vpn_gateway_tunnel1_ip_address
-  tunnel1_preshared_key1                 = var.azure_vpn_gateway_tunnel1_preshared_key1
-  tunnel1_preshared_key2                 = var.azure_vpn_gateway_tunnel1_preshared_key2
-  tunnel2_preshared_key1                 = var.azure_vpn_gateway_tunnel2_preshared_key1
-  tunnel2_preshared_key2                 = var.azure_vpn_gateway_tunnel2_preshared_key2
-  aws_region                             = var.aws_region
-  azure_vpn_gateway_tunnel1_inside_cidr1 = "169.254.21.0/30"
-  azure_vpn_gateway_tunnel1_inside_cidr2 = "169.254.21.4/30"
-  azure_vpn_gateway_tunnel2_inside_cidr1 = "169.254.21.8/30"
-  azure_vpn_gateway_tunnel2_inside_cidr2 = "169.254.21.12/30"
-
+  aws_bgp_asn = var.vpn_to_azure_aws_bgp_asn
+  vpc_id      = module.network.vpc_id
+  aws_region  = var.aws_region
   # define the domain which should be used to create a cname record
   # full names become in staging vpn-for-azure1.staging.openbrainplatform.org
   # and vpn-for-azure2.staging.openbrainplatform.org
@@ -357,14 +342,32 @@ module "vpn_to_azure" {
   domainname = module.alt_domain_openbrainplatform_org.domain_name
   zone_id    = module.alt_domain_openbrainplatform_org.domain_zone_id
 
-  azure_vpn_gateway_tunnel1_ip_address = var.azure_vpn_gateway_tunnel1_ip_address
-  azure_vpn_gateway_tunnel2_ip_address = var.azure_vpn_gateway_tunnel2_ip_address
+  # hardcoded disabled for now, probably to be removed
+  vpn1_to_azure_enabled                  = false
+  azure_bgp_asn1                         = 65515
+  tunnel1_preshared_key1                 = "disabled" # var.azure_vpn_gateway_tunnel1_preshared_key1
+  tunnel1_preshared_key2                 = "disabled" # var.azure_vpn_gateway_tunnel1_preshared_key2
+  azure_vpn_gateway_tunnel1_inside_cidr1 = "169.254.21.0/30"
+  azure_vpn_gateway_tunnel1_inside_cidr2 = "169.254.21.4/30"
+  azure_vpn_gateway_tunnel1_ip_address   = "disabled" # var.azure_vpn_gateway_tunnel1_ip_address
+  customer_gw1_name                      = "CGW-Azure-East-US-VWAN"
+  vpn1_conn_name                         = "Conn-Azure-East-US-VWAN"
+  tunnel1_ike_log_group1_name            = "vpn-tunnel-to-azure-1"
+  tunnel1_ike_log_group2_name            = "vpn-tunnel-to-azure-2"
 
-  customer_gw1_name = "CGW-Azure-East-US-VWAN"
-  customer_gw2_name = "CGW-Azure-Staging-South-Central-US"
-
-  vpn1_conn_name = "Conn-Azure-East-US-VWAN"
-  vpn2_conn_name = "Conn-Azure-Staging-South-Central-US"
+  vpn2_to_azure_enabled                  = var.vpn2_to_azure_enabled
+  azure_bgp_asn2                         = var.azure_bgp_asn2
+  tunnel2_preshared_key1                 = var.azure_vpn_gateway_tunnel2_preshared_key1
+  tunnel2_preshared_key2                 = var.azure_vpn_gateway_tunnel2_preshared_key2
+  azure_vpn_gateway_tunnel2_inside_cidr1 = var.azure_vpn_gateway_tunnel2_inside_cidr1
+  azure_vpn_gateway_tunnel2_inside_cidr2 = var.azure_vpn_gateway_tunnel2_inside_cidr2
+  azure_vpn_gateway_tunnel2_ip_address   = var.azure_vpn_gateway_tunnel2_ip_address
+  customer_gw2_name                      = var.vpn_customer_gw2_name
+  vpn2_conn_name                         = var.vpn2_conn_name
+  tunnel2_ike_log_group1_name            = var.tunnel2_ike_log_group1_name
+  tunnel2_ike_log_group2_name            = var.tunnel2_ike_log_group2_name
+  tunnel2_bgp_log_group1_name            = var.tunnel2_bgp_log_group1_name
+  tunnel2_bgp_log_group2_name            = var.tunnel2_bgp_log_group2_name
 
   providers = {
     aws = aws.site_to_site_vpn

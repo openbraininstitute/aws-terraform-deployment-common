@@ -141,3 +141,39 @@ variable "vpn2_conn_name" {
   sensitive   = false
   description = "The name of the vpn connection 2"
 }
+
+variable "tunnel1_ike_log_group1_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the log group for vpn 1, connection 1"
+}
+
+variable "tunnel1_ike_log_group2_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the log group for vpn 1, connection 2"
+}
+
+variable "tunnel2_ike_log_group1_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the log group for vpn 2, connection 1"
+}
+
+variable "tunnel2_ike_log_group2_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the log group for vpn 2, connection 2"
+}
+
+variable "tunnel2_bgp_log_group1_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the bgp log group for vpn 2, connection 1"
+}
+
+variable "tunnel2_bgp_log_group2_name" {
+  type        = string
+  sensitive   = false
+  description = "The name of the bgp log group for vpn 2, connection 2"
+}

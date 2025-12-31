@@ -12,3 +12,15 @@ domain_openbraininstitute_org_name    = "staging.openbraininstitute.org"
 domain_openbraininstitute_com_name    = "staging.openbraininstitute.com"
 domain_openbraininstitute_ch_name     = "staging.openbraininstitute.ch"
 web_logs_athena_workgroup_bucket_name = "web-logs-athena-workgroup-obi-staging"
+
+vpn2_to_azure_enabled                  = true
+vpn_to_azure_aws_bgp_asn               = 65000
+azure_bgp_asn2                         = 65516
+azure_vpn_gateway_tunnel2_inside_cidr1 = "169.254.21.8/30"
+azure_vpn_gateway_tunnel2_inside_cidr2 = "169.254.21.12/30"
+vpn_customer_gw2_name                  = "CGW-Azure-Staging-South-Central-US"
+vpn2_conn_name                         = "Conn-Azure-Staging-South-Central-US"
+tunnel2_ike_log_group1_name            = "vpn-tunnel2-ike-to-staging-azure-south-central-us-1"
+tunnel2_ike_log_group2_name            = "vpn-tunnel2-ike-to-staging-azure-south-central-us-2"
+tunnel2_bgp_log_group1_name            = "vpn-tunnel2-bgp-to-staging-azure-south-central-us-1"
+tunnel2_bgp_log_group2_name            = "vpn-tunnel2-bgp-to-staging-azure-south-central-us-2"
