@@ -244,6 +244,15 @@ module "preview_openbraininstitute_org_cert" {
   validation_domain = "openbraininstitute.org"
 }
 
+module "wildcard_preview_openbraininstitute_org_cert" {
+  count  = var.is_staging ? 1 : 0
+  source = "./tls_certificate_without_domain"
+
+  hostname = "*.preview.openbraininstitute.org"
+
+  validation_domain = "openbraininstitute.org"
+}
+
 module "secrets_openbraininstitute_org_cert" {
   count             = var.is_staging ? 1 : 0
   source            = "./tls_certificate_without_domain"
