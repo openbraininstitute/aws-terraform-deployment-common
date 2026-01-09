@@ -24,3 +24,5 @@ tunnel2_ike_log_group1_name            = "vpn-tunnel2-ike-to-staging-azure-south
 tunnel2_ike_log_group2_name            = "vpn-tunnel2-ike-to-staging-azure-south-central-us-2"
 tunnel2_bgp_log_group1_name            = "vpn-tunnel2-bgp-to-staging-azure-south-central-us-1"
 tunnel2_bgp_log_group2_name            = "vpn-tunnel2-bgp-to-staging-azure-south-central-us-2"
+
+cell_a_openbraininstitute_org_domain_name = "staging.cell-a.openbraininstitute.org"
