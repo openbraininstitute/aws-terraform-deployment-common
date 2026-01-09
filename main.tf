@@ -48,6 +48,7 @@ module "private_alb_basic" {
     "www.${var.domain_openbraininstitute_ch_name}"
   ]
 
+  # module.preview_openbraininstitute_org_cert[0].certificate_arn removed for staging as it was causing errors: it's currently delegated to a sandbox of Pavlo
   # In staging, we currently need some additional certs
   cert_arns = concat([
     module.openbluebrain_com_cert.certificate_arn,
@@ -68,7 +69,7 @@ module "private_alb_basic" {
     ], (var.is_staging ? [
       module.dev_openbraininstitute_org_cert[0].certificate_arn,
       module.secrets_openbraininstitute_org_cert[0].certificate_arn,
-  module.preview_openbraininstitute_org_cert[0].certificate_arn] : []))
+  ] : []))
 }
 
 module "public_nlb_basic" {
@@ -264,14 +265,14 @@ module "dev_openbraininstitute_org_cert" {
   validation_domain = "openbraininstitute.org"
 }
 
-module "preview_openbraininstitute_org_cert" {
-  count  = var.is_staging ? 1 : 0
-  source = "./tls_certificate_without_domain"
+# module "preview_openbraininstitute_org_cert" {
+#   count  = var.is_staging ? 1 : 0
+#   source = "./tls_certificate_without_domain"
 
-  hostname = "preview.openbraininstitute.org"
+#   hostname = "preview.openbraininstitute.org"
 
-  validation_domain = "openbraininstitute.org"
-}
+#   validation_domain = "openbraininstitute.org"
+# }
 
 module "secrets_openbraininstitute_org_cert" {
   count             = var.is_staging ? 1 : 0
