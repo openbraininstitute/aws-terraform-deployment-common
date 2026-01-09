@@ -63,7 +63,8 @@ module "private_alb_basic" {
     module.openbraininstitute_com_cert.certificate_arn,
     module.www_openbraininstitute_com_cert.certificate_arn,
     module.openbraininstitute_ch_cert.certificate_arn,
-    module.www_openbraininstitute_ch_cert.certificate_arn
+    module.www_openbraininstitute_ch_cert.certificate_arn,
+    module.cell_a_openbraininstitute_org_cert.certificate_arn
     ], (var.is_staging ? [
       module.dev_openbraininstitute_org_cert[0].certificate_arn,
       module.secrets_openbraininstitute_org_cert[0].certificate_arn,
@@ -189,6 +190,13 @@ resource "aws_route53_record" "cell_a_staging_ns" {
   type    = "NS"
   ttl     = 60
   records = ["ns-1255.awsdns-28.org.", "ns-388.awsdns-48.com.", "ns-946.awsdns-54.net.", "ns-2036.awsdns-62.co.uk."]
+}
+
+module "cell_a_openbraininstitute_org_cert" {
+  source = "./tls_certificate"
+
+  hostname = module.cell_a_openbraininstitute_org_domain.domain_name
+  zone_id  = module.cell_a_openbraininstitute_org_domain.domain_zone_id
 }
 
 module "jupyterhub_openbraininstitute_org_cert" {
