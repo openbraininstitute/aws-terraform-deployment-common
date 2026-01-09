@@ -172,3 +172,9 @@ variable "tunnel2_bgp_log_group2_name" {
   type        = string
   sensitive   = false
 }
+
+variable "cell_a_openbraininstitute_org_domain_name" {
+  description = "The domain name based on the 'cell-a' name"
+  type        = string
+  sensitive   = false
+}

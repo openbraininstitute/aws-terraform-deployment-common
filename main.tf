@@ -170,6 +170,15 @@ module "alt_private_domain_openbrainplatform_org" {
   vpc_id               = module.network.vpc_id
 }
 
+module "cell_a_openbraininstitute_org_domain" {
+  source = "./domain"
+
+  domain_name         = var.cell_a_openbraininstitute_org_domain_name
+  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
+  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
+  comment             = "Domain for AWS deployment - cell-a"
+}
+
 module "jupyterhub_openbraininstitute_org_cert" {
   source = "./tls_certificate"
 
