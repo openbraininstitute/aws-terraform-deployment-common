@@ -179,6 +179,18 @@ module "cell_a_openbraininstitute_org_domain" {
   comment             = "Domain for AWS deployment - cell-a"
 }
 
+# Only in production: delegate the staging subdomain of cell-a to the nameservers
+# of the staging.cell-a zone in aws staging. In godaddy, there's a delegation
+# of cell-a to the above zone in production.
+resource "aws_route53_record" "cell_a_staging_ns" {
+  count   = var.is_production ? 1 : 0
+  zone_id = module.cell_a_openbraininstitute_org_domain.domain_zone_id
+  name    = "staging"
+  type    = "NS"
+  ttl     = 60
+  records = ["ns-1255.awsdns-28.org.", "ns-388.awsdns-48.com.", "ns-946.awsdns-54.net.", "ns-2036.awsdns-62.co.uk."]
+}
+
 module "jupyterhub_openbraininstitute_org_cert" {
   source = "./tls_certificate"
 
