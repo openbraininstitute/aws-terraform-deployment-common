@@ -190,6 +190,14 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
           name = "CrossSiteScripting_BODY"
         }
+        rule_action_override {
+          # Azure App Gateway doesn't set this header in health probes
+          action_to_use {
+            count {}
+          }
+
+          name = "NoUserAgent_HEADER"
+        }
       }
     }
 
