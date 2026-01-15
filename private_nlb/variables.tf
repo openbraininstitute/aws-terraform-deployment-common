@@ -51,3 +51,9 @@ variable "private_alb_arn" {
   type        = string
   sensitive   = false
 }
+
+variable "azure_main_spoke_virtualnet_cidr" {
+  description = "CIDR of the main spoke virtual network in Azure, see README.md in azure-terraform-network repo for ranges"
+  type        = string
+  sensitive   = false
+}
