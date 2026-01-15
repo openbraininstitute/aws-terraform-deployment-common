@@ -410,7 +410,7 @@ module "vpn_to_azure" {
 module "private_nlb" {
   source = "./private_nlb"
 
-  count = var.is_staging ? 1 : 0
+  count = 1
 
   private_subnet_1_id         = aws_subnet.private_alb_a.id
   private_subnet_1_ip_address = "10.0.2.157"
