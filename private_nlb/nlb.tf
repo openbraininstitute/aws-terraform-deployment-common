@@ -65,16 +65,21 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_internal" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure_staging" {
+moved {
+  from = aws_vpc_security_group_ingress_rule.nlb_allow_https_azure_staging
+  to   = aws_vpc_security_group_ingress_rule.nlb_allow_https_azure
+}
+
+resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure" {
   security_group_id = aws_security_group.nlb.id
-  description       = "Allow HTTPS via VPN to azure staging"
+  description       = "Allow HTTPS via VPN to azure"
   from_port         = 443
   to_port           = 443
   ip_protocol       = "tcp"
-  cidr_ipv4         = "10.102.0.0/16"
+  cidr_ipv4         = var.azure_main_spoke_virtualnet_cidr
 
   tags = {
-    Name = "private_nlb_allow_https_within_vpc"
+    Name = "private_nlb_allow_https_azure"
   }
 }
 

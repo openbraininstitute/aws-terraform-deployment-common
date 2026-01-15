@@ -26,3 +26,5 @@ tunnel2_bgp_log_group1_name            = "vpn-tunnel2-bgp-to-production-azure-so
 tunnel2_bgp_log_group2_name            = "vpn-tunnel2-bgp-to-production-azure-south-central-us-2"
 
 cell_a_openbraininstitute_org_domain_name = "cell-a.openbraininstitute.org"
+
+azure_main_spoke_virtualnet_cidr = "10.103.0.0/16"

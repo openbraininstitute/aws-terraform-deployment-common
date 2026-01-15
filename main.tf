@@ -16,7 +16,8 @@ module "network" {
   # public_subnet_1_availability_zone = "a"
   # public_subnet_2_availability_zone = "b"
 
-  vpn_gateway_id = var.is_staging ? module.vpn_to_azure[0].vpn_gateway_id : null
+  # Adds propagation of BGP learned routes to the public and private routing tables
+  vpn_gateway_id = module.vpn_to_azure[0].vpn_gateway_id
 }
 
 module "s3" {
@@ -421,6 +422,8 @@ module "private_nlb" {
   vpc_cidr_block              = module.network.vpc_cidr_block
   lb_access_logs_bucket       = module.s3.lb_access_logs_bucket
   private_alb_arn             = module.private_alb_basic.private_alb_arn
+
+  azure_main_spoke_virtualnet_cidr = var.azure_main_spoke_virtualnet_cidr
 }
 
 module "logs_glue_tables" {

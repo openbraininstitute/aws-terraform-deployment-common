@@ -178,3 +178,9 @@ variable "cell_a_openbraininstitute_org_domain_name" {
   type        = string
   sensitive   = false
 }
+
+variable "azure_main_spoke_virtualnet_cidr" {
+  description = "The CIDR for the main spoke virtual network in Azure, see README.md in azure-terraform-network repo for ranges"
+  type        = string
+  sensitive   = false
+}
