@@ -86,7 +86,10 @@ module "public_nlb_basic" {
 
 # There's no public domain setup anymore for openbraininstitute.org as its DNS is handled by godaddy.
 # We still create a private domain for the ALB.
-
+# This makes sure that staging.openbraininstitute.org / www.openbraininstitute.org is overriden
+# within the VPC and points directly to the private ip address of the private application load
+# balancer. It should normally no longer be needed as AWS resources should switch to the
+# cell-a urls to talk to each other.
 module "alt_private_domain_openbraininstitute_org" {
   source = "./private_domain"
 
@@ -97,6 +100,18 @@ module "alt_private_domain_openbraininstitute_org" {
   vpc_id               = module.network.vpc_id
 }
 
+# This makes sure that staging.cell-a.openbraininstitute.org / cell-a.openbraininstitute.org is overriden
+# within the VPC and points directly to the private ip address of the private application load
+# balancer.
+module "alt_private_domain_cell_a_openbraininstitute_org" {
+  source = "./private_domain"
+
+  domain_name          = var.cell_a_openbraininstitute_org_domain_name
+  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
+  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
+  comment              = "Cell-A domain"
+  vpc_id               = module.network.vpc_id
+}
 
 resource "aws_route53_record" "cdn_domain" {
   zone_id = module.alt_private_domain_openbraininstitute_org.domain_zone_id
