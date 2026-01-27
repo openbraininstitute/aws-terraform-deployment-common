@@ -70,13 +70,13 @@ output "bastion_domain_zone_id" {
 
 output "preview_domain" {
   description = "preview domain name"
-  value       = module.preview_openbraininstitute_org.domain_name
+  value       = var.is_staging ? module.preview_openbraininstitute_org[0].domain_name : null
   sensitive   = false
 }
 
 output "preview_domain_zone_id" {
   description = "zone_id of the preview domain"
-  value       = module.preview_openbraininstitute_org.domain_zone_id
+  value       = var.is_staging ? module.preview_openbraininstitute_org[0].domain_zone_id : null
   sensitive   = false
 }
 

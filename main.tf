@@ -133,8 +133,10 @@ module "jupyterhub_openbraininstitute_org" {
 module "preview_openbraininstitute_org" {
   source = "./domain"
 
-  # remove 'www.' from local.primary_domain and prepend 'preview'. ie: preview.openbraininstitute.org
-  domain_name      = join(".", ["preview", trimprefix(var.primary_domain_name, "www.")])
+  count = var.is_staging ? 1 : 0
+
+  # remove 'staging.' from local.primary_domain and prepend 'preview'. ie: preview.openbraininstitute.org
+  domain_name      = join(".", ["preview", trimprefix(var.primary_domain_name, "staging.")])
   comment          = "subdomain for the Core web app preview deployments"
   create_www_cname = false
 }
