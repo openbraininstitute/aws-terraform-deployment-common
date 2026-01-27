@@ -68,6 +68,18 @@ output "bastion_domain_zone_id" {
   sensitive   = false
 }
 
+output "preview_domain" {
+  description = "preview domain name"
+  value       = module.preview_openbraininstitute_org.domain_name
+  sensitive   = false
+}
+
+output "preview_domain_zone_id" {
+  description = "zone_id of the preview domain"
+  value       = module.preview_openbraininstitute_org.domain_zone_id
+  sensitive   = false
+}
+
 output "private_alb_https_listener_arn" {
   description = "ARN of the private ALB"
   value       = module.private_alb_basic.alb_https_listener_arn
