@@ -26,7 +26,7 @@ resource "aws_lb_listener_certificate" "certs_for_alb" {
 
 # Generates a separate rule for each of the hostnames in redirect_hostnames
 # => each individual rule remains below the 5 conditions limit
-resource "aws_lb_listener_rule" "private_keycloak_redirect" {
+resource "aws_lb_listener_rule" "redirect_alternative_hostname" {
   # Generates a set [0, 1, 2, ..] with an index for each entry in var.redirected_hostnames
   for_each = toset(formatlist("%s", range(length(var.redirected_hostnames))))
 
