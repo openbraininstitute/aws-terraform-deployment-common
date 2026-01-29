@@ -34,7 +34,7 @@ module "private_alb_basic" {
   vpc_id                        = module.network.vpc_id
   vpc_cidr_block                = module.network.vpc_cidr_block
   lb_access_logs_bucket         = module.s3.lb_access_logs_bucket
-  main_domain_hostname          = var.primary_domain_name
+  main_domain_hostname          = var.cell_a_openbraininstitute_org_domain_name
   main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn # It doesn't matter which one we take as default as we're adding all them anyway as additional certificates.
 
   redirected_hostnames = [
@@ -58,9 +58,9 @@ module "private_alb_basic" {
     module.www_openbrainplatform_org_cert.certificate_arn,
     module.openbrainplatform_com_cert.certificate_arn,
     module.www_openbrainplatform_com_cert.certificate_arn,
-    module.openbraininstitute_org_cert.certificate_arn,
-    module.www_openbraininstitute_org_cert.certificate_arn,
-    module.cdn_openbraininstitute_org_cert.certificate_arn,
+    # module.openbraininstitute_org_cert.certificate_arn,
+    # module.www_openbraininstitute_org_cert.certificate_arn,
+    # module.cdn_openbraininstitute_org_cert.certificate_arn,
     module.openbraininstitute_com_cert.certificate_arn,
     module.www_openbraininstitute_com_cert.certificate_arn,
     module.openbraininstitute_ch_cert.certificate_arn,
@@ -83,21 +83,7 @@ module "public_nlb_basic" {
   lb_access_logs_bucket = module.s3.lb_access_logs_bucket
 }
 
-# There's no public domain setup anymore for openbraininstitute.org as its DNS is handled by godaddy.
-# We still create a private domain for the ALB.
-# This makes sure that staging.openbraininstitute.org / www.openbraininstitute.org is overriden
-# within the VPC and points directly to the private ip address of the private application load
-# balancer. It should normally no longer be needed as AWS resources should switch to the
-# cell-a urls to talk to each other.
-module "alt_private_domain_openbraininstitute_org" {
-  source = "./private_domain"
 
-  domain_name          = var.primary_domain_name
-  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
-  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
-  comment              = "Primary domain"
-  vpc_id               = module.network.vpc_id
-}
 
 # This makes sure that staging.cell-a.openbraininstitute.org / cell-a.openbraininstitute.org is overriden
 # within the VPC and points directly to the private ip address of the private application load
@@ -111,15 +97,6 @@ module "alt_private_domain_cell_a_openbraininstitute_org" {
   comment              = "Cell-A domain"
   vpc_id               = module.network.vpc_id
 }
-
-resource "aws_route53_record" "cdn_domain" {
-  zone_id = module.alt_private_domain_openbraininstitute_org.domain_zone_id
-  name    = "cdn.${var.primary_domain_name}"
-  type    = "CNAME"
-  ttl     = 60
-  records = [var.primary_domain_name]
-}
-
 
 module "jupyterhub_openbraininstitute_org" {
   source = "./domain"
@@ -296,25 +273,6 @@ module "secrets_openbraininstitute_org_cert" {
   source            = "./tls_certificate_without_domain"
   hostname          = "secrets.openbraininstitute.org"
   validation_domain = "openbraininstitute.org"
-}
-
-module "cdn_openbraininstitute_org_cert" {
-  source = "./tls_certificate_without_domain"
-
-  hostname          = var.is_production ? "cdn.openbraininstitute.org" : "cdn.staging.openbraininstitute.org"
-  validation_domain = "openbraininstitute.org"
-}
-
-module "openbraininstitute_org_cert" {
-  source = "./tls_certificate_without_domain"
-
-  hostname = var.domain_openbraininstitute_org_name
-}
-
-module "www_openbraininstitute_org_cert" {
-  source = "./tls_certificate_without_domain"
-
-  hostname = "www.${var.domain_openbraininstitute_org_name}"
 }
 
 module "openbraininstitute_ch_cert" {
