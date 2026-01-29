@@ -166,11 +166,6 @@ output "email_domain_name" {
   value       = var.email_domain_name
 }
 
-output "cloudfront_certificate_arn" {
-  description = "cloudfront certificate for cdn.{staging}.openbraininstitute.org domain"
-  value       = module.cdn_openbraininstitute_org_cert.certificate_arn
-}
-
 output "launch_system_secrets_arn" {
   description = "ARN of the secrets of the launch system"
   value       = aws_secretsmanager_secret.launch_system_secrets.arn
