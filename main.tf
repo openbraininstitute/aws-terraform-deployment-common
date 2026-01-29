@@ -34,7 +34,7 @@ module "private_alb_basic" {
   vpc_id                        = module.network.vpc_id
   vpc_cidr_block                = module.network.vpc_cidr_block
   lb_access_logs_bucket         = module.s3.lb_access_logs_bucket
-  main_domain_hostname          = var.cell_a_openbraininstitute_org_domain_name
+  main_domain_hostname          = var.primary_domain_name                       # used for the redirects of other hostnames like openbluebrain.com => needs to remain the public main hostname
   main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn # It doesn't matter which one we take as default as we're adding all them anyway as additional certificates.
 
   redirected_hostnames = [
