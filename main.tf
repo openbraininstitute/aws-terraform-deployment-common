@@ -49,7 +49,6 @@ module "private_alb_basic" {
     "www.${var.domain_openbraininstitute_ch_name}"
   ]
 
-  # module.preview_openbraininstitute_org_cert[0].certificate_arn removed for staging as it was causing errors: it's currently delegated to a sandbox of Pavlo
   # In staging, we currently need some additional certs
   cert_arns = concat([
     module.openbluebrain_com_cert.certificate_arn,
@@ -128,6 +127,17 @@ module "jupyterhub_openbraininstitute_org" {
   # remove 'www.' from local.primary_domain and prepend 'jupyterhub'. ie: jupyterhub.openbraininstitute.org
   domain_name      = join(".", ["jupyterhub", trimprefix(var.primary_domain_name, "www.")])
   comment          = "subdomain for the jupyterhub service"
+  create_www_cname = false
+}
+
+module "preview_openbraininstitute_org" {
+  source = "./domain"
+
+  count = var.is_staging ? 1 : 0
+
+  # remove 'staging.' from local.primary_domain and prepend 'preview'. ie: preview.openbraininstitute.org
+  domain_name      = join(".", ["preview", trimprefix(var.primary_domain_name, "staging.")])
+  comment          = "subdomain for the Core web app preview deployments"
   create_www_cname = false
 }
 
@@ -280,15 +290,6 @@ module "dev_openbraininstitute_org_cert" {
 
   validation_domain = "openbraininstitute.org"
 }
-
-# module "preview_openbraininstitute_org_cert" {
-#   count  = var.is_staging ? 1 : 0
-#   source = "./tls_certificate_without_domain"
-
-#   hostname = "preview.openbraininstitute.org"
-
-#   validation_domain = "openbraininstitute.org"
-# }
 
 module "secrets_openbraininstitute_org_cert" {
   count             = var.is_staging ? 1 : 0
