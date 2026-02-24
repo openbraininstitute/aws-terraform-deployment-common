@@ -177,10 +177,6 @@ module "public_nlb_config" {
 
 }
 
-module "ecr" {
-  source = "./ecr"
-}
-
 module "ses" {
   source = "./ses"
 
