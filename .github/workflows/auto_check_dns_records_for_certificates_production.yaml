@@ -1,5 +1,8 @@
 name: Auto - Check DNS records for TLS certificates - Production
 
+env:
+  AWS_ROLE_ARN_PRODUCTION: arn:aws:iam::671250183987:role/GithubTerraformDeployCommon
+
 # For production, trigger on the creation of tags
 on:
   workflow_dispatch:
@@ -10,6 +13,9 @@ on:
 jobs:
   dns_check:
     environment: production
+    permissions:
+      id-token: write
+      contents: read
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -19,6 +25,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN_PRODUCTION }}
+          aws-region: us-east-1
 
       - name: Make script executable
         run: chmod +x .github/scripts/check_dns_records_for_certificates.sh
