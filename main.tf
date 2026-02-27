@@ -28,19 +28,22 @@ module "s3" {
 module "private_alb_basic" {
   source = "./obp_private_alb_basic"
 
-  private_subnet_1_id           = aws_subnet.private_alb_a.id
-  private_subnet_2_id           = aws_subnet.private_alb_b.id
-  alb_name                      = "sbo-poc-alb"
-  vpc_id                        = module.network.vpc_id
-  vpc_cidr_block                = module.network.vpc_cidr_block
-  lb_access_logs_bucket         = module.s3.lb_access_logs_bucket
-  main_domain_hostname          = var.primary_domain_name                       # used for the redirects of other hostnames like openbluebrain.com => needs to remain the public main hostname
-  main_domain_hostname_cert_arn = module.openbluebrain_com_cert.certificate_arn # It doesn't matter which one we take as default as we're adding all them anyway as additional certificates.
+  private_subnet_1_id   = aws_subnet.private_alb_a.id
+  private_subnet_2_id   = aws_subnet.private_alb_b.id
+  alb_name              = "sbo-poc-alb"
+  vpc_id                = module.network.vpc_id
+  vpc_cidr_block        = module.network.vpc_cidr_block
+  lb_access_logs_bucket = module.s3.lb_access_logs_bucket
+
+  # used for the redirects of other hostnames like openbluebrain.com => needs to remain the public main hostname
+  main_domain_hostname = var.primary_domain_name
+  # # It doesn't matter which one we take as default as we're adding all them anyway as additional certificates.
+  main_domain_hostname_cert_arn = module.alternative_hostnames.tls_certificate["${var.alt_domain_openbluebrain_com_name}/${var.alt_domain_openbluebrain_com_name}"].certificate_arn
 
   redirected_hostnames = [
     "www.${module.alt_domain_openbrainplatform_org.domain_name}",
-    module.alt_domain_openbrainplatform_com.domain_name,
-    "www.${module.alt_domain_openbrainplatform_com.domain_name}",
+    var.alt_domain_openbrainplatform_com_name,
+    "www.${var.alt_domain_openbrainplatform_com_name}",
     var.domain_openbraininstitute_org_name,
     "www.${var.domain_openbraininstitute_org_name}",
     var.domain_openbraininstitute_com_name,
@@ -51,20 +54,20 @@ module "private_alb_basic" {
 
   # In staging, we currently need some additional certs
   cert_arns = concat([
-    module.openbluebrain_com_cert.certificate_arn,
-    module.www_openbluebrain_com_cert.certificate_arn,
+    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbluebrain_com_name}/${var.alt_domain_openbluebrain_com_name}"].certificate_arn,
+    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbluebrain_com_name}/www.${var.alt_domain_openbluebrain_com_name}"].certificate_arn,
     module.jupyterhub_openbrainplatform_com_cert.certificate_arn,
     module.jupyterhub_openbraininstitute_org_cert.certificate_arn,
     module.www_openbrainplatform_org_cert.certificate_arn,
-    module.openbrainplatform_com_cert.certificate_arn,
-    module.www_openbrainplatform_com_cert.certificate_arn,
+    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbrainplatform_com_name}/${var.alt_domain_openbrainplatform_com_name}"].certificate_arn,
+    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbrainplatform_com_name}/www.${var.alt_domain_openbrainplatform_com_name}"].certificate_arn,
     # module.openbraininstitute_org_cert.certificate_arn,
     # module.www_openbraininstitute_org_cert.certificate_arn,
     # module.cdn_openbraininstitute_org_cert.certificate_arn,
-    module.openbraininstitute_com_cert.certificate_arn,
-    module.www_openbraininstitute_com_cert.certificate_arn,
-    module.openbraininstitute_ch_cert.certificate_arn,
-    module.www_openbraininstitute_ch_cert.certificate_arn,
+    module.alternative_hostnames.tls_certificate_without_domain[var.domain_openbraininstitute_com_name].certificate_arn,
+    module.alternative_hostnames.tls_certificate_without_domain["www.${var.domain_openbraininstitute_com_name}"].certificate_arn,
+    module.alternative_hostnames.tls_certificate_without_domain[var.domain_openbraininstitute_ch_name].certificate_arn,
+    module.alternative_hostnames.tls_certificate_without_domain["www.${var.domain_openbraininstitute_ch_name}"].certificate_arn,
     module.cell_a_openbraininstitute_org_cert.certificate_arn
     ], (var.is_staging ? [
       module.dev_openbraininstitute_org_cert[0].certificate_arn,
@@ -118,44 +121,6 @@ module "preview_openbraininstitute_org" {
   create_www_cname = false
 }
 
-module "alt_domain_openbluebrain_com" {
-  source = "./domain"
-
-  domain_name         = var.alt_domain_openbluebrain_com_name
-  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
-  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
-  comment             = "Alternative domain openbluebrain.com"
-}
-
-module "alt_private_domain_openbluebrain_com" {
-  source = "./private_domain"
-
-  domain_name          = var.alt_domain_openbluebrain_com_name
-  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
-  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
-  comment              = "Alternative domain openbluebrain.com"
-  vpc_id               = module.network.vpc_id
-}
-
-module "alt_domain_openbrainplatform_com" {
-  source = "./domain"
-
-  domain_name         = var.alt_domain_openbrainplatform_com_name
-  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
-  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
-  comment             = "Alternative domain openbrainplatform.com"
-}
-
-module "alt_private_domain_openbrainplatform_com" {
-  source = "./private_domain"
-
-  domain_name          = var.alt_domain_openbrainplatform_com_name
-  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
-  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
-  comment              = "Alternative domain openbrainplatform.com"
-  vpc_id               = module.network.vpc_id
-}
-
 module "alt_domain_openbrainplatform_org" {
   source = "./domain"
 
@@ -165,15 +130,6 @@ module "alt_domain_openbrainplatform_org" {
   comment             = "Alternative domain openbrainplatform.org"
 }
 
-module "alt_private_domain_openbrainplatform_org" {
-  source = "./private_domain"
-
-  domain_name          = var.alt_domain_openbrainplatform_org_name
-  private_alb_dns_name = module.private_alb_basic.private_alb_dns_name
-  private_alb_zone_id  = module.private_alb_basic.alb_zone_id
-  comment              = "Alternative domain openbrainplatform.org"
-  vpc_id               = module.network.vpc_id
-}
 
 module "cell_a_openbraininstitute_org_domain" {
   source = "./domain"
@@ -224,38 +180,10 @@ module "www_openbrainplatform_org_cert" {
   zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
 
-module "openbrainplatform_com_cert" {
-  source = "./tls_certificate"
-
-  hostname = module.alt_domain_openbrainplatform_com.domain_name
-  zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
-}
-
-module "www_openbrainplatform_com_cert" {
-  source = "./tls_certificate"
-
-  hostname = "www.${module.alt_domain_openbrainplatform_com.domain_name}"
-  zone_id  = module.alt_domain_openbrainplatform_com.domain_zone_id
-}
-
-module "openbluebrain_com_cert" {
-  source = "./tls_certificate"
-
-  hostname = var.alt_domain_openbluebrain_com_name
-  zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
-}
-
-module "www_openbluebrain_com_cert" {
-  source = "./tls_certificate"
-
-  hostname = "www.${var.alt_domain_openbluebrain_com_name}"
-  zone_id  = module.alt_domain_openbluebrain_com.domain_zone_id
-}
-
 module "jupyterhub_openbrainplatform_com_cert" {
   source = "./tls_certificate_without_domain"
 
-  hostname          = "jupyterhub.${module.alt_domain_openbrainplatform_com.domain_name}"
+  hostname          = "jupyterhub.${var.alt_domain_openbrainplatform_com_name}"
   validation_domain = var.is_production ? "openbrainplatform.com" : "staging.openbrainplatform.com"
 }
 
@@ -273,30 +201,6 @@ module "secrets_openbraininstitute_org_cert" {
   source            = "./tls_certificate_without_domain"
   hostname          = "secrets.openbraininstitute.org"
   validation_domain = "openbraininstitute.org"
-}
-
-module "openbraininstitute_ch_cert" {
-  source = "./tls_certificate_without_domain"
-
-  hostname = var.domain_openbraininstitute_ch_name
-}
-
-module "www_openbraininstitute_ch_cert" {
-  source = "./tls_certificate_without_domain"
-
-  hostname = "www.${var.domain_openbraininstitute_ch_name}"
-}
-
-module "openbraininstitute_com_cert" {
-  source = "./tls_certificate_without_domain"
-
-  hostname = var.domain_openbraininstitute_com_name
-}
-
-module "www_openbraininstitute_com_cert" {
-  source = "./tls_certificate_without_domain"
-
-  hostname = "www.${var.domain_openbraininstitute_com_name}"
 }
 
 module "private_alb_config" {
