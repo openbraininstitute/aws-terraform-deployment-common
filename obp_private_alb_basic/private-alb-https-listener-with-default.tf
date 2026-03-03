@@ -9,7 +9,6 @@ resource "aws_lb_listener" "https" {
 
     # TODO: move the redirect to a module which serves the static data.
     redirect {
-      path        = "/static/coming-soon/index.html"
       host        = var.main_domain_hostname
       status_code = "HTTP_302"
     }
