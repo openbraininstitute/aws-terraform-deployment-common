@@ -415,6 +415,31 @@ resource "aws_s3_bucket" "aws_waf_logs_bucket" {
   bucket = var.waf_logs_bucket_name
 }
 
+resource "aws_s3_bucket_policy" "aws_waf_logs_bucket" {
+  bucket = aws_s3_bucket.aws_waf_logs_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "DenyInsecureTransport"
+        Effect    = "Deny"
+        Principal = "*"
+        Action    = "s3:*"
+        Resource = [
+          aws_s3_bucket.aws_waf_logs_bucket.arn,
+          "${aws_s3_bucket.aws_waf_logs_bucket.arn}/*"
+        ]
+        Condition = {
+          Bool = {
+            "aws:SecureTransport" = "false"
+          }
+        }
+      }
+    ]
+  })
+}
+
 resource "aws_wafv2_web_acl_logging_configuration" "waf_logs" {
   log_destination_configs = [aws_s3_bucket.aws_waf_logs_bucket.arn]
   resource_arn            = aws_wafv2_web_acl.basic_protection.arn
