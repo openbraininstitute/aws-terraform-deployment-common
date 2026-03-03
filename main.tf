@@ -40,35 +40,18 @@ module "private_alb_basic" {
   # # It doesn't matter which one we take as default as we're adding all them anyway as additional certificates.
   main_domain_hostname_cert_arn = module.alternative_hostnames.tls_certificate["${var.alt_domain_openbluebrain_com_name}/${var.alt_domain_openbluebrain_com_name}"].certificate_arn
 
-  redirected_hostnames = [
-    "www.${var.alt_domain_openbrainplatform_org_name}",
-    var.alt_domain_openbrainplatform_com_name,
-    "www.${var.alt_domain_openbrainplatform_com_name}",
-    var.domain_openbraininstitute_org_name,
-    "www.${var.domain_openbraininstitute_org_name}",
-    var.domain_openbraininstitute_com_name,
-    "www.${var.domain_openbraininstitute_com_name}",
-    var.domain_openbraininstitute_ch_name,
-    "www.${var.domain_openbraininstitute_ch_name}"
-  ]
+  redirected_hostnames = module.alternative_hostnames.all_hostnames_as_list_of_strings
 
   # In staging, we currently need some additional certs
-  cert_arns = concat([
-    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbluebrain_com_name}/${var.alt_domain_openbluebrain_com_name}"].certificate_arn,
-    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbluebrain_com_name}/www.${var.alt_domain_openbluebrain_com_name}"].certificate_arn,
-    module.jupyterhub_openbrainplatform_com_cert.certificate_arn,
-    module.jupyterhub_openbraininstitute_org_cert.certificate_arn,
-    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbrainplatform_org_name}/www.${var.alt_domain_openbrainplatform_org_name}"].certificate_arn,
-    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbrainplatform_com_name}/${var.alt_domain_openbrainplatform_com_name}"].certificate_arn,
-    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbrainplatform_com_name}/www.${var.alt_domain_openbrainplatform_com_name}"].certificate_arn,
-    module.alternative_hostnames.tls_certificate_without_domain[var.domain_openbraininstitute_com_name].certificate_arn,
-    module.alternative_hostnames.tls_certificate_without_domain["www.${var.domain_openbraininstitute_com_name}"].certificate_arn,
-    module.alternative_hostnames.tls_certificate_without_domain[var.domain_openbraininstitute_ch_name].certificate_arn,
-    module.alternative_hostnames.tls_certificate_without_domain["www.${var.domain_openbraininstitute_ch_name}"].certificate_arn,
-    module.cell_a_openbraininstitute_org_cert.certificate_arn
-    ], (var.is_staging ? [
-      module.dev_openbraininstitute_org_cert[0].certificate_arn,
-      module.secrets_openbraininstitute_org_cert[0].certificate_arn,
+  cert_arns = concat(
+    module.alternative_hostnames.all_certificate_arns_as_list_of_strings,
+    [
+      module.jupyterhub_openbrainplatform_com_cert.certificate_arn,
+      module.jupyterhub_openbraininstitute_org_cert.certificate_arn,
+      module.cell_a_openbraininstitute_org_cert.certificate_arn
+      ], (var.is_staging ? [
+        module.dev_openbraininstitute_org_cert[0].certificate_arn,
+        module.secrets_openbraininstitute_org_cert[0].certificate_arn,
   ] : []))
 }
 

@@ -178,3 +178,8 @@ output "private_alb_cidr_b" {
   value       = aws_subnet.private_alb_b.cidr_block
   description = "CIDR block of the second subnet containing the private ALB"
 }
+
+# For debugging purposes
+output "alternative_hostnames" {
+  value = module.alternative_hostnames
+}
