@@ -40,6 +40,22 @@ data "aws_iam_policy_document" "nlb_access_logs_lb_write" {
   policy_id = "s3_bucket_nlb_access_logs"
 
   statement {
+    sid    = "DenyInsecureTransport"
+    effect = "Deny"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    actions   = ["s3:*"]
+    resources = [aws_s3_bucket.lb_access_logs_bucket.arn, "${aws_s3_bucket.lb_access_logs_bucket.arn}/*"]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+
+  statement {
     actions = [
       "s3:PutObject",
     ]
