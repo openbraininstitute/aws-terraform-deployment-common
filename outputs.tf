@@ -56,18 +56,6 @@ output "primary_domain" {
   sensitive   = false
 }
 
-output "bastion_domain" {
-  description = "bastion domain name"
-  value       = module.alt_domain_openbrainplatform_org.domain_name
-  sensitive   = false
-}
-
-output "bastion_domain_zone_id" {
-  description = "zone_id of the bastion domain" # openbrainplatform.org
-  value       = module.alt_domain_openbrainplatform_org.domain_zone_id
-  sensitive   = false
-}
-
 output "preview_domain" {
   description = "preview domain name"
   value       = var.is_staging ? module.preview_openbraininstitute_org[0].domain_name : null
