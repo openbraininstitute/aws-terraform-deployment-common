@@ -41,7 +41,7 @@ module "private_alb_basic" {
   main_domain_hostname_cert_arn = module.alternative_hostnames.tls_certificate["${var.alt_domain_openbluebrain_com_name}/${var.alt_domain_openbluebrain_com_name}"].certificate_arn
 
   redirected_hostnames = [
-    "www.${module.alt_domain_openbrainplatform_org.domain_name}",
+    "www.${var.alt_domain_openbrainplatform_org_name}",
     var.alt_domain_openbrainplatform_com_name,
     "www.${var.alt_domain_openbrainplatform_com_name}",
     var.domain_openbraininstitute_org_name,
@@ -58,12 +58,9 @@ module "private_alb_basic" {
     module.alternative_hostnames.tls_certificate["${var.alt_domain_openbluebrain_com_name}/www.${var.alt_domain_openbluebrain_com_name}"].certificate_arn,
     module.jupyterhub_openbrainplatform_com_cert.certificate_arn,
     module.jupyterhub_openbraininstitute_org_cert.certificate_arn,
-    module.www_openbrainplatform_org_cert.certificate_arn,
+    module.alternative_hostnames.tls_certificate["${var.alt_domain_openbrainplatform_org_name}/www.${var.alt_domain_openbrainplatform_org_name}"].certificate_arn,
     module.alternative_hostnames.tls_certificate["${var.alt_domain_openbrainplatform_com_name}/${var.alt_domain_openbrainplatform_com_name}"].certificate_arn,
     module.alternative_hostnames.tls_certificate["${var.alt_domain_openbrainplatform_com_name}/www.${var.alt_domain_openbrainplatform_com_name}"].certificate_arn,
-    # module.openbraininstitute_org_cert.certificate_arn,
-    # module.www_openbraininstitute_org_cert.certificate_arn,
-    # module.cdn_openbraininstitute_org_cert.certificate_arn,
     module.alternative_hostnames.tls_certificate_without_domain[var.domain_openbraininstitute_com_name].certificate_arn,
     module.alternative_hostnames.tls_certificate_without_domain["www.${var.domain_openbraininstitute_com_name}"].certificate_arn,
     module.alternative_hostnames.tls_certificate_without_domain[var.domain_openbraininstitute_ch_name].certificate_arn,
@@ -121,15 +118,6 @@ module "preview_openbraininstitute_org" {
   create_www_cname = false
 }
 
-module "alt_domain_openbrainplatform_org" {
-  source = "./domain"
-
-  domain_name         = var.alt_domain_openbrainplatform_org_name
-  public_nlb_dns_name = module.public_nlb_basic.public_nlb_dns_name
-  public_nlb_zone_id  = module.public_nlb_basic.nlb_zone_id
-  comment             = "Alternative domain openbrainplatform.org"
-}
-
 
 module "cell_a_openbraininstitute_org_domain" {
   source = "./domain"
@@ -164,20 +152,6 @@ module "jupyterhub_openbraininstitute_org_cert" {
 
   hostname = module.jupyterhub_openbraininstitute_org.domain_name
   zone_id  = module.jupyterhub_openbraininstitute_org.domain_zone_id
-}
-
-module "openbrainplatform_org_cert" {
-  source = "./tls_certificate"
-
-  hostname = module.alt_domain_openbrainplatform_org.domain_name
-  zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
-}
-
-module "www_openbrainplatform_org_cert" {
-  source = "./tls_certificate"
-
-  hostname = "www.${module.alt_domain_openbrainplatform_org.domain_name}"
-  zone_id  = module.alt_domain_openbrainplatform_org.domain_zone_id
 }
 
 module "jupyterhub_openbrainplatform_com_cert" {
@@ -248,8 +222,8 @@ module "vpn_to_azure" {
   # full names become in staging vpn-for-azure1.staging.openbrainplatform.org
   # and vpn-for-azure2.staging.openbrainplatform.org
   cname_base = "vpn-for-azure"
-  domainname = module.alt_domain_openbrainplatform_org.domain_name
-  zone_id    = module.alt_domain_openbrainplatform_org.domain_zone_id
+  domainname = var.alt_domain_openbrainplatform_org_name
+  zone_id    = module.alternative_hostnames.domain[var.alt_domain_openbrainplatform_org_name].domain_zone_id
 
   # hardcoded disabled for now, probably to be removed
   vpn1_to_azure_enabled                  = false

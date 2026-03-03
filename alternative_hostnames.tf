@@ -12,6 +12,11 @@ module "alternative_hostnames" {
       domain_name = var.alt_domain_openbrainplatform_com_name
       comment     = "Alternative domain openbrainplatform.com"
       hostnames   = [var.alt_domain_openbrainplatform_com_name, "www.${var.alt_domain_openbrainplatform_com_name}"]
+    },
+    {
+      domain_name = var.alt_domain_openbrainplatform_org_name
+      comment     = "Alternative domain openbrainplatform.org"
+      hostnames   = [var.alt_domain_openbrainplatform_org_name, "www.${var.alt_domain_openbrainplatform_org_name}"]
     }
   ]
 
