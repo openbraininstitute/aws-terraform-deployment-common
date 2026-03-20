@@ -21,10 +21,10 @@ jobs:
     name: Auto Check DNS records for validation of TLS certificates
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN_STAGING }}
           aws-region: us-east-1
