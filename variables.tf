@@ -184,3 +184,15 @@ variable "azure_main_spoke_virtualnet_cidr" {
   type        = string
   sensitive   = false
 }
+
+variable "azure_batch_spoke_virtualnet_cidr" {
+  description = "The CIDR for the batch spoke virtual network in Azure, see README.md in azure-terraform-network repo for ranges"
+  type        = string
+  sensitive   = false
+}
+
+variable "azure_launch_spoke_virtualnet_cidr" {
+  description = "The CIDR for the launch spoke virtual network in Azure, see README.md in azure-terraform-network repo for ranges"
+  type        = string
+  sensitive   = false
+}

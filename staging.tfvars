@@ -27,4 +27,6 @@ tunnel2_bgp_log_group2_name            = "vpn-tunnel2-bgp-to-staging-azure-south
 
 cell_a_openbraininstitute_org_domain_name = "staging.cell-a.openbraininstitute.org"
 
-azure_main_spoke_virtualnet_cidr = "10.102.0.0/16"
+azure_main_spoke_virtualnet_cidr   = "10.102.0.0/16"
+azure_batch_spoke_virtualnet_cidr  = "10.120.0.0/16"
+azure_launch_spoke_virtualnet_cidr = "10.122.0.0/16"

@@ -83,6 +83,32 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure" {
   }
 }
 
+resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure_batch" {
+  security_group_id = aws_security_group.nlb.id
+  description       = "Allow HTTPS via VPN to azure batch"
+  from_port         = 443
+  to_port           = 443
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.azure_batch_spoke_virtualnet_cidr
+
+  tags = {
+    Name = "private_nlb_allow_https_azure_batch"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure_launch" {
+  security_group_id = aws_security_group.nlb.id
+  description       = "Allow HTTPS via VPN to azure launch"
+  from_port         = 443
+  to_port           = 443
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.azure_launch_spoke_virtualnet_cidr
+
+  tags = {
+    Name = "private_nlb_allow_https_azure_launch"
+  }
+}
+
 # TODO limit to only the listener ports and health check ports of the instance groups
 resource "aws_vpc_security_group_egress_rule" "nlb_allow_outgoing_internal" {
   security_group_id = aws_security_group.nlb.id
