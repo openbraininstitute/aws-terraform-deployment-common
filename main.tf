@@ -254,7 +254,9 @@ module "private_nlb" {
   lb_access_logs_bucket       = module.s3.lb_access_logs_bucket
   private_alb_arn             = module.private_alb_basic.private_alb_arn
 
-  azure_main_spoke_virtualnet_cidr = var.azure_main_spoke_virtualnet_cidr
+  azure_main_spoke_virtualnet_cidr   = var.azure_main_spoke_virtualnet_cidr
+  azure_batch_spoke_virtualnet_cidr  = var.azure_batch_spoke_virtualnet_cidr
+  azure_launch_spoke_virtualnet_cidr = var.azure_launch_spoke_virtualnet_cidr
 }
 
 module "logs_glue_tables" {
