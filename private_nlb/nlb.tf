@@ -72,7 +72,7 @@ moved {
 
 resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure" {
   security_group_id = aws_security_group.nlb.id
-  description       = "Allow HTTPS via VPN to azure"
+  description       = "Allow HTTPS via VPN from azure"
   from_port         = 443
   to_port           = 443
   ip_protocol       = "tcp"
@@ -85,7 +85,7 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure" {
 
 resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure_batch" {
   security_group_id = aws_security_group.nlb.id
-  description       = "Allow HTTPS via VPN to azure batch"
+  description       = "Allow HTTPS via VPN from azure batch"
   from_port         = 443
   to_port           = 443
   ip_protocol       = "tcp"
@@ -98,7 +98,7 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure_batch" {
 
 resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_azure_launch" {
   security_group_id = aws_security_group.nlb.id
-  description       = "Allow HTTPS via VPN to azure launch"
+  description       = "Allow HTTPS via VPN from azure launch"
   from_port         = 443
   to_port           = 443
   ip_protocol       = "tcp"
