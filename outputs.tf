@@ -148,6 +148,11 @@ output "launch_system_secrets_arn" {
   value       = aws_secretsmanager_secret.launch_system_secrets.arn
 }
 
+output "launch_system_executor_secrets_arn" {
+  description = "ARN of the secrets of the launch system executors"
+  value       = aws_secretsmanager_secret.launch_system_executor_secrets.arn
+}
+
 output "teams_webhook_secrets_arn" {
   description = "ARN of the secret with the teams webhooks"
   value       = aws_secretsmanager_secret.teams_webhook_secrets.arn

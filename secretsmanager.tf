@@ -76,6 +76,11 @@ resource "aws_secretsmanager_secret" "launch_system_secrets" {
   description = "Secrets for the launch system"
 }
 
+resource "aws_secretsmanager_secret" "launch_system_executor_secrets" {
+  name        = "launch_system_executor_secrets"
+  description = "Secrets for the launch system executors"
+}
+
 resource "aws_secretsmanager_secret" "teams_webhook_secrets" {
   name        = "teams_webhook_secrets"
   description = "The webhooks of Teams to send SNS messages to Teams channels"
