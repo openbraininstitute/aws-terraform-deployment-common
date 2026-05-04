@@ -99,6 +99,21 @@ output "keycloak_secrets_arn" {
   value       = aws_secretsmanager_secret.keycloak_secrets.arn
 }
 
+output "keycloak_admin_hostname" {
+  description = "Hostname for the Keycloak admin console"
+  value       = local.keycloak_admin_hostname
+}
+
+output "keycloak_admin_cert_arn" {
+  description = "ARN of the TLS certificate for the Keycloak admin hostname"
+  value       = module.keycloak_admin_cert.certificate_arn
+}
+
+output "cell_a_zone_id" {
+  description = "Route53 zone ID for the cell-a domain"
+  value       = module.cell_a_openbraininstitute_org_domain.domain_zone_id
+}
+
 output "jupyterhub_secrets_arn" {
   description = "ARN of the JupyterHub secrets manager"
   value       = aws_secretsmanager_secret.jupyterhub_secrets.arn

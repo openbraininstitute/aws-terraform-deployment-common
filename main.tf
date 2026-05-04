@@ -1,3 +1,7 @@
+locals {
+  keycloak_admin_hostname = "keycloak-admin.${var.cell_a_openbraininstitute_org_domain_name}"
+}
+
 module "network" {
   source = "./network"
 
@@ -127,6 +131,13 @@ module "cell_a_openbraininstitute_org_cert" {
   source = "./tls_certificate"
 
   hostname = module.cell_a_openbraininstitute_org_domain.domain_name
+  zone_id  = module.cell_a_openbraininstitute_org_domain.domain_zone_id
+}
+
+module "keycloak_admin_cert" {
+  source = "./tls_certificate"
+
+  hostname = local.keycloak_admin_hostname
   zone_id  = module.cell_a_openbraininstitute_org_domain.domain_zone_id
 }
 
