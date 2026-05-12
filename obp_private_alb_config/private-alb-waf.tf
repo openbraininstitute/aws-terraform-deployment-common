@@ -420,6 +420,7 @@ resource "aws_s3_bucket_policy" "aws_waf_logs_bucket" {
 
   policy = jsonencode({
     Version = "2012-10-17"
+    Id      = "AWSLogDeliveryWrite20150319"
     Statement = [
       {
         Sid       = "DenyInsecureTransport"
@@ -433,6 +434,41 @@ resource "aws_s3_bucket_policy" "aws_waf_logs_bucket" {
         Condition = {
           Bool = {
             "aws:SecureTransport" = "false"
+          }
+        }
+      },
+      {
+        Sid    = "AWSLogDeliveryWrite1",
+        Effect = "Allow",
+        Principal = {
+          Service = "delivery.logs.amazonaws.com"
+        },
+        Action   = "s3:PutObject",
+        Resource = "arn:aws:s3:::aws-waf-logs-staging-db5fa/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+        Condition = {
+          StringEquals = {
+            "s3:x-amz-acl"      = "bucket-owner-full-control",
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          },
+          ArnLike = {
+            "aws:SourceArn" = "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:*"
+          }
+        }
+      },
+      {
+        Sid    = "AWSLogDeliveryAclCheck1",
+        Effect = "Allow",
+        Principal = {
+          Service = "delivery.logs.amazonaws.com"
+        },
+        Action   = "s3:GetBucketAcl",
+        Resource = "arn:aws:s3:::aws-waf-logs-staging-db5fa",
+        Condition = {
+          StringEquals = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          },
+          ArnLike = {
+            "aws:SourceArn" = "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:*"
           }
         }
       }
