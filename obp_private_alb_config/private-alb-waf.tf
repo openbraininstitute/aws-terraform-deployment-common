@@ -423,7 +423,7 @@ resource "aws_s3_bucket_policy" "aws_waf_logs_bucket" {
     Statement = [
       {
         Sid       = "DenyInsecureTransport"
-        Effect    = "Allow" # to verify that this is the problem
+        Effect    = "Deny"
         Principal = "*"
         Action    = "s3:*"
         Resource = [
