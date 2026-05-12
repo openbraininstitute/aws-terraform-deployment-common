@@ -124,6 +124,39 @@ resource "aws_wafv2_web_acl" "basic_protection" {
     }
   }
 
+  rule {
+    name     = "block-trailing-slash-requests"
+    priority = 10
+
+    action {
+      block {
+        custom_response {
+          response_code = 496
+        }
+      }
+    }
+
+    statement {
+      regex_match_statement {
+        regex_string = "/{3,}$"
+
+        field_to_match {
+          uri_path {}
+        }
+
+        text_transformation {
+          priority = 0
+          type     = "NONE"
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "block-trailing-slash-requests"
+      sampled_requests_enabled   = true
+    }
+  }
 
   rule {
     name     = "aws-common-ruleset"
