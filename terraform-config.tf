@@ -28,3 +28,12 @@ provider "aws" {
     }
   }
 }
+
+provider "aws" {
+  alias = "networking"
+  default_tags {
+    tags = {
+      SBO_Billing = "common:networking"
+    }
+  }
+}
