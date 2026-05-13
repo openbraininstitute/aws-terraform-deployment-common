@@ -31,6 +31,9 @@ module "s3" {
 
 module "private_alb_basic" {
   source = "./obp_private_alb_basic"
+  providers = {
+    aws = aws.networking
+  }
 
   private_subnet_1_id   = aws_subnet.private_alb_a.id
   private_subnet_2_id   = aws_subnet.private_alb_b.id
@@ -61,6 +64,9 @@ module "private_alb_basic" {
 
 module "public_nlb_basic" {
   source = "./obp_public_nlb_basic"
+  providers = {
+    aws = aws.networking
+  }
 
   public_subnet_1_id    = module.network.public_1_subnet_id
   public_subnet_2_id    = module.network.public_2_subnet_id
@@ -173,6 +179,9 @@ module "secrets_openbraininstitute_org_cert" {
 
 module "private_alb_config" {
   source = "./obp_private_alb_config"
+  providers = {
+    aws = aws.networking
+  }
 
   private_alb_arn      = module.private_alb_basic.private_alb_arn
   waf_logs_bucket_name = var.waf_logs_bucket_name
@@ -181,6 +190,9 @@ module "private_alb_config" {
 
 module "public_nlb_config" {
   source = "./obp_public_nlb_config"
+  providers = {
+    aws = aws.networking
+  }
 
   public_nlb_arn  = module.public_nlb_basic.public_nlb_arn
   private_alb_arn = module.private_alb_basic.private_alb_arn
@@ -252,6 +264,9 @@ module "vpn_to_azure" {
 # static ip.
 module "private_nlb" {
   source = "./private_nlb"
+  providers = {
+    aws = aws.networking
+  }
 
   count = 1
 
