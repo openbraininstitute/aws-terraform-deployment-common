@@ -126,7 +126,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
   rule {
     name     = "block-trailing-slash-requests"
-    priority = 10
+    priority = 5
 
     action {
       block {
