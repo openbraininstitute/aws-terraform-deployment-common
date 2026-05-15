@@ -114,6 +114,11 @@ output "cell_a_zone_id" {
   value       = module.cell_a_openbraininstitute_org_domain.domain_zone_id
 }
 
+output "cell_a_private_zone_id" {
+  description = "Route53 private zone ID for the cell-a domain (used within the VPC)"
+  value       = module.alt_private_domain_cell_a_openbraininstitute_org.domain_zone_id
+}
+
 output "jupyterhub_secrets_arn" {
   description = "ARN of the JupyterHub secrets manager"
   value       = aws_secretsmanager_secret.jupyterhub_secrets.arn
