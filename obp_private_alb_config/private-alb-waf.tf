@@ -231,6 +231,14 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
           name = "NoUserAgent_HEADER"
         }
+        rule_action_override {
+          # We want to be able to download certain files
+          action_to_use {
+            count {}
+          }
+
+          name = "RestrictedExtensions_QUERYARGUMENTS"
+        }
       }
     }
 
@@ -322,6 +330,93 @@ resource "aws_wafv2_web_acl" "basic_protection" {
         }
       }
     }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = false
+      metric_name                = "aws-common-ruleset"
+      sampled_requests_enabled   = false
+    }
+
+    rule_label {
+      name = "obi-handle-generic-lfi-body"
+    }
+  }
+
+  rule {
+    name     = "queryargs-restricted-extensions-exception"
+    priority = 25
+    action {
+      # This is a terminating action; it means in the next rule we can simply block everything with this label
+      allow {
+      }
+    }
+    statement {
+      and_statement {
+
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:core-rule-set:RestrictedExtensions_QueryArguments"
+          }
+        }
+
+        statement {
+          regex_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            regex_string = "^/api/entitycore/[^/]+/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/assets/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/download$"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+
+        statement {
+          byte_match_statement {
+            field_to_match {
+              method {}
+            }
+            positional_constraint = "EXACTLY"
+            search_string         = "GET"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = false
+      metric_name                = "aws-common-ruleset"
+      sampled_requests_enabled   = false
+    }
+
+    rule_label {
+      name = "obi-handle-generic-lfi-body"
+    }
+  }
+
+  rule {
+    name     = "block-queryargs-restricted-extensions"
+    priority = 26
+    action {
+      block {
+        custom_response {
+          response_code = 499
+        }
+      }
+    }
+    statement {
+      label_match_statement {
+        scope = "LABEL"
+        key   = "awswaf:managed:aws:core-rule-set:RestrictedExtensions_QueryArguments"
+      }
+    }
+
 
     visibility_config {
       cloudwatch_metrics_enabled = false
