@@ -572,7 +572,7 @@ resource "aws_s3_bucket_policy" "aws_waf_logs_bucket" {
           Service = "delivery.logs.amazonaws.com"
         },
         Action   = "s3:PutObject",
-        Resource = "arn:aws:s3:::aws-waf-logs-staging-db5fa/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+        Resource = "${aws_s3_bucket.aws_waf_logs_bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
         Condition = {
           StringEquals = {
             "s3:x-amz-acl"      = "bucket-owner-full-control",
@@ -590,7 +590,7 @@ resource "aws_s3_bucket_policy" "aws_waf_logs_bucket" {
           Service = "delivery.logs.amazonaws.com"
         },
         Action   = "s3:GetBucketAcl",
-        Resource = "arn:aws:s3:::aws-waf-logs-staging-db5fa",
+        Resource = aws_s3_bucket.aws_waf_logs_bucket.arn,
         Condition = {
           StringEquals = {
             "aws:SourceAccount" = data.aws_caller_identity.current.account_id
