@@ -78,6 +78,11 @@ output "generic_private_alb_security_group_id" {
   value       = module.private_alb_basic.alb_securitygroup_id
 }
 
+output "public_nlb_arn" {
+  description = "The ARN of the public NLB"
+  value       = module.public_nlb_basic.public_nlb_arn
+}
+
 output "virtual_lab_manager_secrets_arn" {
   description = "ARN of the Virtual La  secrets manager service"
   value       = aws_secretsmanager_secret.virtual_lab_manager_secrets.arn
