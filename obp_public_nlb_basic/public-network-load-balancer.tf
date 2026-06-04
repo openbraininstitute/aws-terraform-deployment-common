@@ -74,6 +74,19 @@ resource "aws_vpc_security_group_ingress_rule" "nlb_allow_https_all" {
   }
 }
 
+# For https://github.com/openbraininstitute/INFRA/issues/558
+resource "aws_vpc_security_group_ingress_rule" "nlb_allow_8443_udp_all" {
+  security_group_id = aws_security_group.nlb.id
+  description       = "Allow UDP 8443"
+  from_port         = 8443
+  to_port           = 8443
+  ip_protocol       = "udp"
+  cidr_ipv4         = "0.0.0.0/0"
+
+  tags = {
+    Name = "public_nlb_allow_8443_udp_all"
+  }
+}
 
 resource "aws_vpc_security_group_ingress_rule" "nlb_allow_lb_internal" {
   security_group_id = aws_security_group.nlb.id
