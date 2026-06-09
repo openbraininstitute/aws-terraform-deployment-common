@@ -55,11 +55,11 @@ module "private_alb_basic" {
     [
       module.jupyterhub_openbrainplatform_com_cert.certificate_arn,
       module.jupyterhub_openbraininstitute_org_cert.certificate_arn,
-      module.cell_a_openbraininstitute_org_cert.certificate_arn
+      module.cell_a_openbraininstitute_org_cert.certificate_arn,
       ], (var.is_staging ? [
         module.dev_openbraininstitute_org_cert[0].certificate_arn,
-        module.secrets_openbraininstitute_org_cert[0].certificate_arn,
-  ] : []))
+        module.secrets_openbraininstitute_org_cert[0].certificate_arn
+  ] : [module.openbraininstitute_org_cert[0].certificate_arn]))
 }
 
 module "public_nlb_basic" {
@@ -159,6 +159,14 @@ module "jupyterhub_openbrainplatform_com_cert" {
 
   hostname          = "jupyterhub.${var.alt_domain_openbrainplatform_com_name}"
   validation_domain = var.is_production ? "openbrainplatform.com" : "staging.openbrainplatform.com"
+}
+
+module "openbraininstitute_org_cert" {
+  count  = var.is_staging ? 0 : 1
+  source = "./tls_certificate_without_domain"
+
+  hostname          = var.domain_openbraininstitute_org_name
+  validation_domain = var.domain_openbraininstitute_org_name
 }
 
 module "dev_openbraininstitute_org_cert" {
