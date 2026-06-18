@@ -41,6 +41,13 @@ resource "aws_secretsmanager_secret" "core_webapp_secrets" {
 }
 
 #tfsec:ignore:aws-ssm-secret-use-customer-key
+resource "aws_secretsmanager_secret" "grading_service_secrets" {
+  name        = "grading_service_secrets"
+  description = "Secret for the grading service"
+  tags        = { SBO_Billing = "core_webapp" }
+}
+
+#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "ml_secrets_manager" {
   name        = "machine_learning_secrets"
   description = "Secrets for ML services"
