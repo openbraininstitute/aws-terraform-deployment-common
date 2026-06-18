@@ -134,6 +134,11 @@ output "core_webapp_secrets_arn" {
   value       = aws_secretsmanager_secret.core_webapp_secrets.arn
 }
 
+output "grading_service_secrets_arn" {
+  description = "ARN of the grading_service secrets manager"
+  value       = aws_secretsmanager_secret.grading_service_secrets.arn
+}
+
 output "ml_secrets_arn" {
   description = "ARN of the ML secrets manager"
   value       = aws_secretsmanager_secret.ml_secrets_manager.arn
