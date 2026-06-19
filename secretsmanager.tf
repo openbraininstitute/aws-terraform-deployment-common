@@ -112,3 +112,9 @@ resource "aws_secretsmanager_secret" "auth_manager_secrets" {
   description = "Secrets for the Auth Manager service"
   tags        = { SBO_Billing = "auth_manager_svc" }
 }
+
+resource "aws_secretsmanager_secret" "obi_one_secrets" {
+  name        = "obi_one_secrets"
+  description = "Secrets for the obi-one service"
+  tags        = { SBO_Billing = "obi_one_v2" }
+}
