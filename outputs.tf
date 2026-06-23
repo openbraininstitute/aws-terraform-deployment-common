@@ -207,3 +207,8 @@ output "private_alb_cidr_b" {
 output "alternative_hostnames" {
   value = module.alternative_hostnames
 }
+
+output "obi_one_secrets_arn" {
+  description = "ARN of the secrets for obi-one"
+  value       = aws_secretsmanager_secret.obi_one_secrets.arn
+}
