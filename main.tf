@@ -56,6 +56,7 @@ module "private_alb_basic" {
       module.jupyterhub_openbrainplatform_com_cert.certificate_arn,
       module.jupyterhub_openbraininstitute_org_cert.certificate_arn,
       module.cell_a_openbraininstitute_org_cert.certificate_arn,
+      module.keycloak_admin_cert.certificate_arn,
       ], (var.is_staging ? [
         module.dev_openbraininstitute_org_cert[0].certificate_arn,
         module.secrets_openbraininstitute_org_cert[0].certificate_arn
