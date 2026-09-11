@@ -239,6 +239,20 @@ resource "aws_wafv2_web_acl" "basic_protection" {
 
           name = "RestrictedExtensions_QUERYARGUMENTS"
         }
+        rule_action_override {
+          # OAuth 2.0 authorize requests legitimately carry https:// URLs in
+          # query args (redirect_uri, and the RFC 8707 `resource` indicator used
+          # by MCP clients such as Claude Desktop). GenericRFI_QueryArguments
+          # flags these as remote-file-inclusion and blocks the Keycloak
+          # authorize endpoint. Downgrade to count here so it only labels; the
+          # "block-generic-rfi-queryargs" rule below re-blocks the label
+          # everywhere except the OAuth authorize path.
+          action_to_use {
+            count {}
+          }
+
+          name = "GenericRFI_QUERYARGUMENTS"
+        }
       }
     }
 
@@ -246,6 +260,61 @@ resource "aws_wafv2_web_acl" "basic_protection" {
       cloudwatch_metrics_enabled = false
       metric_name                = "aws-common-ruleset"
       sampled_requests_enabled   = false
+    }
+  }
+
+  rule {
+    # Re-block GenericRFI_QueryArguments (downgraded to count above) everywhere
+    # EXCEPT the Keycloak OAuth 2.0 authorize endpoint, which legitimately
+    # carries https:// URLs in query args (redirect_uri + RFC 8707 resource
+    # indicator from MCP clients like Claude Desktop).
+    name     = "block-generic-rfi-queryargs"
+    priority = 11
+
+    action {
+      block {
+        custom_response {
+          response_code = 498
+        }
+      }
+    }
+
+    statement {
+      and_statement {
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:core-rule-set:GenericRFI_QueryArguments"
+          }
+        }
+        statement {
+          not_statement {
+            statement {
+              regex_match_statement {
+                field_to_match {
+                  uri_path {}
+                }
+                # any realm's OpenID Connect authorize endpoint
+                regex_string = "^/auth/realms/[^/]+/protocol/openid-connect/auth$"
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "block-generic-rfi-queryargs"
+      sampled_requests_enabled   = true
+    }
+
+    rule_label {
+      name = "obi-block-generic-rfi-queryargs"
     }
   }
 
