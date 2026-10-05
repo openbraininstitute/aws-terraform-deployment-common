@@ -384,6 +384,26 @@ resource "aws_wafv2_web_acl" "basic_protection" {
           }
         }
 
+        # The scan-config AI chat posts JSON to this endpoint. Its content can
+        # legitimately trigger GenericLFI_BODY, so keep this path out of the
+        # custom block while leaving the managed rule and other WAF rules active.
+        statement {
+          not_statement {
+            statement {
+              regex_match_statement {
+                field_to_match {
+                  uri_path {}
+                }
+                regex_string = "^/api/agent-ts/api/qa/chat_streamed/[^/]+$"
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+
         statement {
           byte_match_statement {
             field_to_match {
