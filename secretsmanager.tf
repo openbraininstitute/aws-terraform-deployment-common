@@ -118,3 +118,9 @@ resource "aws_secretsmanager_secret" "obi_one_secrets" {
   description = "Secrets for the obi-one service"
   tags        = { SBO_Billing = "obi_one_v2" }
 }
+
+resource "aws_secretsmanager_secret" "github_ticket_digest_secrets" {
+  name        = "github_ticket_digest_secrets"
+  description = "GitHub token for the stale GitHub ticket digest Lambda"
+  tags        = { SBO_Billing = "common" }
+}
