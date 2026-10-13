@@ -188,6 +188,11 @@ output "teams_webhook_secrets_arn" {
   value       = aws_secretsmanager_secret.teams_webhook_secrets.arn
 }
 
+output "github_ticket_digest_secrets_arn" {
+  description = "ARN of the secrets of the Github ticket digest Lambda"
+  value       = aws_secretsmanager_secret.github_ticket_digest_secrets.arn
+}
+
 output "auth_manager_secrets_arn" {
   description = "ARN of the secrets of the auth manager service"
   value       = aws_secretsmanager_secret.auth_manager_secrets.arn
