@@ -120,6 +120,7 @@ resource "aws_secretsmanager_secret" "obi_one_secrets" {
 }
 
 resource "aws_secretsmanager_secret" "github_ticket_digest_secrets" {
+  count       = var.is_staging ? 1 : 0 # consumed by a staging-only Lambda
   name        = "github_ticket_digest_secrets"
   description = "GitHub token for the stale GitHub ticket digest Lambda"
   tags        = { SBO_Billing = "common" }
