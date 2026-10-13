@@ -189,8 +189,8 @@ output "teams_webhook_secrets_arn" {
 }
 
 output "github_ticket_digest_secrets_arn" {
-  description = "ARN of the secrets of the Github ticket digest Lambda"
-  value       = aws_secretsmanager_secret.github_ticket_digest_secrets.arn
+  description = "ARN of the secrets of the Github ticket digest Lambda (staging only; null otherwise)"
+  value       = var.is_staging ? aws_secretsmanager_secret.github_ticket_digest_secrets[0].arn : null
 }
 
 output "auth_manager_secrets_arn" {
