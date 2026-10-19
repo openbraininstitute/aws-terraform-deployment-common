@@ -3,6 +3,9 @@ resource "aws_lb_listener" "https" {
   port              = "443"
   protocol          = "HTTPS"
   certificate_arn   = var.main_domain_hostname_cert_arn # aws_acm_certificate_validation.primary_root.certificate_arn
+  # AWS-recommended policy: TLS 1.3 + 1.2 (AEAD ciphers only) with hybrid post-quantum key exchange.
+  # Without an explicit value AWS applies ELBSecurityPolicy-2016-08 (TLS 1.0-1.2 only).
+  ssl_policy = "ELBSecurityPolicy-TLS13-1-2-Res-PQ-2025-09"
 
   default_action {
     type = "redirect"
