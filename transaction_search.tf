@@ -3,7 +3,7 @@
 
 data "aws_caller_identity" "transaction_search" {}
 
-resource "aws_xray_resource_policy" "transaction_search" {
+resource "aws_cloudwatch_log_resource_policy" "transaction_search" {
   policy_name = "TransactionSearchAccess"
 
   policy_document = jsonencode({
@@ -28,7 +28,7 @@ resource "aws_xray_resource_policy" "transaction_search" {
 resource "aws_xray_trace_segment_destination" "transaction_search" {
   destination = "CloudWatchLogs"
 
-  depends_on = [aws_xray_resource_policy.transaction_search]
+  depends_on = [aws_cloudwatch_log_resource_policy.transaction_search]
 }
 
 resource "aws_xray_indexing_rule" "default" {
