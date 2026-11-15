@@ -404,6 +404,31 @@ resource "aws_wafv2_web_acl" "basic_protection" {
           }
         }
 
+        # The logbook server (research log) takes binary Yjs changes
+        # (application/octet-stream, POST .../doc) and agent markdown
+        # (POST .../content). Random bytes and notes with relative file
+        # paths ("../data") look like path traversal to GenericLFI_BODY.
+        # The server never opens a file from input: it validates every body
+        # (TypeBox, size limits) and decodes a Yjs change before applying
+        # it, so this check protects nothing there. Same kind of exception
+        # as the two above; the other WAF rules stay active.
+        statement {
+          not_statement {
+            statement {
+              regex_match_statement {
+                field_to_match {
+                  uri_path {}
+                }
+                regex_string = "^/api/logbook/"
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+
         statement {
           byte_match_statement {
             field_to_match {
@@ -532,6 +557,34 @@ resource "aws_wafv2_web_acl" "basic_protection" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesKnownBadInputsRuleSet"
         vendor_name = "AWS"
+
+        # Not for the logbook server (research log). Its POST bodies are
+        # binary Yjs changes, and three rules of this set look for byte
+        # patterns in the first 8 KB of a body (JavaDeserializationRCE_BODY,
+        # Log4JRCE_BODY, ReactJSRCE_BODY), so random bytes could be blocked.
+        # Every rule of the set targets software the server does not run
+        # (Java, Log4j, React server components) or requests it refuses by
+        # itself (PROPFIND, unknown paths). A scope-down, not per-rule
+        # overrides: the group has no pinned version and ReactJSRCE_BODY
+        # only exists from version 1.26, so overrides by name could name a
+        # rule the active version lacks. All other paths keep the full set.
+        scope_down_statement {
+          not_statement {
+            statement {
+              byte_match_statement {
+                field_to_match {
+                  uri_path {}
+                }
+                positional_constraint = "STARTS_WITH"
+                search_string         = "/api/logbook/"
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
       }
     }
 
