@@ -125,3 +125,9 @@ resource "aws_secretsmanager_secret" "github_ticket_digest_secrets" {
   description = "GitHub token for the stale GitHub ticket digest Lambda"
   tags        = { SBO_Billing = "common" }
 }
+
+resource "aws_secretsmanager_secret" "logbook_service_secrets" {
+  name        = "logbook_service_secrets"
+  description = "Secrets for the logbook service"
+  tags        = { SBO_Billing = "logbook" }
+}
