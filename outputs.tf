@@ -217,3 +217,8 @@ output "obi_one_secrets_arn" {
   description = "ARN of the secrets for obi-one"
   value       = aws_secretsmanager_secret.obi_one_secrets.arn
 }
+
+output "logbook_service_secrets_arn" {
+  description = "ARN of the secrets for the logbook service"
+  value       = aws_secretsmanager_secret.logbook_service_secrets.arn
+}
