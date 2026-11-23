@@ -374,7 +374,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
                 field_to_match {
                   uri_path {}
                 }
-                regex_string = "^/api/entitycore/.*/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/assets$"
+                regex_string = "^(/api/entitycore)?/.*/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/assets$"
                 text_transformation {
                   priority = 0
                   type     = "NONE"
@@ -454,7 +454,7 @@ resource "aws_wafv2_web_acl" "basic_protection" {
             field_to_match {
               uri_path {}
             }
-            regex_string = "^/api/entitycore/[^/]+/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/assets/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/download$"
+            regex_string = "^(/api/entitycore)?/[^/]+/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/assets/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/download$"
             text_transformation {
               priority = 0
               type     = "NONE"
